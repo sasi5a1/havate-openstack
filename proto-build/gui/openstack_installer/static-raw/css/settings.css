@@ -1,0 +1,182 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+#wrapper {
+	width: 960px;
+	display: block;
+	margin: 0 auto;
+}
+
+section.open-stack-installer {
+	width: 66%;
+	margin: 130px auto 0 auto;
+	background-color: #4e80bd;
+	color: #fff;
+	font-family: arial, sans-serif;
+	padding: 15px;
+	border: 2px solid #385d8a;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+section.open-stack-installer .input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 28px;        // Make inputs at least the height of their button counterpart
+  .box-sizing(border-box); // Makes inputs behave like true block-level elements
+}
+
+section.open-stack-installer .row {
+	margin-bottom: 25px;
+}
+section.open-stack-installer .row:last-child {
+	margin-bottom: 5px;
+}
+section.open-stack-installer label {
+	font-size: 18px;
+	display: block;
+	margin: 0 0 5px 0;
+	float: left;
+	clear: right;
+}
+section.open-stack-installer label span {
+	color:#ff0000;
+	font-size: 18px;
+	float: none;
+	margin: 0 2px 0 0;
+}
+section.open-stack-installer input[type=text] {
+	float: left;
+	clear: both;
+}
+section.open-stack-installer input.sm-form {
+	max-width: 50px;
+}
+section.open-stack-installer input[type=radio] {
+	float: left;
+	clear: both;
+}
+section.open-stack-installer span {
+	margin-left: 7px;
+	margin-top: 4px;
+	font-size: 14px;
+	float: left;
+	color:#a7c3e4;
+}
+section.open-stack-installer table {
+	width: 100%;
+}
+section.open-stack-installer table th,tr,td {
+	border:1px solid #fff;
+	padding: 15px;
+	color: #131313;
+	font-weight: bold;
+	position: relative;
+}
+section.open-stack-installer table th {
+	background-color: #4e80bd;
+	font-size: 18px;
+	color: #fff;
+	}
+section.open-stack-installer table tr {
+	background-color:#fff;
+	}
+section.open-stack-installer table tr:nth-child(odd) {
+	background-color:#d0d8e7;
+	}
+	form.open-stack-installer h2 {
+	font-size: 24px;
+	margin: 15px 0 10px 0;
+}
+
+section.open-stack-installer button {
+	background-color: #131313;
+	border:0;
+	outline: 0;
+	color:#fff;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	padding: 7px 30px;
+	float: right;
+	margin-right: 15px;
+}
+section.open-stack-installer table tr td input {
+position: absolute;
+left: 50%;
+width: 16px;
+margin-left: -8px;
+top: 50%;
+margin-top: -8px;
+}
+
+section.open-stack-installer table tr td input[type=text] {
+position: relative;
+left: 0%;
+}
+
+section.open-stack-installer table#scenario-list-table tr td input[type=text] {
+position: static;
+float: none;
+left: 0%;
+clear: none;
+width: 195px;
+margin: 0;
+}
+
+.waiting{
+  cursor: wait !important;
+}
+
+.wizard .col-md-4 {
+	padding: 0px;
+}
+
+#deploy-button {
+	margin: 5px -35px 0px 0px;
+}
+
+#summary_table td{
+	font-weight: normal !important;
+}

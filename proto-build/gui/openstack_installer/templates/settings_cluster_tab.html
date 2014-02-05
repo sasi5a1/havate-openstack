@@ -1,0 +1,16 @@
+
+<section id="wrapper" class="open-stack-installer">
+    <section class="row">
+      <section class="col-xs-12">
+        <label><span>*</span>Cluster Name:</label>
+        <input type="text" id="id_cluster_name" name="cluster_name" class="input-block-level" value="{{ settings_form.cluster_name.value|default_if_none:"" }}">
+      </section>
+    </section>
+    <section class="row">
+      <section class="col-xs-12">
+        <label><span>*</span>Type of Cluster:</label>
+        <input type="radio" value="ucsm_m" name="cluster_type" checked data-label='UCSM Managed'><span>UCSM Managed</span>
+        <input type="radio" value="stand_c" name="cluster_type" data-label='Standalone c-Series' ><span>Standalone c-Series</span>
+      </section>
+    </section>
+</section>

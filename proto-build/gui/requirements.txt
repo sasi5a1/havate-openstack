@@ -1,0 +1,12 @@
+Django==1.5.5
+Jinja2==2.7.1
+MarkupSafe==0.18
+PyYAML==3.10
+South==0.8.2
+django-braces==1.2.2
+django-crispy-forms==1.4.0
+django-extensions==1.2.5
+lockfile==0.9.1
+passlib==1.6.1
+python-daemon==1.6
+six==1.4.1

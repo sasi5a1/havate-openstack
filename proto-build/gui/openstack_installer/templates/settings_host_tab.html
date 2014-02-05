@@ -1,0 +1,51 @@
+<section id="wrapper" class="open-stack-installer">
+  <section class="row">
+    <section class="col-xs-6 mac-pool-section">
+      <label>MAC Pool:</label>
+      <input type="text" class="input-block-level" id="id_mac_pool" name="mac_pool" value="{{settings_form.mac_pool.value|default_if_none:""}}" >
+    </section>
+    <section class="col-xs-6">
+      <label><span>*</span>Size:</label>
+      <input type="text" class="input-block-level sm-form" id="id_mac_pool_size" name="mac_pool_size" maxlength="3" value="{{settings_form.mac_pool_size.value|default_if_none:""}}">
+    </section>
+  </section>
+  <section class="row">
+    <section class="col-xs-6">
+      <label>KVM IP Pool:</label>
+      <input type="text" class="input-block-level ip-field" id="id_kvm_ip_pool" name="kvm_ip_pool" value="{{settings_form.kvm_ip_pool.value|default_if_none:""}}">
+    </section>
+    <section class="col-xs-6">
+      <label><span>*</span>Size:</label>
+      <input type="text" class="input-block-level sm-form" name="kvm_ip_pool_size" maxlength="3" value="{{settings_form.kvm_ip_pool_size.value|default_if_none:""}}">
+    </section>
+  </section>
+  <section class="row">
+    <section class="col-xs-6">
+      <label><span>*</span>Default Gateway:</label>
+      <input type="text" class="input-block-level ip-field" id="id_default_gateway" name="default_gateway" value="{{settings_form.default_gateway.value|default_if_none:""}}">
+    </section>
+    <section class="col-xs-6">
+      <label><span>*</span>Subnet Mask:</label>
+      <input type="text" class="input-block-level ip-field" id="id_subnet_mask" name="subnet_mask" value="{{settings_form.subnet_mask.value|default_if_none:""}}">
+    </section>
+  </section>
+  <section class="row">
+    <section class="col-xs-6">
+      <label>DNS:</label>
+      <input type="text" class="input-block-level input-not-required ip-field" name="dns" value="{{settings_form.dns.value|default_if_none:""}}">
+    </section>
+  </section>
+  <section class="row">
+    <section class="col-xs-12">
+      <h2>Hostname Prefix</h2>
+    </section>
+    <section class="col-xs-6">
+      <label><span>*</span>Compute Prefix:</label>
+      <input type="text" class="input-block-level" name="hostname_prefix_compute_nodes" value="{{settings_form.hostname_prefix_compute_nodes.value|default_if_none:""}}">
+    </section>
+    <section class="col-xs-6">
+      <label><span>*</span>Swift Nodes:</label>
+      <input type="text" class="input-block-level" name="hostname_prefix_swift_nodes" value="{{settings_form.hostname_prefix_swift_nodes.value|default_if_none:""}}">
+    </section>
+  </section>
+</section>

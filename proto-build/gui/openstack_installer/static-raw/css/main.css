@@ -1,0 +1,140 @@
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -50px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+  height: 50px;
+}
+#footer {
+  background-color: #eee;
+}
+#content{
+  margin-top: 70px;
+}
+
+.form-horizontal .control-group {
+  margin-bottom: 20px;
+  *zoom: 1; }
+
+.form-horizontal .form-group {
+  margin-top: 8px;
+  margin-right: 10px;
+}
+
+.form-horizontal .control-group:before, .form-horizontal .control-group:after {
+  display: table;
+  content: "";
+  line-height: 0; }
+
+.form-horizontal .control-group:after {
+  clear: both; }
+
+.form-horizontal .control-label {
+  float: left;
+  width: 160px;
+  padding-top: 5px;
+  text-align: right; }
+
+.form-horizontal .controls {
+  *display: inline-block;
+  *padding-left: 20px;
+  margin-left: 180px;
+  *margin-left: 0; }
+
+.form-horizontal .controls:first-child {
+  *padding-left: 180px; }
+
+.form-horizontal .help-block {
+  margin-bottom: 0; }
+
+.form-horizontal input + .help-block,
+.form-horizontal select + .help-block,
+.form-horizontal textarea + .help-block,
+.form-horizontal .uneditable-input + .help-block,
+.form-horizontal .input-prepend + .help-block,
+.form-horizontal .input-append + .help-block {
+  margin-top: 10px; }
+
+.form-horizontal .form-actions {
+  padding-left: 180px; }
+
+.form-group.error label, .form-group.error .help-inline{
+    color: #b94a48;
+}
+
+input.error{
+    border-color: #b94a48;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+input.error:focus{
+    border-color: #953b39;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #d59392;
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #d59392;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #d59392; 
+}
+
+section.open-stack-installer .input-block-level.short-mac-input{
+    width: 35px;
+    display: inline-block;
+    padding: 6px 7px;
+}
+
+section.open-stack-installer .mac-pool-section label{
+    margin: 10px 5px 10px 0px ;
+}
+
+.nav-tabs li.active a.incomplete-tab, .incomplete-tab{
+    color: #FF0000;
+}
+
+.incomplete-input{
+    display: none;
+}
+
+.incomplete-tab .incomplete-input{
+    display: inline;
+}
+.tab-pane {
+  margin-top: 30px;
+}
+
+#settings-node .col-md-2{
+    border: 1px solid #000000;
+    height: 50px;
+}
+
+.text-align-right{
+    text-align: right;
+}
+
+.onecloud-logo{
+    height: 75px;
+    width: 110px;
+}
+
+#summary-content{
+    line-height: 1.7;
+}
+
+#summary-node-table td, #summary-node-table th{
+    padding: 5px 15px 5px 0px;
+}
+
+#summary-node-table td{
+    font-weight: 400;
+}

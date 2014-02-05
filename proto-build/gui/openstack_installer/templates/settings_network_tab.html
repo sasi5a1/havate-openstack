@@ -1,0 +1,186 @@
+<table class="table">
+	<tr>
+		<th>
+			Network
+		</th>
+		<th>
+			VLAN
+		</th>
+		<th>
+			Subnet Information
+		</th>
+	</tr>
+	<tr>
+		<td>
+			Mgmt
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level vlan-field" id="id_mgmt_vlan" maxlength="30" name="mgmt_vlan" type="text" value="{{settings_form.mgmt_vlan.value|default_if_none:""}}">
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level subnet-field" id="id_mgmt_subnet" maxlength="30" name="mgmt_subnet" type="text" value="{{settings_form.mgmt_subnet.value|default_if_none:""}}">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			PXE Private
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level vlan-field input-not-required" id="id_pxe_vlan" maxlength="30" name="pxe_vlan" type="text" value="{{settings_form.pxe_vlan.value|default_if_none:""}}">
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_pxe_subnet" maxlength="30" name="pxe_subnet" type="text" value="{{settings_form.pxe_subnet.value|default_if_none:""}}">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			iSCSI
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level vlan-field input-not-required" id="id_iscsi_vlan" maxlength="30" name="iscsi_vlan" type="text" value="{{settings_form.iscsi_vlan.value|default_if_none:""}}">
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_iscsi_subnet" maxlength="30" name="iscsi_subnet" type="text" value="{{settings_form.iscsi_subnet.value|default_if_none:""}}">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Storage
+		</td>
+		<td>
+			<input class="form-control input-sm form-control input-sm input-block-level vlan-field input-not-required" id="id_storage_vlan" maxlength="30" name="storage_vlan" type="text" value="{{settings_form.storage_vlan.value|default_if_none:""}}">
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_storage_subnet" maxlength="30" name="storage_subnet" type="text" value="{{settings_form.storage_subnet.value|default_if_none:""}}">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Public Provider
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level vlan-field input-not-required" id="id_public_provider_vlan" maxlength="30" name="public_provider_vlan" type="text" value="{{settings_form.public_provider_vlan.value|default_if_none:""}}">
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_public_provider_subnet" maxlength="30" name="public_provider_subnet" type="text" value="{{settings_form.public_provider_subnet.value|default_if_none:""}}">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Private
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level vlan-field input-not-required" id="id_private_vlan" maxlength="30" name="private_vlan" type="text" value="{{settings_form.private_vlan.value|default_if_none:""}}">
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_private_subnet" maxlength="30" name="private_subnet" type="text" value="{{settings_form.private_subnet.value|default_if_none:""}}">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Tenants
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level vlan-field input-not-required" id="id_tenants_vlan" maxlength="30" name="tenants_vlan" type="text" value="20-25" value="{{settings_form.tenants_vlan.value|default_if_none:""}}">
+		</td>
+		<td>
+			<input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_tenants_subnet" maxlength="30" name="tenants_subnet" type="text" value="{{settings_form.tenants_subnet.value|default_if_none:""}}">
+		</td>
+	</tr>
+</table>
+<!--<section id="wrapper" class="open-stack-installer">
+  <section class="row">
+    <section class="col-xs-12">
+      <table>
+        <tr>
+          <th>
+            Network
+          </th>
+          <th>
+            VLAN
+          </th>
+          <th>
+            Subnet Information
+          </th>
+        </tr>
+        <tr>
+          <td>
+            Mgmt
+          </td>
+          <td>
+            <input class="input-block-level vlan-field" id="id_mgmt_vlan" maxlength="30" name="mgmt_vlan" type="text" value="{{settings_form.mgmt_vlan.value|default_if_none:""}}">
+          </td>
+          <td>
+            <input class="input-block-level subnet-field" id="id_mgmt_subnet" maxlength="30" name="mgmt_subnet" type="text" value="{{settings_form.mgmt_subnet.value|default_if_none:""}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            PXE Private
+          </td>
+          <td>
+            <input class="input-block-level vlan-field input-not-required" id="id_pxe_vlan" maxlength="30" name="pxe_vlan" type="text" value="{{settings_form.pxe_vlan.value|default_if_none:""}}">
+          </td>
+          <td>
+            <input class="input-block-level subnet-field input-not-required" id="id_pxe_subnet" maxlength="30" name="pxe_subnet" type="text" value="{{settings_form.pxe_subnet.value|default_if_none:""}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            iSCSI
+          </td>
+          <td>
+            <input class="input-block-level vlan-field input-not-required" id="id_iscsi_vlan" maxlength="30" name="iscsi_vlan" type="text" value="{{settings_form.iscsi_vlan.value|default_if_none:""}}">
+          </td>
+          <td>
+            <input class="input-block-level subnet-field input-not-required" id="id_iscsi_subnet" maxlength="30" name="iscsi_subnet" type="text" value="{{settings_form.iscsi_subnet.value|default_if_none:""}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Storage
+          </td>
+          <td>
+            <input class="input-block-level vlan-field input-not-required" id="id_storage_vlan" maxlength="30" name="storage_vlan" type="text" value="{{settings_form.storage_vlan.value|default_if_none:""}}">
+          </td>
+          <td>
+            <input class="input-block-level subnet-field input-not-required" id="id_storage_subnet" maxlength="30" name="storage_subnet" type="text" value="{{settings_form.storage_subnet.value|default_if_none:""}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Public Provider
+          </td>
+          <td>
+            <input class="input-block-level vlan-field input-not-required" id="id_public_provider_vlan" maxlength="30" name="public_provider_vlan" type="text" value="{{settings_form.public_provider_vlan.value|default_if_none:""}}">
+          </td>
+          <td>
+            <input class="input-block-level subnet-field input-not-required" id="id_public_provider_subnet" maxlength="30" name="public_provider_subnet" type="text" value="{{settings_form.public_provider_subnet.value|default_if_none:""}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Private
+          </td>
+          <td>
+            <input class="input-block-level vlan-field input-not-required" id="id_private_vlan" maxlength="30" name="private_vlan" type="text" value="{{settings_form.private_vlan.value|default_if_none:""}}">
+          </td>
+          <td>
+            <input class="input-block-level subnet-field input-not-required" id="id_private_subnet" maxlength="30" name="private_subnet" type="text" value="{{settings_form.private_subnet.value|default_if_none:""}}">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Tenants
+          </td>
+          <td>
+            <input class="input-block-level vlan-field input-not-required" id="id_tenants_vlan" maxlength="30" name="tenants_vlan" type="text" value="20-25" value="{{settings_form.tenants_vlan.value|default_if_none:""}}">
+          </td>
+          <td>
+            <input class="input-block-level subnet-field input-not-required" id="id_tenants_subnet" maxlength="30" name="tenants_subnet" type="text" value="{{settings_form.tenants_subnet.value|default_if_none:""}}">
+          </td>
+        </tr>
+      </table>
+    </section>
+  </section>
+</section>-->

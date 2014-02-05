@@ -1,0 +1,43 @@
+{% load config_extras %}
+
+
+  <div class="form-group col-md-9">
+      <select id="scenario-select" class="form-control input-sm">
+        <option>-----------</option>
+        {% for scenario in scenario_list %}
+        <option data-name="{{scenario}}" val="{{scenario}}">{{scenario}}</option>
+        {% endfor %}
+      </select>
+      <br><button class="btn btn-default" id='clear-scenario-radio-button'> Reset </button>
+      <table id="scenario-list-table">
+        
+        <thead>
+        </thead>
+        
+        <tbody>
+        </tbody>
+      
+      </table>
+
+<!--<section id="wrapper" class="open-stack-installer">
+  <section class="row">
+    <section class="col-xs-12">
+      <select id="scenario-select">
+        <option>-----------</option>
+        {% for scenario in scenario_list %}
+        <option data-name="{{scenario}}" val="{{scenario}}">{{scenario}}</option>
+        {% endfor %}
+      </select>
+      <button id='clear-scenario-radio-button'> Reset </button>
+      <table id="scenario-list-table">
+        
+        <thead>
+        </thead>
+        
+        <tbody>
+        </tbody>
+      
+      </table>
+    </section>
+  </section>
+</section>-->

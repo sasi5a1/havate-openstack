@@ -1,0 +1,104 @@
+### Contents of the preconfiguration file (for squeeze)
+d-i debian-installer/locale string en_US
+d-i console-setup/ask_detect boolean false
+d-i console-setup/layoutcode string us
+d-i debian-installer/language string en
+d-i debian-installer/country string US 
+d-i debian-installer/locale string en_US.UTF-8
+d-i localechooser/shortlist select  US
+d-i debconf/language string en
+### Network configuration
+#d-i netcfg/enable boolean false
+#d-i netcfg/choose_interface select auto
+# To pick a particular interface instead:
+d-i netcfg/choose_interface select eth0
+#d-i netcfg/dhcp_timeout string 30
+#d-i netcfg/disable_autoconfig boolean true
+#d-i netcfg/dhcp_failed note
+d-i netcfg/dhcp_options select Configure network manually
+#d-i netcfg/dhcp_options select Do not configure the network at this time
+
+# Static network configuration.
+#d-i netcfg/get_nameservers string 192.168.1.1
+#d-i netcfg/get_ipaddress string 192.168.1.42
+#d-i netcfg/get_netmask string 255.255.255.0
+#d-i netcfg/get_gateway string 192.168.1.1
+#d-i netcfg/confirm_static boolean true
+
+# Any hostname and domain names assigned from dhcp take precedence over
+d-i netcfg/get_hostname string iso 
+d-i netcfg/get_domain string domain.name
+
+### Clock and time zone setup
+d-i clock-setup/utc boolean true
+
+d-i time/zone string US/Pacific
+d-i clock-setup/ntp boolean true
+d-i clock-setup/ntp-server string ntp.ubuntu.com
+
+### Partitioning
+#d-i partman-auto/init_automatically_partition select biggest_free
+#d-i partman/alignment string cylinder
+d-i partman-auto/method string lvm
+#d-i partman-auto/disk string /dev/sda
+d-i partman-auto/purge_lvm_from_device boolean true
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-md/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman/confirm_write_new_label boolean true
+d-i partman-auto/choose_recipe select atomic
+d-i partman/default_filesystem string ext4
+#d-i partman-auto-lvm/guided_size string max
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select Finish partitioning and write changes to disk
+d-i partman/choose_partition select Finish
+d-i partman/confirm_nooverwrite boolean true
+d-i partman/confirm boolean true
+### Base system installation
+### Account setup
+
+# To create a normal user account.
+d-i passwd/user-fullname string localadmin 
+d-i passwd/username string localadmin 
+# Normal user's password, either in clear text
+#d-i passwd/user-password password os
+#d-i passwd/user-password-again password os
+# or encrypted using an MD5 hash.
+d-i passwd/user-password-crypted password $6$UfgWxrIv$k4KfzAEMqMg.fppmSOTd0usI4j6gfjs0962.JXsoJRWa5wMz8yQk4SfInn4.WZ3L/MCt5u.62tHDGB36EhiKF1
+#d-i passwd/user-password password ubuntu
+#d-i passwd/user-password-again password ubuntu
+d-i user-setup/allow-password-weak boolean true
+# Set to true if you want to encrypt the first user's home directory.
+d-i user-setup/encrypt-home boolean false
+#d-i mirror/http/proxy string none
+
+d-i pkgsel/update-policy select none
+d-i pkgsel/install-language-support boolean false
+#tasksel tasksel/first multiselect server
+d-i pkgsel/include string openssh-server apache2 python-pip python-setuptools vim puppet cobbler acpid
+d-i pkgsel/upgrade select none
+### Boot loader installation
+d-i grub-installer/only_debian boolean true
+### Finishing up the installation
+# Avoid that last message about the install being complete.
+d-i finish-install/reboot_in_progress note
+d-i preseed/late_command string \
+tar cf - /cdrom | (cd /target; tar xf -) ; \
+mkdir -p /target/var/lib/cobbler/isos ; \
+cp /target/cdrom/mini.iso /target/var/lib/cobbler/isos/precise-x86_64-mini.iso ;\
+cp /target/etc/apt/sources.list /target/etc/apt/sources.list.orig ; \
+echo 'deb file:/cdrom precise main' > /target/etc/apt/sources.list ; \
+sed -e 's/\(%sudo.*\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \
+sed -e '/^exit 0/i /gui/build_install.sh | tee /var/log/build_install.log' -i /target/etc/rc.local ; \
+cp -R /cdrom/puppet_openstack_builder /target/root/ ; \
+cp -R /cdrom/gui /target/ ; \
+cp /cdrom/preseed/ubuntu-server.seed /target/gui/ubuntu-server.seed ; \
+cp /target/gui/issue-std /target/etc/ ; \
+cp /target/gui/show-ip-address /target/etc/network/if-up.d/ ; \
+in-target chmod 775 -R /gui ; \
+in-target chown -R root:www-data /gui ; \
+in-target /gui/install.sh > /target/var/log/install_sh.log ; \
+in-target apt-get update ; \
+true

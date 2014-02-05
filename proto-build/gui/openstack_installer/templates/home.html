@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/home.style.css' %}"/>
+{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+			<div class="col-md-4">
+				<img class="pull-right logo" src="{% static 'img/logo_cisco.png' %}">
+			</div>
+			<div class="col-md-4 col-md-offset-4">
+				<img class="pull-left logo" src="{% static 'img/Logo_final.transparent.png' %}">
+			</div>
+      <div class='clearfix'></div>
+      <small style="line-height:0px;"></small> <br>
+			<h1>Openstack on Cisco UCS</h1>
+      <!--<p class="lead"> Click to proceed...</p>-->
+      <p class="col-md-4 col-md-offset-4"><a class="btn btn-lg btn-success" href="{% url 'settings' %}" role="button">Start</a></p>
+      <div class='clearfix'></div>
+    </div>
+{% endblock %}
