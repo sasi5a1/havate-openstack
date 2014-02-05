@@ -36,8 +36,8 @@ SEEDFILE="ubuntu-server.seed"
 
 # Ubuntu ISO image
 RELEASE="precise"
-CDISO="ubuntu-12.04.4-server-amd64.iso"
-CDIMAGE=$BASEDIR/$CDISO
+CDISO="ubuntu-12.04.3-desktop-amd64.iso"
+CDIMAGE="$BASEDIR/$CDISO"
 
 # OpenStack install branch
 BRANCH="havana"
@@ -133,7 +133,7 @@ UcXHbA==
 -----END PGP PUBLIC KEY BLOCK-----" | apt-key add -
 
 apt-get update 
-apt-get install reprepro genisoimage wget gnupg-agent stress vim git dpkg-dev python-pip -y
+apt-get install reprepro genisoimage wget gnupg-agent stress vim git dpkg-dev squashfs-tools -y
 
 which gpg > /dev/null
 if [ $? -eq 1 ]; then
