@@ -14,7 +14,7 @@
 
 set -x
 # The Base Directory, assumes you git-cloned the script as root
-BASEDIR="/root/GUI-Installer"
+BASEDIR="/root/havate-openstack"
 
 # This directory will contain additional files and directories
 # that need to be copied over to the root directory of the
@@ -42,7 +42,7 @@ SOURCEDIR="$BASEDIR/source"
 # GPG
 GPGKEYNAME="OpenStack GUI Installation Key"
 GPGKEYCOMMENT="Package Signing"
-GPGKEYEMAIL="gui@onecloud.com"
+GPGKEYEMAIL="havate@havate.project"
 GPGKEYPHRASE="cloud"
 MYGPGKEY="$GPGKEYNAME ($GPGKEYCOMMENT) <$GPGKEYEMAIL>"
 

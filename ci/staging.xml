@@ -1,0 +1,79 @@
+<domain type='kvm'>
+  <name>staging</name>
+  <uuid>8276681e-9258-88b1-2cc8-e93ca99f045d</uuid>
+  <memory unit='KiB'>4194304</memory>
+  <currentMemory unit='KiB'>4194304</currentMemory>
+  <vcpu placement='static'>2</vcpu>
+  <resource>
+    <partition>/machine</partition>
+  </resource>
+  <os>
+    <type arch='x86_64' machine='pc-i440fx-1.5'>hvm</type>
+    <boot dev='hd'/>
+    <boot dev='cdrom'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <clock offset='utc'/>
+  <on_poweroff>preserve</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+    <emulator>/usr/bin/kvm-spice</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='raw'/>
+      <source file='/var/lib/libvirt/images/staging.img'/>
+      <target dev='vda' bus='virtio'/>
+      <alias name='virtio-disk0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='/tmp/staging.iso'/>
+      <target dev='hdc' bus='ide'/>
+      <readonly/>
+      <alias name='ide0-1-0'/>
+      <address type='drive' controller='0' bus='1' target='0' unit='0'/>
+    </disk>
+    <controller type='usb' index='0'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x2'/>
+    </controller>
+    <controller type='pci' index='0' model='pci-root'/>
+    <controller type='ide' index='0'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x1'/>
+    </controller>
+    <interface type='bridge'>
+      <mac address='52:54:00:fa:68:5b'/>
+      <source bridge='br0'/>
+      <model type='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
+    </interface>
+    <serial type='pty'>
+      <source path='/dev/pts/3'/>
+      <target port='0'/>
+    </serial>
+    <console type='pty' tty='/dev/pts/3'>
+      <source path='/dev/pts/3'/>
+      <target type='serial' port='0'/>
+    </console>
+    <input type='mouse' bus='ps2'/>
+    <graphics type='vnc' port='5900' autoport='yes' listen='127.0.0.1'>
+      <listen type='address' address='127.0.0.1'/>
+    </graphics>
+    <sound model='ich6'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
+    </sound>
+    <video>
+      <model type='cirrus' vram='9216' heads='1'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
+    </video>
+    <memballoon model='virtio'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0'/>
+    </memballoon>
+  </devices>
+  <seclabel type='dynamic' model='apparmor' relabel='yes'/>
+</domain>
+
