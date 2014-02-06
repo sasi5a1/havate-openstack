@@ -15,7 +15,7 @@
 set -x
 # Deployment Target
 # Supported optiosn are build, all_in_one, and eventually compact_ha
-TARGET=${TARGET:-build}
+TARGET=${TARGET:-all_in_one}
 
 
 # The Base Directory, assumes you git-cloned the script as root
