@@ -26,8 +26,9 @@ EXTRASDIR="$BASEDIR/build"
 SEEDFILE="ubuntu-server.seed"
 
 # Ubuntu ISO image
-RELEASE="precise"
-CDISO="ubuntu-12.04.3-desktop-amd64.iso"
+RELEASE=${release:-precise}
+DEVICE=${device:-desktop}
+CDISO="ubuntu-12.04.3-${DEVICE}-amd64.iso"
 CDIMAGE="$BASEDIR/$CDISO"
 
 # OpenStack install branch
@@ -459,14 +460,15 @@ if [ ! -z $EXTRASDIR ]; then
 
         fi
 
-#        if [ ! -f "$EXTRASDIR/isolinux/isolinux.cfg" ]; then
-#                cat $CDSOURCEDIR/isolinux/isolinux.cfg | sed "s/^APPEND.*/APPEND   preseed\/file=\/cdrom\/preseed\/$SEEDFILE vga=normal initrd=\/install\/initrd.gz ramdisk_size=16384 root=\/dev\/rd\/0 DEBCONF_PRIORITY=critical debconf\/priority=critical rw --/" > $BASEDIR/FinalCD/isolinux/isolinux.cfg
-#        fi
-#	if [ -f "$CDSOURCEDIR/isolinux/txt.cfg" ]; then
-#		cat $CDSOURCEDIR/isolinux/txt.cfg | sed "s/ubuntu.seed/$SEEDFILE/" > $BASEDIR/FinalCD/isolinux/txt.cfg
-#		cat $CDSOURCEDIR/isolinux/txt.cfg | sed "s/\(seed.*\)--.*$/\1 debian-installer\/locale=en_US.UTF-8 console-setup\/layoutcode=us debconf\/language=en country=US priority=critical --/" > $BASEDIR/FinalCD/isolinux/txt.cfg
-#	fi
-	#cat > $BASEDIR/FinalCD/isolinux/txt.cfg <<EOF
+	echo "OK"
+fi
+
+if [ "$DEVICE" == "desktop" ] ; then
+	if [ -f "$CDSOURCEDIR/isolinux/txt.cfg" ]; then
+		cat $CDSOURCEDIR/isolinux/txt.cfg | sed "s/ubuntu.seed/$SEEDFILE/" > $BASEDIR/FinalCD/isolinux/txt.cfg
+		cat $CDSOURCEDIR/isolinux/txt.cfg | sed "s/\(seed.*\)--.*$/\1 debian-installer\/locale=en_US.UTF-8 console-setup\/layoutcode=us debconf\/language=en country=US priority=critical --/" > $BASEDIR/FinalCD/isolinux/txt.cfg
+	fi
+else
 	cat > $BASEDIR/FinalCD/isolinux/isolinux.cfg <<EOF
 default install
 timeout 0
@@ -476,8 +478,6 @@ label install
   kernel /install/vmlinuz
   append  file=/cdrom/preseed/ubuntu-server.seed  text vga=788 initrd=/install/initrd.gz quiet priority=critical language=en locale=en_US.UTF-8 layoutcode=us country=US --
 EOF
-
-        echo "OK"
 fi
 
 if [ ! -z "$USPLASH" ]; then

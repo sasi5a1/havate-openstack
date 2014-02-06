@@ -15,7 +15,7 @@ dbus-uuidgen > /var/lib/dbus/machine-id
 dpkg-divert --local --rename --add /sbin/initctl
 ln -s /bin/true /sbin/initctl
 echo 'deb http://localhost/ubuntu precise main' > /etc/apt/sources.list
-apt-get install ubuntu-keyring -y
+apt-get install ubuntu-archive-keyring -y
 apt-get install cobbler puppet git -y --force-yes
 
 git clone https://github.com/CiscoSystems/puppet_openstack_builder -b havana /root/puppet_openstack_builder
@@ -29,7 +29,7 @@ rm /etc/resolv.conf
 rm /var/lib/dbus/machine-id
 rm /sbin/initctl
 dpkg-divert --rename --remove /sbin/initctl
-
+#Do Stuff
 umount /proc || umount -lf /proc
 umount /sys
 umount /dev/pts
@@ -44,5 +44,10 @@ sed -i '/casper/d' filesystem.manifest-desktop
 rm filesystem.squashfs
 mksquashfs squashfs-root/ filesystem.squashfs -comp lzo
 printf $(sudo du -sx --block-size=1 squashfs-root | cut -f1) > filesystem.size
-um.txt
-find -type f -print0 | sudo xargs -0 md5sum | grep -v isolinux/boot.cat | sudo tee md5sum.txt
+find -type f -print0 | sudo xargs -0 md5sum | grep -v olinux/boot.cat | sudo tee md5sum.txt
+mkdir lztempdir
+cd lztempdir
+lzma -dc -S .lz ../initrd.lz | cpio -imvd --no-absolute-filenames
+
+#Do stuff
+find . | cpio --quiet --dereference -o -H newc | lzma -7 > ../initrd.lz
