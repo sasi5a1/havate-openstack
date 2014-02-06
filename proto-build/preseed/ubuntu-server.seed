@@ -91,7 +91,7 @@ cp /target/cdrom/mini.iso /target/var/lib/cobbler/isos/precise-x86_64-mini.iso ;
 cp /target/etc/apt/sources.list /target/etc/apt/sources.list.orig ; \
 echo 'deb file:/cdrom precise main' > /target/etc/apt/sources.list ; \
 sed -e 's/\(%sudo.*\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \
-sed -e '/^exit 0/i /gui/build_install.sh | tee /var/log/build_install.log' -i /target/etc/rc.local ; \
+sed -e '/^exit 0/i /gui/onboot.sh | tee /var/log/build_install.log' -i /target/etc/rc.local ; \
 cp -R /cdrom/puppet_openstack_builder /target/root/ ; \
 cp -R /cdrom/gui /target/ ; \
 cp /cdrom/preseed/ubuntu-server.seed /target/gui/ubuntu-server.seed ; \
