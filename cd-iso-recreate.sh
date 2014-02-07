@@ -27,7 +27,7 @@ SEEDFILE="ubuntu-server.seed"
 
 # Ubuntu ISO image
 RELEASE="precise"
-CDISO="ubuntu-12.04.3-server-amd64.iso"
+CDISO="ubuntu-12.04.4-server-amd64.iso"
 CDIMAGE="$BASEDIR/$CDISO"
 
 # OpenStack install branch
