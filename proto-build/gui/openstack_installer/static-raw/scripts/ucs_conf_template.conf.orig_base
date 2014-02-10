@@ -1,0 +1,97 @@
+#create orgs
+OrgOrg {'Name':'Production', 'ParentDn':'org-root'}
+
+#MacPool {'Name':'compute-nics', 'From':'00:25:B5:F2:00:00', 'To':'00:25:B5:F2:00:FF'}
+MacPool {'Name':'aio-nics', 'From':'00:25:B5:F2:00:00', 'To':'00:25:B5:F2:00:FF'}
+
+#IpPool {'Name':'compute-nodes-ip', 'From':'172.20.231.49', 'To':'172.20.231.67', 'DefGw':'172.20.231.1', 'PrimDns':'172.29.74.154', 'SecDns':'172.29.74.155', 'Subnet':'255.255.255.128'}
+#IpPool {'Name':'aio-nodes-ip', 'From':'172.20.231.68', 'To':'172.20.231.71', 'DefGw':'172.20.231.1', 'PrimDns':'172.29.74.154', 'SecDns':'172.29.74.155', 'Subnet':'255.255.255.128'}
+# ext-mgmt is used to assign ips for physical servers
+IpPool {'Name':'ext-mgmt', 'From':'172.20.231.89', 'To':'172.20.231.104', 'DefGw':'172.20.231.1', 'PrimDns':'172.29.74.154', 'SecDns':'172.29.74.155', 'Subnet':'255.255.255.128'}
+
+# Storage LocalDiskConfigurationPolicy
+StorageLocalDiskConfigPolicy { 'Name':'os-nodes', 'Mode':'no-raid', 'ProtectConfig':'no'}
+StorageLocalDiskConfigPolicy { 'Name':'os-compute-nodes', 'Mode':'raid-striped', 'ProtectConfig':'no'}
+
+#BootPolicy
+LsbootPolicy {'Name': 'aio-node', 'Purpose': 'operational', 'RebootOnUpdate':'no', 'EnforceVnicName': 'no', 'vm-ro': {'Type': 'vm', 'Access': 'read-only', 'Order': '1'}, 'lan': {'Type': 'lan', 'Access':'read-only', 'Prot':'pxe', 'Order':'2', 'ImagePath': {'Type': 'primary', 'VnicName': 'eth0'}}, 'storage': {'Type': 'storage', 'Access': 'read-write', 'Order':'3'}, 'vm-rw': {'Type': 'vm', 'Access':'read-write', 'Order':'4'}, 'TargetOrg':'org-root', 'Descr':'Openstack Integration'}
+
+#ServiceProfile Template
+#ServiceProfile {'Name':'aio-node', 'Type':'updating-template', 'BootPolicyName':'aio-node', 'Uuid':'derived', 'HostFwPolicyName':'default', 'ScrubPolicyName':'aio-nodes', 'ExtIPPoolName':'aio-nodes-ip', 'LocalDiskPolicyName': 'os-nodes'}
+ServiceProfile {'Name':'aio-node', 'Type':'updating-template', 'BootPolicyName':'aio-node', 'Uuid':'derived', 'HostFwPolicyName':'default', 'ScrubPolicyName':'aio-nodes', 'LocalDiskPolicyName': 'os-nodes'}
+
+ServiceProfile {'Name':'compute-node', 'Type':'updating-template', 'BootPolicyName':'default', 'Uuid':'derived', 'HostFwPolicyName':'default', 'ScrubPolicyName':'compute-nodes', 'ExtIPPoolName':'compute-nodes-ip', 'LocalDiskPolicyName': 'os-compute-nodes'}
+
+#ServiceProfile {'Name':'swift-node', 'Type':'updating-template', 'BootPolicyName':'default', 'Uuid':'derived', 'HostFwPolicyName':'default', 'ScrubPolicyName':'swift-nodes', 'ExtIPPoolName':'swift-nodes-ip', 'LocalDiskPolicyName': 'openstack-nodes'}
+#ServiceProfile {'Name':'swiftproxy-node', 'Type':'updating-template', 'BootPolicyName':'default', 'Uuid':'derived', 'HostFwPolicyName':'default', 'ScrubPolicyName':'swiftproxy-nodes', 'ExtIPPoolName':'swiftproxy-nodes-ip', 'LocalDiskPolicyName': 'openstack-nodes'}
+
+LsRequirement {'SrcTemplDn':'org-root/ls-aio-node', 'Name':'aio-pool', 'Qualifier':'aio-pool'}
+LsRequirement {'SrcTemplDn':'org-root/ls-compute-node', 'Name':'compute-pool', 'Qualifier':'compute-pool'}
+#LsRequirement {'SrcTemplDn':'org-root/ls-swift-node', 'Name':'swift-pool', 'Qualifier':'swift-pool'}
+#LsRequirement {'SrcTemplDn':'org-root/ls-swiftproxy-node', 'Name':'swiftproxy-pool', 'Qualifier':'swiftproxy-pool'}
+
+ComputeAutoconfigPolicy {'Name':'compute-nodes', 'DstDn':'org-root', 'Qualifier':'compute-pool', 'SrcTemplName':'compute-node' }
+ComputeAutoconfigPolicy {'Name':'aio-nodes', 'DstDn':'org-root', 'Qualifier':'aio-pool', 'SrcTemplName':'aio-node' }
+#ComputeAutoconfigPolicy {'Name':'swift-nodes', 'DstDn':'org-root', 'Qualifier':'swift-pool', 'SrcTemplName':'swift-node' }
+#ComputeAutoconfigPolicy {'Name':'swiftproxy-nodes', 'DstDn':'org-root', 'Qualifier':'aio-pool', 'SrcTemplName':'swiftproxy-node' }
+
+#UplinkPort {'SwitchId':'A', 'SlotId':'1', 'PortId':'19', 'AdminSpeed':'1gbps'}
+
+Vlan { 'Name':'Mgmt', 'SwitchId':'dual', 'Id': '756', 'Sharing':'none', 'DefaultNet':'no'}
+Vlan { 'Name':'Pxe', 'SwitchId':'dual', 'Id': '757', 'Sharing':'none', 'DefaultNet':'no'}
+
+Vnic { 'Name':'eth0', 'IdentPoolName':'aio-nics', 'VlanName':'Mgmt', 'SwitchId':'A', 'LsServer':'compute-node', 'DefaultNet':'yes'}
+Vnic { 'Name':'eth0', 'IdentPoolName':'aio-nics', 'VlanName':'Mgmt', 'SwitchId':'A', 'LsServer':'aio-node', 'DefaultNet':'yes', 'Order':'1'}
+Vnic { 'Name':'eth1', 'IdentPoolName':'aio-nics', 'VlanName':'Pxe', 'SwitchId':'B', 'LsServer':'aio-node', 'DefaultNet':'yes', 'Order':'2'}
+#Vnic { 'Name':'eth0', 'IdentPoolName':'swift-nics', 'VlanName':'Mgmt', 'SwitchId':'A', 'LsServer':'swift-node', 'DefaultNet':'yes'}
+#Vnic { 'Name':'eth0', 'IdentPoolName':'swiftproxy-nics', 'VlanName':'Mgmt', 'SwitchId':'A', 'LsServer':'swiftproxy-node', 'DefaultNet':'yes'}
+
+ServerPool {'Name':'compute-pool'}
+ServerPool {'Name':'aio-pool'}
+#ServerPool {'Name':'swift-pool'}
+#ServerPool {'Name':'swiftproxy-pool'}
+# 
+ServerQualifier {'Name':'aio-pool', 'MinId':'1', 'MaxId':'1', 'SlotMinId':'7', 'SlotMaxId':'7'}
+# 
+ServerQualifier {'Name':'compute-pool', 'MinId':'2', 'MaxId':'2', 'SlotMinId':'1', 'SlotMaxId':'7'}
+# 
+#ServerQualifier {'Name':'swift-pool', 'MinId':'1', 'MaxId':'1', 'SlotMinId':'4', 'SlotMaxId':'6'}
+#
+#ServerQualifier {'Name':'swiftproxy-pool', 'MinId':'1', 'MaxId':'1', 'SlotMinId':'3', 'SlotMaxId':'3'}
+
+ServerPoolingPolicy {'Name':'compute-nodes', 'Qualifier':'compute-pool', 'PoolDn':'org-root/compute-pool-compute-pool'}
+ServerPoolingPolicy {'Name':'aio-nodes', 'Qualifier':'aio-pool', 'PoolDn':'org-root/compute-pool-aio-pool'}
+#ServerPoolingPolicy {'Name':'swift-nodes', 'Qualifier':'swift-pool', 'PoolDn':'org-root/compute-pool-swift-pool'}
+#ServerPoolingPolicy {'Name':'swiftproxy-nodes', 'Qualifier':'swiftproxy-pool', 'PoolDn':'org-root/compute-pool-swiftproxy-pool'}
+
+ScrubPolicy {'Name':'compute-nodes', 'BiosSettingsScrub':'no', 'DiskScrub':'yes'}
+ScrubPolicy {'Name':'aio-nodes', 'BiosSettingsScrub':'no', 'DiskScrub':'yes'}
+#ScrubPolicy {'Name':'swift-nodes', 'BiosSettingsScrub':'no', 'DiskScrub':'yes'}
+#ScrubPolicy {'Name':'swiftproxy-nodes', 'BiosSettingsScrub':'no', 'DiskScrub':'yes'}
+
+#Create service-profile Instances
+ServiceProfileInstance {'SrcTempl':'compute-node', 'NamePrefix':'alpha-compute0', 'NumberOf':'22', "TargetOrg":"org-root/org-Production"}
+ServiceProfileInstance {'SrcTempl':'aio-node', 'NamePrefix':'alpha-aio0', 'NumberOf':'1', "TargetOrg":"org-root/org-Production"}
+#ServiceProfileInstance {'SrcTempl':'swift-node', 'NamePrefix':'alpha-swift0', 'NumberOf':'3', "TargetOrg":"org-root/org-Production"}
+#ServiceProfileInstance {'SrcTempl':'swiftproxy-node', 'NamePrefix':'alpha-swiftproxy0', 'NumberOf':'2', "TargetOrg":"org-root/org-Production"}
+
+# create server-ports.
+# server-prots config goes here.
+ServerPort {'PortId':'1', 'SlotId':'1', 'SwitchId':"A"}
+ServerPort {'PortId':'1', 'SlotId':'1', 'SwitchId':"B"}
+ServerPort {'PortId':'2', 'SlotId':'1', 'SwitchId':"A"}
+ServerPort {'PortId':'2', 'SlotId':'1', 'SwitchId':"B"}
+ServerPort {'PortId':'3', 'SlotId':'1', 'SwitchId':"A"}
+ServerPort {'PortId':'3', 'SlotId':'1', 'SwitchId':"B"}
+ServerPort {'PortId':'4', 'SlotId':'1', 'SwitchId':"A"}
+ServerPort {'PortId':'4', 'SlotId':'1', 'SwitchId':"B"}
+ServerPort {'PortId':'5', 'SlotId':'1', 'SwitchId':"A"}
+ServerPort {'PortId':'5', 'SlotId':'1', 'SwitchId':"B"}
+ServerPort {'PortId':'6', 'SlotId':'1', 'SwitchId':"A"}
+ServerPort {'PortId':'6', 'SlotId':'1', 'SwitchId':"B"}
+ServerPort {'PortId':'7', 'SlotId':'1', 'SwitchId':"A"}
+ServerPort {'PortId':'7', 'SlotId':'1', 'SwitchId':"B"}
+ServerPort {'PortId':'8', 'SlotId':'1', 'SwitchId':"A"}
+ServerPort {'PortId':'8', 'SlotId':'1', 'SwitchId':"B"}
+
+
