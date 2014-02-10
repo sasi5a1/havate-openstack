@@ -47,5 +47,12 @@ Note: The installer will create a signing key for havate@havate.project with a p
 
 5) Take the resulting ISO to your UCSM enviornemnt, and load the ISO onto another maching (can be Virtual or Phsycial, but this second machine needs to be able to access the management IP of the UCSM system).
 
+Support
+=======
+
+We're on #havate-openstack on freenode.net, or open an issue here and we'll look to address it.
+
+Support is also available from the folks at 1-Cloud.net
+
 
 
