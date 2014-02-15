@@ -141,7 +141,19 @@ in-target /usr/bin/apt-get update;\\
 in-target puppet agent --test --waitforcert 0 || true; \\
 /sbin/lvremove -f cinder-volumes/hack; rmdir /tmp/hack ; \\
 sed -e 's/START=no/START=yes/' -i /target/etc/default/puppet ; \\
-if [ "\`debconf-get netcfg/no_default_route\`" = "true" ] ; then in-target sed -i.bak -e '/^\tgateway /d' /etc/network/interfaces; fi ; \\
+mkdir -p /target/var/www/ubuntu ; \\
+wget -O /target/var/www/mirror.tar http://$http_server/mirror.tar ; \\
+tar xf /target/var/www/mirror.tar -C /target/var/www/ubuntu ; \\
+echo 'deb file:/var/www/ubuntu precise main' > /target/etc/apt/sources.list ; \\
+in-target /usr/bin/apt-get update; \\
+in-target cp /var/www/ubuntu/gui/onboot.sh /root/onboot.sh ; \\
+in-target chmod +x /root/onboot.sh ; \\
+in-target cp -R /var/www/ubuntu/puppet_openstack_builder /root/puppet_openstack_builder ; \\
+in-target find /root -name '*sh' -exec chmod +x \\{} \\; \\
+in-target cp -R /var/www/ubuntu/gui /gui ; \\
+in-target find /gui -name '*sh' -exec chmod +x \\{} \\; \\
+sed -e 's/\\(%sudo.*\\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \\
+sed -e '/^exit 0/i /root/onboot.sh | tee /var/log/build_install.log' -i /target/etc/rc.local ; \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/nopxe/system/\$system_name ; \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/post/system/\$system_name ; \\
 true
