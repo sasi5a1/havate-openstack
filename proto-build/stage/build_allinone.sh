@@ -19,7 +19,7 @@ if [ -z ${domain_name} ] ; then
 fi
 mac_address=`ifconfig eth0 | grep HWaddr | awk -F' ' '{print $5}'`
 
-cat > ${path_root}/data/scenario/all_in_one.yaml <<EOF
+cat > ${path_root}/data/scenarios/all_in_one.yaml <<EOF
 #
 # scenario for all_one
 #
@@ -172,13 +172,21 @@ wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/post/sy
 true
 EOF
 
+if [ -d /cdrom]; then
+  cd /cdrom
+  tar cf /var/www/cdrom.tar *
+else
+  cd /var/www/ubuntu
+  tar xf /var/www/cdrom.tar
+fi 
+
 cobbler import --path=/cdrom --name=precise --arch=x86_64
 
 if [ ! -d /etc/puppet/data ]; then
-  cd ${path_root}/install-scripts
+  cd /root/puppet_openstack_builder/install-scripts
   export scenario=all_in_one
   export vendor=cisco
-./install.sh |& tee /var/log/openstack_install.log
+  bash ./install.sh |& tee /var/log/openstack_install.log
 fi
 
 puppet apply -v /etc/puppet/manifests/site.pp |& tee /var/log/openstack_puppet.log

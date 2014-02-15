@@ -29,3 +29,4 @@ ubuntu-12.04.4-server-amd64.iso
 ubuntu-12.04.3-server-amd64.iso
 ubuntu-12.04.4-desktop-amd64.iso
 ubuntu-12.04.3-desktop-amd64.iso
+proto-build/gui/onboot.sh

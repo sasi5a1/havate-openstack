@@ -158,6 +158,8 @@ glance-registry
 gnupg
 gnupg-agent
 gpgv
+graphite-carbon
+graphite-web
 grep
 groff-base
 grub2-common
@@ -367,10 +369,13 @@ libiw30
 libjasper1
 libjpeg8
 libjpeg-turbo8
+libjs-excanvas
 libjs-jquery
+libjs-jquery-flot
 libjson0
 libjson-ruby
 libjs-prototype
+libjs-scriptaculous
 libjs-sphinxdoc
 libjs-swfobject
 libjs-underscore
@@ -510,6 +515,7 @@ libupsclient1
 libusb-0.1-4
 libusb-1.0-0
 libuuid1
+libv8-3.14.5
 libv8-3.7.12.22
 libvirt0
 libvirt-bin
@@ -560,8 +566,11 @@ libyaml-0-2
 linux-firmware
 linux-headers-3.2.0-51
 linux-headers-3.2.0-51-virtual
+linux-headers-3.2.0-58
+linux-headers-3.2.0-58-virtual
 linux-headers-virtual
 linux-image-3.2.0-51-virtual
+linux-image-3.2.0-58-virtual
 linux-image-virtual
 linux-libc-dev
 linux-virtual
@@ -636,8 +645,8 @@ nova-api
 nova-cert
 nova-common
 nova-compute
-nova-compute-qemu
 nova-compute-kvm
+nova-compute-qemu
 nova-conductor
 nova-consoleauth
 nova-novncproxy
@@ -788,6 +797,7 @@ python-dingus
 python-distro-info
 python-django
 python-django-horizon
+python-django-tagging
 python-dnspython
 python-dogpile.cache
 python-dogpile.core
@@ -917,6 +927,7 @@ python-warlock
 python-webob
 python-webtest
 python-werkzeug
+python-whisper
 python-wsme
 python-xapian
 python-xattr
@@ -1047,9 +1058,3 @@ xz-lzma
 xz-utils
 zlib1g
 zlib1g-dev
-python-django-tagging
-graphite-web
-graphite-carbon
-python-whisper
-libjs-scriptaculous
-libjs-jquery-flot

@@ -153,7 +153,7 @@ if [ ! -d /etc/puppet/data ]; then
   cd ${path_root}/install-scripts
   export scenario=build
   export vendor=cisco
-./install.sh |& tee /var/log/openstack_install.log
+  bash ./install.sh |& tee /var/log/openstack_install.log
 fi
 
 puppet apply -v /etc/puppet/manifests/site.pp |& tee /var/log/openstack_puppet.log
