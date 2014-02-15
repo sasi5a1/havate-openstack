@@ -30,6 +30,7 @@ bridge-utils
 bsd-mailx
 bsdmainutils
 bsdutils
+btrfs-tools
 build-essential
 busybox-initramfs
 busybox-static
@@ -66,6 +67,8 @@ cpp-4.6
 cpu-checker
 crda
 cron
+cryptsetup
+cryptsetup-bin
 curl
 dash
 dbus
@@ -125,6 +128,7 @@ erlang-xmerl
 euca2ools
 facter
 fakeroot
+febootstrap
 fence-agents
 file
 findutils
@@ -134,6 +138,7 @@ fonts-ubuntu-font-family-console
 friendly-recovery
 ftp
 fuse
+fuse-utils
 g++
 g++-4.6
 gawk
@@ -203,6 +208,7 @@ iso-codes
 iw
 java-common
 javascript-common
+jfsutils
 kbd
 keyboard-configuration
 keystone
@@ -280,9 +286,11 @@ libc-dev-bin
 libclass-accessor-perl
 libclass-isa-perl
 libcomerr2
+libconfig8
 libconfig-general-perl
 libcrypto++9
 libcrypt-passwdmd5-perl
+libcryptsetup4
 libcups2
 libcurl3
 libcurl3-gnutls
@@ -305,6 +313,7 @@ libdrm-nouveau1a
 libdrm-radeon1
 libedit2
 libelf1
+libencode-locale-perl
 libept1.4.12
 liberror-perl
 libesmtp6
@@ -315,7 +324,9 @@ libexpat1-dev
 libfdt1
 libffi6
 libfile-copy-recursive-perl
+libfile-listing-perl
 libflac8
+libfont-afm-perl
 libfontconfig1
 libfontenc1
 libfreetype6
@@ -352,15 +363,32 @@ libgtk-3-0
 libgtk-3-bin
 libgtk-3-common
 libgudev-1.0-0
+libguestfs0
+libguestfs-perl
+libguestfs-tools
 libhcrypto4-heimdal
 libheimbase1-heimdal
 libheimntlm0-heimdal
+libhivex0
+libhtml-format-perl
+libhtml-form-perl
+libhtml-parser-perl
+libhtml-tagset-perl
 libhtml-template-perl
+libhtml-tree-perl
+libhttp-cookies-perl
+libhttp-daemon-perl
+libhttp-date-perl
+libhttp-message-perl
+libhttp-negotiate-perl
 libhx509-5-heimdal
 libibverbs1
 libice6
 libicu48
 libidn11
+libintl-perl
+libio-socket-inet6-perl
+libio-socket-ssl-perl
 libio-string-perl
 libisc83
 libisccc80
@@ -392,9 +420,12 @@ liblocale-gettext-perl
 liblockfile1
 liblockfile-bin
 libltdl7
+liblwp-mediatypes-perl
+liblwp-protocol-https-perl
 liblwres80
 liblzma5
 libmagic1
+libmailtools-perl
 libmemcached6
 libmount1
 libmpc2
@@ -405,7 +436,9 @@ libncursesw5
 libnetcf1
 libnet-daemon-perl
 libnetfilter-conntrack3
+libnet-http-perl
 libnet-snmp-perl
+libnet-ssleay-perl
 libnet-telnet-perl
 libnettle4
 libnewt0.52
@@ -481,6 +514,7 @@ libsnappy1
 libsndfile1
 libsnmp15
 libsnmp-base
+libsocket6-perl
 libspice-server1
 libsqlite0
 libsqlite3-0
@@ -490,9 +524,11 @@ libssl-dev
 libssl-doc
 libstdc++6
 libstdc++6-4.6-dev
+libstring-shellquote-perl
 libsub-name-perl
 libswitch-perl
 libsysfs2
+libsys-virt-perl
 libtalloc2
 libtasn1-3
 libtcmalloc-minimal4
@@ -512,6 +548,7 @@ libtokyotyrant3
 libudev0
 libunwind8
 libupsclient1
+liburi-perl
 libusb-0.1-4
 libusb-1.0-0
 libuuid1
@@ -526,7 +563,10 @@ libvte9
 libvte-common
 libwbclient0
 libwind0-heimdal
+libwin-hivex-perl
 libwrap0
+libwww-perl
+libwww-robotrules-perl
 libx11-6
 libx11-data
 libx11-xcb1
@@ -553,6 +593,8 @@ libxinerama1
 libxkbfile1
 libxml2
 libxml2-utils
+libxml-parser-perl
+libxml-xpath-perl
 libxmu6
 libxmuu1
 libxpm4
@@ -654,6 +696,7 @@ nova-objectstore
 nova-scheduler
 novnc
 ntfs-3g
+ntfsprogs
 ntp
 ntpdate
 open-iscsi
@@ -935,6 +978,7 @@ python-yaml
 python-zope.interface
 qemu
 qemu-keymaps
+qemu-kvm
 qemu-system
 qemu-system-arm
 qemu-system-common
@@ -947,6 +991,7 @@ qemu-user
 qemu-utils
 rabbitmq-server
 readline-common
+reiserfsprogs
 reprepro
 resolvconf
 rrdtool
@@ -962,6 +1007,7 @@ ruby-rgen
 samba-common
 samba-common-bin
 screen
+scrub
 seabios
 sed
 sensible-utils
@@ -1056,5 +1102,7 @@ xserver-common
 xserver-xorg-core
 xz-lzma
 xz-utils
+zerofree
+zfs-fuse
 zlib1g
 zlib1g-dev
