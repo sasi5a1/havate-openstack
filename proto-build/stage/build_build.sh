@@ -159,6 +159,15 @@ wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/post/sy
 true
 EOF
 
+if [ -d /cdrom ]; then
+  cd /cdrom
+  tar cf /tmp/mirror.tar *
+  mv /tmp/mirror.tar /cdrom/
+else
+  cd /var/www/ubuntu
+  tar xf /var/www/mirror.tar
+fi
+
 cobbler import --path=/cdrom --name=precise --arch=x86_64
 
 if [ ! -d /etc/puppet/data ]; then
