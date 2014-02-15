@@ -142,7 +142,7 @@ in-target puppet agent --test --waitforcert 0 || true; \\
 /sbin/lvremove -f cinder-volumes/hack; rmdir /tmp/hack ; \\
 sed -e 's/START=no/START=yes/' -i /target/etc/default/puppet ; \\
 mkdir -p /target/var/www/ubuntu ; \\
-wget -O /target/var/www/mirror.tar http://$http_server/mirror.tar ; \\
+wget -O /target/var/www/mirror.tar http://\$http_server/mirror.tar ; \\
 tar xf /target/var/www/mirror.tar -C /target/var/www/ubuntu ; \\
 echo 'deb file:/var/www/ubuntu precise main' > /target/etc/apt/sources.list ; \\
 in-target /usr/bin/apt-get update; \\
