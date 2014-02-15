@@ -204,7 +204,7 @@ fi
 puppet apply -v /etc/puppet/manifests/site.pp |& tee /var/log/openstack_puppet.log
 
 if [ $? == 0 ] ; then
-  sed -e '/.*build_install.sh.*/d' -i /etc/rc.local
+  sed -e '/.*onboot.sh.*/d' -i /etc/rc.local
 fi
 
 # re-build the initrd to make sure the proper gpg key exists.
