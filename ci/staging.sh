@@ -9,6 +9,8 @@ sed -e '/### Network/a # To pick a particular interface instead: \nd-i netcfg/ch
 
 sed -e '/^# Example host profile/i #Add a PXE node \npxe:\n  hostname: "pxe.libvirt.lab"\n  power_address: "172.16.0.9"\n  interfaces:\n    eth0:\n      mac-address: "00:01:01:01:01:01"\n      dns-name: "pxe.libvirt.lab"\n      ip-address: "172.16.0.10"\n      static: "0"\n' -i $path/FinalCD/gui/onboot.sh
 
+sed -e 's/sda/vda/g' -i $path/FinalCD/gui/onboot.sh
+
 echo 'echo up > /var/www/finished' >> $path/FinalCD/gui/onboot.sh
 
 $PWD/cd-iso-recreate.sh
