@@ -23,7 +23,7 @@
             <div class="navbar navbar-default navbar-top">
               <div class="container">
                 <div class="navbar-header">
-                  <a class="navbar-brand" href="{% url "home" %}">Havate</a>
+                  <a class="navbar-brand" href="{% url "home" %}">Openstack Installer</a>
                 </div>
                 <div class="navbar-collapse collapse">
                   <ul class="nav navbar-nav">
@@ -50,6 +50,8 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static 'js/jquery-1.10.2.min.js' %}"><\/script>')</script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
-        {% block extra_js %}{% endblock extra_js %}
+        {% block extra_js %}
+
+        {% endblock extra_js %}
     </body>
 </html>

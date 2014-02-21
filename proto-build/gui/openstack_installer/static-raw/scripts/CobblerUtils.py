@@ -72,8 +72,9 @@ def addSystem(name, profile_name, mac_address, ip_address):
                 cobbler_handle.modify_system(system_id,'modify_interface', {
                         "macaddress-eth0"   : mac_address,
                         "ipaddress-eth0"   : ip_address,
-                        "dnsname-eth0"      : name}, ltoken)
-		cobbler_handle.modify_system(system_id, 'kickstart', "/etc/cobbler/preseed/cisco-preseed.iso", ltoken);
+                        "dnsname-eth0"      : name,
+                        }, ltoken)
+                cobbler_handle.modify_system(system_id, 'kickstart', "/etc/cobbler/preseed/cisco-preseed.iso", ltoken);
                 cobbler_handle.modify_system(system_id, "profile", profile_name, ltoken)
 
                 cobbler_handle.save_system(system_id, ltoken)

@@ -1,4 +1,3 @@
-
 (function($){
     'use strict';
     function getCookie(name) {
@@ -57,13 +56,6 @@
             });
             $('.tab-pane input').change();
         })();
-
-(function() {
-
-	var options = {};
-       var wizard = $("#installation-wizard");
-	
-})();
 
         (function(){
             $('#id_mac_pool').hide();
@@ -208,14 +200,14 @@
         })();
 
         (function(){
-            
+
             $('#clear-scenario-radio-button').click(function(e){
                 e.preventDefault();
                 $('#scenario-list-table input[type=radio]:checked').prop('checked', false);
                 $('#scenario-list-table .hostname-ip-container').addClass('hidden');
             });
         })();
-        
+
         (function(){
             $('#scenario-select').change(function(e){
                 e.preventDefault();
@@ -257,9 +249,7 @@
                         var $temp_th = $('<th><input type="hidden" name="scenario_node_number" id="scenario_id_node_number">Node</th>')
                         $temp_thtr.append($temp_th);
                         for (var x in data['roles']){
-				var p=data['roles'][x]+"&nbsp;&nbsp;&nbsp;";
-                            $temp_th = $('<th></th>').html(p);
-$				
+                            $temp_th = $('<th></th>').html(data['roles'][x]);
                             $temp_thtr.append($temp_th);
                         }
                         $thead.append($temp_thtr);
@@ -280,10 +270,10 @@ $
                             var $temp_input = $('<input>').attr('type', 'hidden').addClass('blade-number-input').attr('name', 'blade_number__'+counter).val(blade);
                             $temp_td.append($temp_input);
                             var $temp_div = $("<div></div>").addClass('hidden hostname-ip-container');
-                            $temp_div.append('<br> <label>Hostname: </label>');
+                            $temp_div.append('<label>Hostname: </label>');
                             var $temp_input = $('<input>').attr('type', 'text').addClass('hostname-input').attr('name', 'scenario_hostname__'+counter);
                             $temp_div.append($temp_input);
-                            $temp_div.append('<br> <label>IP: </label>');
+                            $temp_div.append('<label>IP: </label>');
                             var $temp_input = $('<input>').attr('type', 'text').addClass('ip-input').attr('name', 'scenario_ip__'+counter);
                             $temp_div.append($temp_input);
                             $temp_td.append($temp_div);
@@ -294,7 +284,7 @@ $
                                 $temp_row.append($temp_td);
                             }
                             $tbody.append($temp_row);
-                            
+
                             console.log('input[name=role-'+counter+']');
                             $('input[name=role-'+counter+']').change(function(){
                                 $(this).parents('tr').find('.hostname-ip-container').removeClass('hidden');
@@ -356,7 +346,7 @@ $
                     success: function(data, status, xhr){
                         $this.prop('disabled', false);
                         $('body').removeClass('waiting');
-                        $this.html('Discovered');
+                        $this.html('Run Discovery');
                         if(data.length == 0){
                             alert('no blades discovered - (check ip address/credentials/server discovery is completed on UCSM)');
                             return;
@@ -365,7 +355,7 @@ $
                         $tbody.html('');
                         var counter = 0;
                         $('#id_node_number').val(data.length);
-                        
+
                         for (var x in data){
                             var html_result = data[x][0];
                             var text_result = data[x][1];
@@ -398,7 +388,7 @@ $
                             $tbody.append($temp_row);
                             counter = counter + 1;
                         }
-                        //alert('Discovery Complete');
+                        alert('Discovery Complete');
                     }
                 });
             });

@@ -274,6 +274,24 @@ def createServiceProfile(inUcsmHost, serviceprofileListStr):
         addObjectToUcs(inUcsmHost, pDn, OrgOrg.ClassId(), LsServer.ClassId(), serviceprofileList, dn)
 pass
 
+# Add service-profiles
+def createLsBinding(inUcsmHost, lsBindingListStr):
+        """Binds server-profile with server."""
+        logging.debug('create ls-binding')
+	lsBindingList = ast.literal_eval(lsBindingListStr)
+
+	pDn = lsBindingList['Org']
+
+        lsServerDn = pDn + "/ls-" + lsBindingList[LsServer.NAME] # for now let it be under root org.
+	lsServerList = {LsServer.SRC_TEMPL_NAME:lsBindingList[LsServer.SRC_TEMPL_NAME], LsServer.TYPE:"instance", LsServer.NAME:lsBindingList[LsServer.NAME]}
+	addObjectToUcs(inUcsmHost, pDn, OrgOrg.ClassId(), LsServer.ClassId(), lsServerList, lsServerDn)
+
+        lsbindDn = lsServerDn + "/pn"
+	lsbindList =  {LsBinding.PN_DN:lsBindingList[LsBinding.PN_DN]}
+	addObjectToUcs(inUcsmHost, lsServerDn, LsServer.ClassId(), LsBinding.ClassId(), lsbindList, lsbindDn)
+
+pass
+
 #
 def createComputeAutoconfigPolicy(inUcsmHost, autoconfigPolicyStr):
         """Configures Server auto-configuration policy in UCS Manager."""

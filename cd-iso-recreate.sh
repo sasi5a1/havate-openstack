@@ -19,7 +19,11 @@ TARGET=${TARGET:-build}
 
 
 # The Base Directory, assumes you git-cloned the script as root
-BASEDIR="/root/havate-openstack"
+if [ -f ./$0 ] ; then
+BASEDIR="$PWD"
+else
+BASEDIR="$BASEDIR:-/root/havate-openstack"
+fi
 
 # This directory will contain additional files and directories
 # that need to be copied over to the root directory of the
