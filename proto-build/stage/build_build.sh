@@ -34,7 +34,7 @@ roles:
 EOF
 
 cat >> ${path_root}/data/role_mappings.yaml <<EOF
-${host_name}: 2_role
+${host_name}: build
 EOF
 
 cat > ${path_root}/data/hiera_data/hostname/${host_name}.yaml <<EOF
