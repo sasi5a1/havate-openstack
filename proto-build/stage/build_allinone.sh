@@ -18,6 +18,7 @@ if [ -z ${domain_name} ] ; then
   domain_name='domain.name'
 fi
 mac_address=`ifconfig eth0 | grep HWaddr | awk -F' ' '{print $5}'`
+ntp_server=`grep server /etc/ntp.conf | head -1 | awk -F' ' '{print $2}'`
 
 cat > ${path_root}/data/scenarios/all_in_one.yaml <<EOF
 #
@@ -100,7 +101,6 @@ netcfg/get_ipaddress={\$eth0_ip-address} \\
 netcfg/get_gateway=${gateway} \\
 netcfg/disable_autoconfig=true \\
 netcfg/dhcp_options=\\"Configure network manually\\" \\
-netcfg/no_default_route=true \\
 partman-auto/disk=/dev/sda \\
 netcfg/get_netmask=${netmask} \\
 netcfg/dhcp_failed=true"
@@ -157,15 +157,15 @@ d-i user-setup/encrypt-home boolean false
 d-i grub-installer/only_debian boolean true
 d-i finish-install/reboot_in_progress note
 d-i pkgsel/update-policy select none
-d-i pkgsel/include string openssh-server puppet git acpid
+d-i pkgsel/include string openssh-server puppet git acpid vim vlan lvm2 ntp rubygems
 d-i preseed/early_command string wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/pre/system/\$system_name 
 d-i preseed/late_command string \\
 in-target /usr/bin/apt-get update;\\
 sed -e 's/START=no/START=yes/' -i /target/etc/default/puppet ; \\
 sed -e "/logdir/ a pluginsync=true" -i /target/etc/puppet/puppet.conf ; \\
 sed -e "/logdir/ a server=$host_name.$domain_name" -i /target/etc/puppet/puppet.conf ; \\
-in-target puppet agent --test --waitforcert 0 || true; \\
-/sbin/lvremove -f cinder-volumes/hack; rmdir /tmp/hack ; \\
+in-target ntpdate $ntp_server ; \\
+in-target hwclock --systohc --utc ; \\
 mkdir -p /target/var/www/ubuntu ; \\
 wget -O /target/var/www/mirror.tar http://\$http_server/mirror.tar ; \\
 tar xf /target/var/www/mirror.tar -C /target/var/www/ubuntu ; \\
@@ -199,6 +199,12 @@ if [ ! -d /etc/puppet/data ]; then
   cd /root/puppet_openstack_builder/install-scripts
   export scenario=all_in_one
   export vendor=cisco
+
+  cat >> /etc/hosts <<EOF
+127.0.1.1 $host_name.$domain_name $hostname
+$ipaddress $host_name.$domain_name $hostname
+EOF
+
   bash ./install.sh |& tee /var/log/openstack_install.log
 fi
 
@@ -207,6 +213,8 @@ puppet apply -v /etc/puppet/manifests/site.pp |& tee /var/log/openstack_puppet.l
 if [ $? == 0 ] ; then
   sed -e '/.*onboot.sh.*/d' -i /etc/rc.local
 fi
+
+sed -e 's/permanent //' -i /etc/apache2/conf-available/openstack-dashboard.conf
 
 # re-build the initrd to make sure the proper gpg key exists.
 /gui/update_initrd.sh |& tee /var/log/update_initrd.log

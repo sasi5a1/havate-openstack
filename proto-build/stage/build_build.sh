@@ -18,6 +18,7 @@ if [ -z ${domain_name} ] ; then
   domain_name='domain.name'
 fi
 mac_address=`ifconfig eth0 | grep HWaddr | awk -F' ' '{print $5}'`
+ntp_server=`grep server /etc/ntp.conf | head -1 | awk -F' ' '{print $2}'`
 
 cat > ${path_root}/data/scenarios/build.yaml <<EOF
 roles:
@@ -28,11 +29,12 @@ roles:
       - apache::mod::wsgi
       - apache::mod::proxy_http
       - coi::profiles::cobbler_server
+      - coi::profiles::cache_server
       - coi::profiles::puppet::master
 EOF
 
 cat >> ${path_root}/data/role_mappings.yaml <<EOF
-${host_name}: build
+${host_name}: 2_role
 EOF
 
 cat > ${path_root}/data/hiera_data/hostname/${host_name}.yaml <<EOF
@@ -77,7 +79,6 @@ netcfg/get_ipaddress={\$eth0_ip-address} \\
 netcfg/get_gateway=${gateway} \\
 netcfg/disable_autoconfig=true \\
 netcfg/dhcp_options=\\"Configure network manually\\" \\
-netcfg/no_default_route=true \\
 partman-auto/disk=/dev/sda \\
 netcfg/get_netmask=${netmask} \\
 netcfg/dhcp_failed=true"
@@ -134,13 +135,15 @@ d-i user-setup/encrypt-home boolean false
 d-i grub-installer/only_debian boolean true
 d-i finish-install/reboot_in_progress note
 d-i pkgsel/update-policy select none
-d-i pkgsel/include string openssh-server puppet git acpid
+d-i pkgsel/include string openssh-server puppet git acpid vim vlan lvm2 ntp rubygems
 d-i preseed/early_command string wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/pre/system/\$system_name 
 d-i preseed/late_command string \\
 in-target /usr/bin/apt-get update;\\
-in-target puppet agent --test --waitforcert 0 || true; \\
-/sbin/lvremove -f cinder-volumes/hack; rmdir /tmp/hack ; \\
 sed -e 's/START=no/START=yes/' -i /target/etc/default/puppet ; \\
+sed -e "/logdir/ a pluginsync=true" -i /target/etc/puppet/puppet.conf ; \\
+sed -e "/logdir/ a server=$host_name.$domain_name" -i /target/etc/puppet/puppet.conf ; \\
+in-target ntpdate $ntp_server ; \\
+in-target hwclock --systohc --utc ; \\
 mkdir -p /target/var/www/ubuntu ; \\
 wget -O /target/var/www/mirror.tar http://\$http_server/mirror.tar ; \\
 tar xf /target/var/www/mirror.tar -C /target/var/www/ubuntu ; \\
@@ -170,10 +173,18 @@ fi
 
 cobbler import --path=/cdrom --name=precise --arch=x86_64
 
+sed -e 's/^\(.*- coe::base\)/#\1/' -i $path_root/data/scenarios/2_role.yaml
+
 if [ ! -d /etc/puppet/data ]; then
-  cd ${path_root}/install-scripts
-  export scenario=build
+  cd /root/puppet_openstack_builder/install-scripts
+  export scenario=2_role
   export vendor=cisco
+
+  cat >> /etc/hosts <<EOF
+127.0.1.1 $host_name.$domain_name $hostname
+$ipaddress $host_name.$domain_name $hostname
+EOF
+
   bash ./install.sh |& tee /var/log/openstack_install.log
 fi
 
