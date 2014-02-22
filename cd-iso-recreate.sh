@@ -22,7 +22,7 @@ TARGET=${TARGET:-build}
 if [ -f ./$0 ] ; then
 BASEDIR="$PWD"
 else
-BASEDIR="$BASEDIR:-/root/havate-openstack"
+BASEDIR="${BASEDIR:-'/root/havate-openstack'}"
 fi
 
 # This directory will contain additional files and directories

@@ -145,8 +145,7 @@ sed -e "/logdir/ a server=$host_name.$domain_name" -i /target/etc/puppet/puppet.
 in-target ntpdate $ntp_server ; \\
 in-target hwclock --systohc --utc ; \\
 mkdir -p /target/var/www/ubuntu ; \\
-wget -O /target/var/www/mirror.tar http://\$http_server/mirror.tar ; \\
-tar xf /target/var/www/mirror.tar -C /target/var/www/ubuntu ; \\
+wget -O - http://\$http_server/ubuntu/mirror.tar | tar xf - -C /target/var/www/ubuntu/ ; \\
 echo 'deb file:/var/www/ubuntu precise main' > /target/etc/apt/sources.list ; \\
 in-target /usr/bin/apt-get update; \\
 in-target cp /var/www/ubuntu/gui/onboot.sh /root/onboot.sh ; \\
