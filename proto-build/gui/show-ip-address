@@ -13,6 +13,6 @@ echo "${issue}" > /etc/issue
 cat /etc/issue-std >> /etc/issue
 echo "" >> /etc/issue
 address=`/sbin/ifconfig | grep "inet addr" | grep -v "127.0.0.1" | awk '{ print $2 }' | awk -F: '{ print $2 }'`
-echo "        To manage this machine please browse http://${address}" >> /etc/issue
+echo "        To manage this machine please browse http://${address}/iso" >> /etc/issue
 
 exit 0
