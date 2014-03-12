@@ -22,7 +22,7 @@ TARGET=${TARGET:-build}
 if [ -f ./$0 ] ; then
 BASEDIR="$PWD"
 else
-BASEDIR="${BASEDIR:-'/root/havate-openstack'}"
+BASEDIR="${BASEDIR:-/root/havate-openstack}"
 fi
 
 # This directory will contain additional files and directories
@@ -37,7 +37,7 @@ SEEDFILE="ubuntu-server.seed"
 # Ubuntu ISO image
 RELEASE="precise"
 CDISO="ubuntu-12.04.4-server-amd64.iso"
-CDIMAGE="$BASEDIR/$CDISO"
+CDIMAGE=$BASEDIR/$CDISO
 
 # OpenStack install branch
 BRANCH="havana"
