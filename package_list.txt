@@ -1137,3 +1137,6 @@ zerofree
 zfs-fuse
 zlib1g
 zlib1g-dev
+openswan
+neutron-lbaas-agent
+neutron-plugin-vpn-agent
