@@ -97,69 +97,9 @@ netcfg/dhcp_failed=true"
 EOF
 
 mkdir -p /etc/cobbler/preseed
-cat >/etc/cobbler/preseed/cisco-preseed.iso <<EOF
-d-i mirror/country string manual
-d-i mirror/http/hostname string \$http_server
-d-i mirror/http/directory string /ubuntu
-d-i partman/early_command string vgs --separator=: --noheadings | cut -f1 -d: | while read vg ; do vgchange -an \$vg ; done ; pvs --separator=: --noheadings | cut -f1 -d: | while read pv ; do pvremove -ff -y \$pv ; done
-
-### Partitioning
-#d-i partman-auto/init_automatically_partition select biggest_free
-#d-i partman/alignment string cylinder
-d-i partman-auto/method string lvm
-#d-i partman-auto/disk string /dev/sda
-d-i partman-auto/purge_lvm_from_device boolean true
-d-i partman-lvm/device_remove_lvm boolean true
-d-i partman-md/device_remove_md boolean true
-d-i partman-md/confirm boolean true
-d-i partman-lvm/confirm_nooverwrite boolean true
-d-i partman-lvm/confirm boolean true
-d-i partman/confirm_write_new_label boolean true
-d-i partman-auto/choose_recipe select atomic
-d-i partman/default_filesystem string ext4
-#d-i partman-auto-lvm/guided_size string max
-d-i partman-partitioning/confirm_write_new_label boolean true
-d-i partman/choose_partition select Finish partitioning and write changes to disk
-d-i partman/choose_partition select Finish
-d-i partman/confirm_nooverwrite boolean true
-d-i partman/confirm boolean true
+cp /cdrom/preseed/cisco-preseed.iso /etc/cobbler/preseed/
 
 
-d-i clock-setup/utc boolean true
-
-d-i time/zone string UTC
-d-i passwd/user-fullname string Admin Adminson
-d-i passwd/username string localadmin
-d-i passwd/user-password-crypted password \$6\$UfgWxrIv\$k4KfzAEMqMg.fppmSOTd0usI4j6gfjs0962.JXsoJRWa5wMz8yQk4SfInn4.WZ3L/MCt5u.62tHDGB36EhiKF1
-d-i user-setup/encrypt-home boolean false
-d-i grub-installer/only_debian boolean true
-d-i finish-install/reboot_in_progress note
-d-i pkgsel/update-policy select none
-d-i pkgsel/include string openssh-server puppet git acpid vim vlan lvm2 ntp rubygems
-d-i preseed/early_command string wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/pre/system/\$system_name 
-d-i preseed/late_command string \\
-in-target /usr/bin/apt-get update;\\
-sed -e 's/START=no/START=yes/' -i /target/etc/default/puppet ; \\
-sed -e "/logdir/ a pluginsync=true" -i /target/etc/puppet/puppet.conf ; \\
-sed -e "/logdir/ a server=$host_name.$domain_name" -i /target/etc/puppet/puppet.conf ; \\
-in-target ntpdate $ntp_server ; \\
-in-target hwclock --systohc --utc ; \\
-mkdir -p /target/var/www/ubuntu ; \\
-wget -O - http://\$http_server/ubuntu/mirror.tar | tar xf - -C /target/var/www/ubuntu/ ; \\
-echo 'deb file:/var/www/ubuntu precise main' > /target/etc/apt/sources.list ; \\
-in-target /usr/bin/apt-get update; \\
-in-target cp /var/www/ubuntu/gui/onboot.sh /root/onboot.sh ; \\
-in-target chmod +x /root/onboot.sh ; \\
-in-target cp -R /var/www/ubuntu/puppet_openstack_builder /root/puppet_openstack_builder ; \\
-in-target find /root -name '*sh' -exec chmod +x \\{} \\; \\
-in-target cp -R /var/www/ubuntu/gui /gui ; \\
-in-target find /gui -name '*sh' -exec chmod +x \\{} \\; \\
-sed -e 's/\\(%sudo.*\\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \\
-sed -e '/^exit 0/i /root/onboot.sh | tee /var/log/build_install.log' -i /target/etc/rc.local ; \\
-wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/nopxe/system/\$system_name ; \\
-wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/post/system/\$system_name ; \\
-true
-EOF
 
 if [ -d /cdrom ]; then
   cd /cdrom
