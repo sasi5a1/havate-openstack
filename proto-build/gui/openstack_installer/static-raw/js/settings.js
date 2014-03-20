@@ -246,10 +246,11 @@
                         $thead.html('');
                         var counter = 0;
                         var $temp_thtr = $('<tr></tr>');
-                        var $temp_th = $('<th><input type="hidden" name="scenario_node_number" id="scenario_id_node_number">Node</th>')
+                        var $temp_th = $('<th ><input type="hidden" name="scenario_node_number" id="scenario_id_node_number">Node</th>')
                         $temp_thtr.append($temp_th);
+
                         for (var x in data['roles']){
-                            $temp_th = $('<th></th>').html(data['roles'][x]);
+                            $temp_th = $('<th style="text-align:center;"></th>').html(data['roles'][x]);
                             $temp_thtr.append($temp_th);
                         }
                         $thead.append($temp_thtr);
@@ -262,31 +263,59 @@
                             var chassis = data['nodes'][x][2];
                             var blade = data['nodes'][x][3];
                             var $temp_row = $('<tr></tr>').addClass('node'+counter);
-                            var $temp_td = $('<td></td>').html(html_result);
+                            var temp_blade=html_result.split("<br>");
+                            var temp_coll_link = 'node-col-'+counter;
+                            var $temp_td = $('<td style="width:40%;"></td>').html('<a data-toggle="collapse" style="cursor: pointer;" data-target="#'+temp_coll_link+'" >' +temp_blade[0] +'</a>');
+                            if (temp_blade[1].toLowerCase().indexOf("service") >= 0)
+                            {
+								$temp_row.addClass('spa');
+                            }
+                            var temp_blade_all=html_result.split(temp_blade[0]+"<br>");
+							var $t2_div = $('<div id="'+temp_coll_link+'" class="panel-collapse collapse"></div>');
+							var $t3_div = $('<div class="panel-body" style="padding: 0px;"></div>').html(temp_blade_all[1]+'<br>');
                             var $temp_input = $('<input>').attr('type', 'hidden').addClass('node-name-input').attr('name', 'node_name__'+counter).val(text_result);
-                            $temp_td.append($temp_input);
+                            $t3_div.append($temp_input);
                             var $temp_input = $('<input>').attr('type', 'hidden').addClass('chassis-number-input').attr('name', 'chassis_number__'+counter).val(chassis);
                             $temp_td.append($temp_input);
                             var $temp_input = $('<input>').attr('type', 'hidden').addClass('blade-number-input').attr('name', 'blade_number__'+counter).val(blade);
-                            $temp_td.append($temp_input);
+                            $t3_div.append($temp_input);
                             var $temp_div = $("<div></div>").addClass('hidden hostname-ip-container');
-                            $temp_div.append('<label>Hostname: </label>');
+                            var $temp_tab = $('<table class="table"></table>');
+                            var $temp_tab_tr =$('<tr></tr>');
+                            var $temp_tab_td=$('<td></td>');
+                            $temp_tab_td.append('<label>Hostname: </label>');
+                            $temp_tab_tr.append($temp_tab_td);
                             var $temp_input = $('<input>').attr('type', 'text').addClass('hostname-input').attr('name', 'scenario_hostname__'+counter);
-                            $temp_div.append($temp_input);
-                            $temp_div.append('<label>IP: </label>');
+                            var $temp_tab_td=$('<td></td>');
+                            $temp_tab_td.append($temp_input);
+                            $temp_tab_tr.append($temp_tab_td);
+                            $temp_tab.append($temp_tab_tr);
+                            var $temp_tab_tr =$('<tr></tr>');
+                            var $temp_tab_td=$('<td></td>');
+                            $temp_tab_td.append('<label>IP: </label>');
+                            $temp_tab_tr.append($temp_tab_td);
                             var $temp_input = $('<input>').attr('type', 'text').addClass('ip-input').attr('name', 'scenario_ip__'+counter);
-                            $temp_div.append($temp_input);
-                            $temp_td.append($temp_div);
+                            var $temp_tab_td=$('<td></td>');
+                            $temp_tab_td.append($temp_input);
+                            $temp_tab_tr.append($temp_tab_td);
+                            $temp_tab.append($temp_tab_tr);
+							$temp_div.append($temp_tab);
+                            $t3_div.append($temp_div);
+                            $t2_div.append($t3_div);
+							$temp_td.append($t2_div);
+
                             $temp_row.append($temp_td);
                             for (var x in data['roles']){
                                 $temp_input = $('<input>').attr('type', 'radio').addClass(data['roles'][x] + '-input').attr('name', 'role-'+counter).data('role', data['roles'][x]).val(data['roles'][x]);
-                                $temp_td = $('<td></td>').append($temp_input);
+                                $temp_td = $('<td align="center"></td>').append($temp_input);
                                 $temp_row.append($temp_td);
                             }
                             $tbody.append($temp_row);
 
                             console.log('input[name=role-'+counter+']');
                             $('input[name=role-'+counter+']').change(function(){
+//                            		$('#'+'node-col-'+counter).collapse('show');
+ 								$(this).parents('tr').find('.collapse').collapse('show');
                                 $(this).parents('tr').find('.hostname-ip-container').removeClass('hidden');
                             });
                             counter = counter + 1;
@@ -388,7 +417,9 @@
                             $tbody.append($temp_row);
                             counter = counter + 1;
                         }
-                        alert('Discovery Complete');
+//                         alert('Discovery Complete');
+						$this.prop('disabled', true);
+                        $this.html('Discovery complete');
                     }
                 });
             });

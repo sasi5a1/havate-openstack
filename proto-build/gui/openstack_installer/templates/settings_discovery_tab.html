@@ -1,44 +1,60 @@
-<div class="row">
-	<div class="form-group col-md-12">
-		<h3 style="padding-bottom:0px;margin-bottom:0px;">System Discovery</h3>
-    	<hr  style="padding-top:0px;margin-top:0px;">
-</div>
-</div>
-<div class="row">
-	<div class="form-group col-md-12">
- 		<div class ="panel panel-default" style ="height:240px;padding:10px;">
- 			<div class="panel-body">
-				<div class="row">
-			  		<div class="form-group col-md-12">
-			        	<span style="font-size:16px;">Enter UCSM username and password this will automatically discover all the UCS blades and C-series servers in the UCS cluster.</span>
+{% load static %}
+<div class="container">
+	<div class="row">
+		<div class="form-group col-md-12">
+				  	<div class="row">
+						<div class="form-group col-sm-6 col-md-6">
+						 	<div class ="panel panel-default" style ="height:100%;padding:2px;">
+		 						<div class="panel-heading">
 
-			  		</div>
-			  	</div>
-			  	<div class="row">
-					<div class="form-group col-sm-4">
-						<label><span>*</span>UCSM IP Address / Hostname:</label>
-						<input type="text" class="form-control input-sm" id="id_ucsm_hostname" name="ucsm_hostname" maxlength="15" value="{{settings_form.ucsm_hostname.value|default_if_none:""}}">
-		  			</div>
+		 						Enter UCSM username and password this will automatically discover all the UCS blades and C-series servers in the UCS cluster.
 
-		  			<div class="form-group col-sm-4">
-						<label><span>*</span>Username:</label>
-						<input type="text" class="form-control input-sm" id="id_username" name="username" maxlength="12" value="{{settings_form.username.value|default_if_none:""}}" placeholder="username">
+		 							</div>
+									<div class="panel-body">
+
+									<table id="tablebl" class="table" >
+								        <tbody>
+								          <tr>
+								            <td>UCSM IP Address / Hostname:<span>*</span></td>
+								            <td><input type="text" class="form-control input-sm" id="id_ucsm_hostname" name="ucsm_hostname" maxlength="15" value="{{settings_form.ucsm_hostname.value|default_if_none:""}}"></td>
+
+								          </tr>
+								          <tr>
+								            <td>Username:<span>*</span></td>
+								            <td><input type="text" class="form-control input-sm" id="id_username" name="username" maxlength="12" value="{{settings_form.username.value|default_if_none:""}}" placeholder="username"></td>
+
+								          </tr>
+								          <tr>
+								            <td>Password:<span>*</span></td>
+								            <td><input type="password" class="form-control input-sm" id="id_password" name="password" maxlength="12" placeholder="password"></td>
+
+								          </tr>
+
+								     		<tr>
+								            <td></td>
+								            <td><button id="run-discovery-button" type="button" class="btn btn-default pull-right">Run Discovery</button></td>
+
+								          </tr>
+								        </tbody>
+								      </table>
+								</div>
+							</div>
+						<div class="form-group col-md-12" style="padding-bottom:20px;">
+ 							<input class="btn btn-default btnWizardPrev pull-left" id="btnWizardPrev" value="Back" type="button">
+		    				<input class="btn btn-primary btnWizardNext pull-right" id="btnWizardNext" value="Next" type="button">
+
+						</div>
+			  			</div>
+			  			<div class="form-group col-sm-6 col-md-6">
+			  			<img class="img-thumbnail" alt="" src="{% static 'img/ucsmgmt.jpg' %}" style="display: inline-block;height: auto;max-width: 100%;">
+				  		</div>
+					</div>
+					<div class="row">
+
 					</div>
 
-		  			<div class="form-group col-sm-4 text-left" >
-						<label><span>*</span>Password:</label>
-						<input type="password" class="form-control input-sm" id="id_password" name="password" maxlength="12" placeholder="password">
-		  			</div>
-					<div class="clearfix"></div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-12">
-						<button id="run-discovery-button" type="button" class="btn btn-default">Run Discovery</button>
-					</div>
-				</div>
-			</div>
 	</div>
-</div>
+	</div>
 </div>
 <!--<section id="wrapper">
     <section class="col-md-9">

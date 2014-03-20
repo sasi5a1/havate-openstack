@@ -1,65 +1,45 @@
 {% load config_extras %}
-<div class="row">
-	<div class="col-md-12">
-		<h3 style="padding-bottom:0px;margin-bottom:0px;">Scenario*</h3>
-		<hr style="padding-top:0px;margin-top:0px;">
-		Based on Selected scenario you can select and assign roles to your servers and also assign hostname and IP address. <br>
-		Note: UCS Service Profile name will be assigned same as host name.<br><br>
+
+	<div class="row">
+			<div class="col-sm-12 col-md-10 col-md-offset-1">
+				<div class ="panel panel-default" style ="height:100%;padding:2px;">
+		 			<div class="panel-heading">
+							Based on Selected scenario you can select and assign roles to your servers and also assign hostname and IP address. <br>
+							Note: UCS Service Profile name will be assigned same as host name.<br>
+					</div>
+					<div class="panel-body">
+						<div class="col-sm-8">
+						<select id="scenario-select" class="form-control input-sm" >
+				        	<option>-----------</option>
+				        	{% for scenario in scenario_list %}
+				        	<option data-name="{{scenario}}" val="{{scenario}}">{{scenario}}</option>
+				        	{% endfor %}
+				      	</select>
+				      	</div>
+				      	<div class="col-sm-4">
+								<button class="btn btn-default" id='clear-scenario-radio-button'> Reset </button>
+				      	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	<div class="row">
+		<div class="table-responsive col-sm-12 col-md-10 col-md-offset-1"  >
+			<table id="scenario-list-table" class="scenario-list-t1 table table-condensed"  >
+		    	<thead>
+		    	</thead>
+			    <tbody>
+			    </tbody>
+		    </table>
+		</div>
 	</div>
-</div>
-<div class="row">
-	<div class="form-group col-sm-12">
-    	<select id="scenario-select" class="form-control input-sm" style="width:50%">
-        	<option>-----------</option>
-        	{% for scenario in scenario_list %}
-        	<option data-name="{{scenario}}" val="{{scenario}}">{{scenario}}</option>
-        	{% endfor %}
-      	</select>
-      	<br>
-      	<button class="btn btn-default" id='clear-scenario-radio-button'> Reset </button>
-      	<br>   <br>
-      	<div id="scenario_alert" style="color:#911B1B;padding:5px;">
-      	</div>
+
+	<div class="row">
+	  	<div class="col-sm-12 col-md-10 col-md-offset-1">
+			<input class="btn btn-default btnWizardPrev pull-left" id="btnWizardPrev" value="Back" type="button">
+			<input class="btn btn-primary btnWizardNext pull-right" id="btnWizardNext" value="Next" type="button">
+		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="table-responsive col-sm-10 "  >
-		<table id="scenario-list-table" class="scenario-list-t1 table table-condensed"  >
-	    	<thead>
-	    	</thead>
-		    <tbody>
-		    </tbody>
-	    </table>
-	</div>
-</div>
-
-<div class="row">
-  	<div class="form-group col-md-12">
-		<input class="btn btn-default btnWizardPrev" id="btnWizardPrev" value="Back" type="button">
-		<input class="btn btn-primary btnWizardNext" id="btnWizardNext" value="Next" type="button">
-	</div>
-</div>
-
-<!--<section id="wrapper" class="open-stack-installer">
-  <section class="row">
-    <section class="col-xs-12">
-      <select id="scenario-select">
-        <option>-----------</option>
-        {% for scenario in scenario_list %}
-        <option data-name="{{scenario}}" val="{{scenario}}">{{scenario}}</option>
-        {% endfor %}
-      </select>
-      <button id='clear-scenario-radio-button'> Reset </button>
-      <table id="scenario-list-table">
-
-        <thead>
-        </thead>
-
-        <tbody>
-        </tbody>
-
-      </table>
-    </section>
-  </section>
-</section>-->
