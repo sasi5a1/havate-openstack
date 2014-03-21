@@ -43,17 +43,6 @@ roles:
       - compute
 EOF
 
-cat > ${path_root}/data/class_groups/build.yaml <<EOF
-classes:
-  - apache
-  - apache::mod::proxy
-  - apache::mod::wsgi
-  - apache::mod::proxy_http
-  - coi::profiles::cobbler_server
-  - coi::profiles::cache_server
-  - coi::profiles::puppet::master
-EOF
-
 cat >> ${path_root}/data/role_mappings.yaml <<EOF
 ${host_name}: all_in_one
 EOF
@@ -206,6 +195,19 @@ if [ ! -d /etc/puppet/data ]; then
 $ipaddress $host_name.$domain_name $hostname
 EOF
 
+  cat >> /etc/network/interfaces <<EOF
+
+auto eth1
+iface eth1 inet static
+      address 0.0.0.0
+EOF
+  ifup eth1
+
+  if [ ! `facter virtual` == 'physical' ] ; then
+   sed -e 's/kvm/qemu/' -i ../data/hiera_data/vendor/cisco_coi_common.yaml
+  fi
+
+  sed -e '/coi::profiles::cobbler_server/d' -i ./install.sh
   bash ./install.sh |& tee /var/log/openstack_install.log
 fi
 
