@@ -152,6 +152,12 @@ if [ ! -f $BASEDIR/proto-build/mini.iso ]; then
     wget -O $BASEDIR/proto-build/mini.iso http://archive.ubuntu.com/ubuntu/dists/precise-updates/main/installer-amd64/current/images/netboot/mini.iso
 fi
 
+# we may as well get a small systems image to run a test script with (assuming
+# an OpenStack targeted deployment
+if [ ! -f $BASEDIR/proto-build/cirros-0.3.2-i386-disk.img ]; then
+  wget -O $BASEDIR/proto-build/cirros-0.3.2-i386-disk.img
+fi
+
 # let us grab some Cisco code
 git clone https://github.com/CiscoSystems/puppet_openstack_builder -b ${BRANCH} $BASEDIR/proto-build/puppet_openstack_builder
 cp $BASEDIR/cisco.install.sh $BASEDIR/proto-build/puppet_openstack_builder/install-scripts/
