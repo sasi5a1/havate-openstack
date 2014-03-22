@@ -185,7 +185,7 @@ fi
 
 cobbler import --path=/cdrom --name=precise --arch=x86_64
 
-sed -e 's/static /static-raw/' -i /gui/gui.conf
+sed -e 's/static /static-raw /' -i /gui/gui.conf
 
 if [ ! -d /etc/puppet/data ]; then
   cd /root/puppet_openstack_builder/install-scripts
@@ -231,3 +231,6 @@ chmod 775 /etc/puppet/data/cobbler/cobbler.yaml
 chown root:www-data /etc/puppet/data/cobbler/cobbler.yaml
 chmod 775 /etc/puppet/data/role_mappings.yaml
 chown root:www-data /etc/puppet/data/role_mappings.yaml
+
+mv /cirros* /root
+sed -e 's/x86_64/i386/' -i /tmp/test_nova.sh
