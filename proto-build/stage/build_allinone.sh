@@ -185,6 +185,8 @@ fi
 
 cobbler import --path=/cdrom --name=precise --arch=x86_64
 
+sed -e 's/static /static-raw/' -i /gui/gui.conf
+
 if [ ! -d /etc/puppet/data ]; then
   cd /root/puppet_openstack_builder/install-scripts
   export scenario=all_in_one
