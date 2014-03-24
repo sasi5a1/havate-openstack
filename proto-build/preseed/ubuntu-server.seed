@@ -101,4 +101,5 @@ in-target chmod 775 -R /gui ; \
 in-target chown -R root:www-data /gui ; \
 in-target /gui/install.sh > /target/var/log/install_sh.log ; \
 in-target apt-get update ; \
+mv /target/etc/init/plymouth.conf /target/etc/init/plymouth.conf.disabled ; \
 true
