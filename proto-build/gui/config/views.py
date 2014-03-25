@@ -45,7 +45,7 @@ class SettingsTextView(TemplateView):
 
 class SettingsView(TemplateView):
 
-    template_name = "settings.html"
+    template_name = "new_template.html"
 
     def get_context_data(self, **kwargs):
         context = super(SettingsView, self).get_context_data(**kwargs)
@@ -72,8 +72,14 @@ class SettingsView(TemplateView):
 
 class SubmitSettingsView(FormView):
 
-    template_name = "settings.html"
+    template_name = "new_template.html"
     form_class = OpenstackSettingsForm
+
+#     # add the request to the kwargs
+#     def get_form_kwargs(self):
+#         kwargs = super(RegisterView, self).get_form_kwargs()
+#         kwargs['request'] = self.request
+#         return kwargs
 
     def form_invalid(self, form):
         return super(SubmitSettingsView, self).form_valid(form)
@@ -96,7 +102,7 @@ class SubmitSettingsView(FormView):
                     hostname = self.request.POST.get('scenario_hostname__'+str(x), "")
                     ip = self.request.POST.get('scenario_ip__'+str(x), "")
                     role = self.request.POST.get('role-'+str(x), "")
-		    pndn = 'sys/chassis-'+self.request.POST.get('chassis_number__'+str(x), 0)+'/blade-'+self.request.POST.get('blade_number__'+str(x), 0)		    
+		    pndn = 'sys/chassis-'+self.request.POST.get('chassis_number__'+str(x), 0)+'/blade-'+self.request.POST.get('blade_number__'+str(x), 0)
                     if hostname and ip and role:
                         iplist[pndn] = {'name': hostname, 'ip':ip, 'role':role, 'type':role}
                 processed_iplist_content['iplist'] = iplist
@@ -149,7 +155,7 @@ class SubmitSettingsView(FormView):
         config_file = open(config_file_path, 'w')
         config_file.write(config_text)
         config_file.close()
-        construct_conf_file(config=config)
+        construct_conf_file(config=config, query_str_dict = self.request.POST)
         return super(SubmitSettingsView, self).form_valid(form)
 
     def get_success_url(self):
@@ -189,6 +195,10 @@ class NodeDiscoveryView(JSONResponseMixin, AjaxResponseMixin, View):
                     for adaptor, adaptor_dict in node_dict['AdaptorUnits'].iteritems():
                         adaptor_type = adaptor_dict['model']
                 html_result += chassis + '/' + node + '<br>'
+                if len(node_dict['assignedToDn']) >0:
+                    html_result += '<span style="background-color:#DD7E7E;;padding:2px;">Service Profile Associated: ' + node_dict['assignedToDn'] + '</span><br>'
+
+
                 html_result += 'CPU: ' + node_dict['numOfCpus'] + '<br>'
                 html_result += 'CPU Type: ' + cpu_type + '<br>'
                 html_result += 'Mem: ' + node_dict['availableMemory'] + '<br>'
@@ -197,13 +207,15 @@ class NodeDiscoveryView(JSONResponseMixin, AjaxResponseMixin, View):
                 html_result += 'Adaptor Type: ' + adaptor_type + '<br>'
 
                 text_result += chassis + '/' + node + '\n'
+                if len(node_dict['assignedToDn']) >0:
+                    text_result += 'Service Profile: ' + node_dict['assignedToDn'] + '\n'
                 text_result += 'CPU: ' + node_dict['numOfCpus'] + '\n'
                 text_result += 'CPU Type: ' + cpu_type + '\n'
                 text_result += 'Mem: ' + node_dict['availableMemory'] + '\n'
                 text_result += 'Disks: ' + str(len(node_dict['StorageUnits'])) + '\n'
                 text_result += 'Adaptors: ' + node_dict['numOfAdaptors'] + '\n'
                 text_result += 'Adaptor Type: ' + adaptor_type + '\n'
-                
+
                 json_list.append([html_result, text_result, chassis.split('-')[1], node.split('-')[1], ], )
         return self.render_json_response(json_list)
 
@@ -237,7 +249,7 @@ class ScenarioDiscoveryView(JSONResponseMixin, AjaxResponseMixin, View):
         with open(scenario_path, 'r') as content_file:
             scenario_content = content_file.read()
         processed_scenario_content = yaml.load(scenario_content)
-        
+
         json_list = []
         for chassis, chassis_dict in processed_content.iteritems():
             for node, node_dict in chassis_dict.iteritems():
@@ -252,6 +264,10 @@ class ScenarioDiscoveryView(JSONResponseMixin, AjaxResponseMixin, View):
                     for adaptor, adaptor_dict in node_dict['AdaptorUnits'].iteritems():
                         adaptor_type = adaptor_dict['model']
                 html_result += chassis + '/' + node + '<br>'
+                if len(node_dict['assignedToDn']) >0:
+                    html_result += '<span style="background-color:#FAFAD2;;;padding:2px;">Service Profile Associated: ' + node_dict['assignedToDn'] + '</span><br>'
+
+
                 html_result += 'CPU: ' + node_dict['numOfCpus'] + '<br>'
                 html_result += 'CPU Type: ' + cpu_type + '<br>'
                 html_result += 'Mem: ' + node_dict['availableMemory'] + '<br>'
@@ -260,13 +276,16 @@ class ScenarioDiscoveryView(JSONResponseMixin, AjaxResponseMixin, View):
                 html_result += 'Adaptor Type: ' + adaptor_type + '<br>'
 
                 text_result += chassis + '/' + node + '\n'
+                if len(node_dict['assignedToDn']) >0:
+                    text_result += 'Service Profile: ' + node_dict['assignedToDn'] + '\n'
+
                 text_result += 'CPU: ' + node_dict['numOfCpus'] + '\n'
                 text_result += 'CPU Type: ' + cpu_type + '\n'
                 text_result += 'Mem: ' + node_dict['availableMemory'] + '\n'
                 text_result += 'Disks: ' + str(len(node_dict['StorageUnits'])) + '\n'
                 text_result += 'Adaptors: ' + node_dict['numOfAdaptors'] + '\n'
                 text_result += 'Adaptor Type: ' + adaptor_type + '\n'
-                
+
                 json_list.append([html_result, text_result, chassis.split('-')[1], node.split('-')[1], ], )
 
         role_list = []

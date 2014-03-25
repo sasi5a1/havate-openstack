@@ -1,43 +1,116 @@
-  <div class="form-group col-md-6">
-      <label>MAC Pool:</label>
-      <input type="hidden" id="id_mac_pool" name="mac_pool" value="{{settings_form.mac_pool.value|default_if_none:""}}" >
-			<div class="input-group input-group-sm">
-				<span class="input-group-addon">00:25:B5:</span>
-				<input type="text" class="form-control short-mac-input fst" maxlength="2">
-				<span class="input-group-addon">:</span>
-				<input type="text" class="form-control short-mac-input snd" maxlength="2">
-				<span class="input-group-addon">:</span>
-				<input type="text" class="form-control short-mac-input trd" maxlength="2">
+<div  style ="height:180px;">
+
+	<div class="row">
+    	<div class="form-group col-md-12">
+			<h3 style="padding-bottom:0px;margin-bottom:0px;">System Info</h3>
+	    	<hr  style="padding-top:0px;margin-top:0px;">
+			<span style="font-weight:bold">MacPool</span>- this is the Mac address which it automatically assign to the servers.<br>
+			<span style="font-weight:bold">KVM</span>-If you do not have KVM pool configured this will configure KVM pool for your UCS cluster which enabled KVM access to UCS servers.
+   		</div>
+	</div>
+
+	<div class="row">
+		<div class="panel panel-default col-md-5 text-left" style="margin:10px;">
+			<div class="panel-body">
+
+				<div class="row">
+		   			<div class="form-group col-md-6">
+		      			<label>MAC Pool:</label>
+		     			 <input type="hidden" id="id_mac_pool" name="mac_pool" value="{{settings_form.mac_pool.value|default_if_none:""}}" >
+						<div class="input-group input-group-sm" style="width:250px;">
+							<span class="input-group-addon">00:25:B5:</span>
+							<input type="text" class="form-control short-mac-input fst" maxlength="2" style="height:30px;padding:2px;margin:0px;">
+							<span class="input-group-addon">:</span>
+							<input type="text" class="form-control short-mac-input snd" maxlength="2" style="height:30px;padding:2px;margin:0px;">
+							<span class="input-group-addon">:</span>
+							<input type="text" class="form-control short-mac-input trd" maxlength="2" style="height:30px;padding:2px;margin:0px;">
+						</div>
+		  			</div>
+		  			<div class="form-group col-md-6">
+		      			<label><span>*</span>Size:</label>
+		      			<input type="text" class="form-control input-sm" style="height:30px;" id="id_mac_pool_size" name="mac_pool_size" maxlength="3" value="{{settings_form.mac_pool_size.value|default_if_none:""}}">
+		  			</div>
+				</div>
+
+				<div class="row">
+	  				<div class="form-group col-md-12">
+	      				<label>DNS:</label>
+	      				<input type="text" class="form-control input-sm input-not-required ip-field" name="dns" value="{{settings_form.dns.value|default_if_none:""}}">
+	  				</div>
+				<div class="clearfix"></div>
+				</div>
+
 			</div>
-  </div>
-  <div class="form-group col-md-6" style="margin-left:20px;">
-      <label><span>*</span>Size:</label>
-      <input type="text" class="form-control input-sm" id="id_mac_pool_size" name="mac_pool_size" maxlength="3" value="{{settings_form.mac_pool_size.value|default_if_none:""}}">
-  </div>
+	  	</div>
+
+		<div id="kvm_pool" style="display:none;margin:10px;" class="col-md-5 panel panel-default text-left">
+	 	<div class="panel-body">
+	 		<div class="row">
+		  		<div class="form-group col-md-6">
+		      		<label>KVM IP Pool:</label>
+		      		<input type="text" class="form-control input-sm ip-field" id="id_kvm_ip_pool" name="kvm_ip_pool" value="{{settings_form.kvm_ip_pool.value|default_if_none:""}}">
+		  		</div>
+		  		<div class="form-group col-md-6" >
+		      		<label><span> </span>Size:</label>
+		      		<input type="text" class="form-control input-sm" name="kvm_ip_pool_size" maxlength="3" value="{{settings_form.kvm_ip_pool_size.value|default_if_none:""}}">
+		  		</div>
+	  		</div>
+			<div class="clearfix"></div>
+
+	 		<div class="row">
+		  		<div class="form-group col-md-6">
+		      		<label><span>*</span>Default Gateway:</label>
+		      		<input type="text" class="form-control input-sm ip-field" id="id_default_gateway" name="default_gateway" value="{{settings_form.default_gateway.value|default_if_none:""}}">
+		  		</div>
+		  		<div class="form-group col-md-6">
+		      		<label><span>*</span>Subnet Mask:</label>
+		      		<input type="text" class="form-control input-sm ip-field" id="id_subnet_mask" name="subnet_mask" value="{{settings_form.subnet_mask.value|default_if_none:""}}">
+		  		</div>
+		  		<div class="clearfix"></div>
+	 		</div>
+
+	   </div>
+	   </div>
+	</div>
+
+
+
+
 	<div class="clearfix"></div>
-  <div class="form-group col-md-6">
-      <label>KVM IP Pool:</label>
-      <input type="text" class="form-control input-sm ip-field" id="id_kvm_ip_pool" name="kvm_ip_pool" value="{{settings_form.kvm_ip_pool.value|default_if_none:""}}">
-  </div>
-  <div class="form-group col-md-6" style="margin-left:20px;">
-      <label><span> </span>Size:</label>
-      <input type="text" class="form-control input-sm" name="kvm_ip_pool_size" maxlength="3" value="{{settings_form.kvm_ip_pool_size.value|default_if_none:""}}">
-  </div>
-	<div class="clearfix"></div>
-  <div class="form-group col-md-6">
-      <label><span>*</span>Default Gateway:</label>
-      <input type="text" class="form-control input-sm ip-field" id="id_default_gateway" name="default_gateway" value="{{settings_form.default_gateway.value|default_if_none:""}}">
-  </div>
-  <div class="form-group col-md-6" style="margin-left:20px;">
-      <label><span>*</span>Subnet Mask:</label>
-      <input type="text" class="form-control input-sm ip-field" id="id_subnet_mask" name="subnet_mask" value="{{settings_form.subnet_mask.value|default_if_none:""}}">
-  </div>
-  <div class="form-group col-md-6">
-      <label>DNS:</label>
-      <input type="text" class="form-control input-sm input-not-required ip-field" name="dns" value="{{settings_form.dns.value|default_if_none:""}}">
-  </div>
-	<div class="clearfix"></div>
-	<h1>Service Profile Prefix</h1>
+
+	<div class="row">
+  		<div class="form-group col-md-12">
+      		<label>Do you want to Configure KVM IP Pool ?</label>
+			<input type="radio" name="kvm-config" id="kvm-config1" value="1" style="margin-left:20px;padding-right:20px;" onclick="javascript:kvm_radio();" /> Yes
+			<input type="radio" name="kvm-config" id="kvm-config2" value="2" style="margin-left:20px;padding-right:20px;" onclick="javascript:kvm_radio();" checked /> No
+  		</div>
+
+		<div class="clearfix"></div>
+	</div>
+
+
+
+  	<div class="row" style="padding-top:20px;">
+	  	<div class="form-group col-md-12">
+			<input class="btn btn-default btnWizardPrev" style="margin-left:20px;" id="btnWizardPrev" value="Back" type="button">
+	    	<input class="btn btn-primary btnWizardNext" style="margin-left:20px;" id="btnWizardNext" value="Next" type="button">
+		</div>
+	</div>
+</div>
+{% block extra_js %}
+<script>
+function kvm_radio(){
+      if($('#kvm-config1').is(':checked')) {
+		$('#kvm_pool').show();
+      }
+      else
+      {
+      $('#kvm_pool').hide();
+      }
+  }
+</script>
+{% endblock extra_js %}
+	<!-- <h1>HOSTNAME PREFIX</h1>
 	<br>
 	<div class="clearfix"></div>
   <div class="form-group col-md-6">
@@ -48,7 +121,7 @@
       <label><span>*</span>Swift Nodes:</label>
       <input type="text" class="form-control input-sm" name="hostname_prefix_swift_nodes" value="{{settings_form.hostname_prefix_swift_nodes.value|default_if_none:""}}">
   </div>
-	<div class="clearfix"></div>
+	<div class="clearfix"></div> -->
 
 <!--<section id="wrapper" class="open-stack-installer">
   <section class="row">

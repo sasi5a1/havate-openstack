@@ -18,6 +18,7 @@ if [ -z ${domain_name} ] ; then
   domain_name='domain.name'
 fi
 mac_address=`ifconfig eth0 | grep HWaddr | awk -F' ' '{print $5}'`
+ntp_server=`grep server /etc/ntp.conf | head -1 | awk -F' ' '{print $2}'`
 
 cat > ${path_root}/data/scenarios/build.yaml <<EOF
 roles:
@@ -28,6 +29,7 @@ roles:
       - apache::mod::wsgi
       - apache::mod::proxy_http
       - coi::profiles::cobbler_server
+      - coi::profiles::cache_server
       - coi::profiles::puppet::master
 EOF
 
@@ -77,7 +79,6 @@ netcfg/get_ipaddress={\$eth0_ip-address} \\
 netcfg/get_gateway=${gateway} \\
 netcfg/disable_autoconfig=true \\
 netcfg/dhcp_options=\\"Configure network manually\\" \\
-netcfg/no_default_route=true \\
 partman-auto/disk=/dev/sda \\
 netcfg/get_netmask=${netmask} \\
 netcfg/dhcp_failed=true"
@@ -134,32 +135,74 @@ d-i user-setup/encrypt-home boolean false
 d-i grub-installer/only_debian boolean true
 d-i finish-install/reboot_in_progress note
 d-i pkgsel/update-policy select none
-d-i pkgsel/include string openssh-server puppet git acpid
-d-i preseed/early_command string wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/pre/system/\$system_name 
+d-i pkgsel/include string openssh-server puppet git acpid vim vlan lvm2 ntp rubygems
+d-i preseed/early_command string wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/pre/system/\$system_name
 d-i preseed/late_command string \\
 in-target /usr/bin/apt-get update;\\
-in-target puppet agent --test --waitforcert 0 || true; \\
-/sbin/lvremove -f cinder-volumes/hack; rmdir /tmp/hack ; \\
 sed -e 's/START=no/START=yes/' -i /target/etc/default/puppet ; \\
-if [ "\`debconf-get netcfg/no_default_route\`" = "true" ] ; then in-target sed -i.bak -e '/^\tgateway /d' /etc/network/interfaces; fi ; \\
+sed -e "/logdir/ a pluginsync=true" -i /target/etc/puppet/puppet.conf ; \\
+sed -e "/logdir/ a server=$host_name.$domain_name" -i /target/etc/puppet/puppet.conf ; \\
+in-target ntpdate $ntp_server; \\
+in-target hwclock --systohc --utc ; \\
+mkdir -p /target/var/www/ubuntu ; \\
+wget -O - http://\$http_server/ubuntu/mirror.tar | tar xf - -C /target/var/www/ubuntu/ ; \\
+echo 'deb file:/var/www/ubuntu precise main' > /target/etc/apt/sources.list ; \\
+sed -e 's/\(%sudo.*\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \\
+in-target /usr/bin/apt-get update; \\
+echo -e "server $host_name.$domain_name iburst" > /target/etc/ntp.conf ; \\
+echo -e "8021q\n\\
+vhost_net" >> /target/etc/modules ; \\
+sed -e "s/^ //g" -i /target/etc/modules ; \\
+echo "no bonding configured" ; \\
+echo "net.ipv6.conf.default.autoconf=0" >> /target/etc/sysctl.conf ; \\
+echo "net.ipv6.conf.default.accept_ra=0" >> /target/etc/sysctl.conf ; \\
+echo "net.ipv6.conf.all.autoconf=0" >> /target/etc/sysctl.conf ; \\
+echo "net.ipv6.conf.all.accept_ra=0" >> /target/etc/sysctl.conf ; \\
+echo -e " \n\
+auto eth1\n\\
+iface eth1 inet static\n\\
+  address 0.0.0.0\n\\
+  netmask 255.255.255.255\n\\
+\n\\
+" >> /target/etc/network/interfaces ; \\
+sed -e "s/^ //g" -i /target/etc/network/interfaces ; \\
+ \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/nopxe/system/\$system_name ; \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/post/system/\$system_name ; \\
 true
 EOF
 
+
+if [ -d /cdrom ]; then
+  cd /cdrom
+  tar cf /tmp/mirror.tar *
+  mv /tmp/mirror.tar /cdrom/
+else
+  cd /var/www/ubuntu
+  tar xf /var/www/mirror.tar
+fi
+
 cobbler import --path=/cdrom --name=precise --arch=x86_64
 
+sed -e 's/^\(.*- coe::base\)/#\1/' -i $path_root/data/scenarios/2_role.yaml
+
 if [ ! -d /etc/puppet/data ]; then
-  cd ${path_root}/install-scripts
-  export scenario=build
+  cd /root/puppet_openstack_builder/install-scripts
+  export scenario=2_role
   export vendor=cisco
-./install.sh |& tee /var/log/openstack_install.log
+
+  cat >> /etc/hosts <<EOF
+127.0.1.1 $host_name.$domain_name $hostname
+$ipaddress $host_name.$domain_name $hostname
+EOF
+
+  bash ./install.sh |& tee /var/log/openstack_install.log
 fi
 
 puppet apply -v /etc/puppet/manifests/site.pp |& tee /var/log/openstack_puppet.log
 
 if [ $? == 0 ] ; then
-  sed -e '/.*build_install.sh.*/d' -i /etc/rc.local
+  sed -e '/.*onboot.sh.*/d' -i /etc/rc.local
 fi
 
 # re-build the initrd to make sure the proper gpg key exists.

@@ -13,8 +13,17 @@
 #
 
 set -x
+# Deployment Target
+# Supported optiosn are build, all_in_one, and eventually compact_ha
+TARGET=${TARGET:-build}
+
+
 # The Base Directory, assumes you git-cloned the script as root
-BASEDIR="/root/havate-openstack"
+if [ -f ./$0 ] ; then
+BASEDIR="$PWD"
+else
+BASEDIR="${BASEDIR:-'/root/havate-openstack'}"
+fi
 
 # This directory will contain additional files and directories
 # that need to be copied over to the root directory of the
@@ -146,6 +155,13 @@ fi
 # let us grab some Cisco code
 git clone https://github.com/CiscoSystems/puppet_openstack_builder -b ${BRANCH} $BASEDIR/proto-build/puppet_openstack_builder
 cp $BASEDIR/cisco.install.sh $BASEDIR/proto-build/puppet_openstack_builder/install-scripts/
+
+# What do we need to do for our TARGET use case
+if [ $TARGET == 'all_in_one' ] ; then
+  cp $BASEDIR/proto-build/stage/build_allinone.sh $BASEDIR/proto-build/gui/onboot.sh
+else
+  cp $BASEDIR/proto-build/stage/build_build.sh $BASEDIR/proto-build/gui/onboot.sh
+fi
 
 # Create a few directories.
 if [ ! -d $BASEDIR ]; then mkdir -p $BASEDIR; fi

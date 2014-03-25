@@ -152,6 +152,7 @@ def getNodeInventory(inUcsmHost, inUserName, inPassword):
             computeNode['numOfEthHostIfs'] = computeBlade.getattr(ComputeBlade.NUM_OF_ETH_HOST_IFS)
             computeNode['numOfFcHostIfs'] = computeBlade.getattr(ComputeBlade.NUM_OF_FC_HOST_IFS)
             computeNode['numOfThreads'] = computeBlade.getattr(ComputeBlade.NUM_OF_THREADS)
+            computeNode['assignedToDn'] = computeBlade.getattr(ComputeBlade.ASSIGNED_TO_DN)
 
             # get cpu inventory
             processorUnits = getProcessorUnitInventory(handle, computeBlade)

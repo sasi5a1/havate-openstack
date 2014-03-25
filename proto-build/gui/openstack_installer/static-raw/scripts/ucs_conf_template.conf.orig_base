@@ -2,11 +2,12 @@
 OrgOrg {'Name':'Production', 'ParentDn':'org-root'}
 
 #MacPool {'Name':'compute-nics', 'From':'00:25:B5:F2:00:00', 'To':'00:25:B5:F2:00:FF'}
-MacPool {'Name':'aio-nics', 'From':'00:25:B5:a0:00:00', 'To':'00:25:B5:A0:00:32'}
+MacPool {'Name':'aio-nics', 'From':'00:25:B5:F2:00:00', 'To':'00:25:B5:F2:00:FF'}
 
 #IpPool {'Name':'compute-nodes-ip', 'From':'172.20.231.49', 'To':'172.20.231.67', 'DefGw':'172.20.231.1', 'PrimDns':'172.29.74.154', 'SecDns':'172.29.74.155', 'Subnet':'255.255.255.128'}
 #IpPool {'Name':'aio-nodes-ip', 'From':'172.20.231.68', 'To':'172.20.231.71', 'DefGw':'172.20.231.1', 'PrimDns':'172.29.74.154', 'SecDns':'172.29.74.155', 'Subnet':'255.255.255.128'}
 #ext-mgmt is used to assign ips for physical servers
+IpPool {'Name':'ext-mgmt', 'From':'172.20.231.89', 'To':'172.20.231.104', 'DefGw':'172.20.231.1', 'PrimDns':'172.29.74.154', 'SecDns':'172.29.74.155', 'Subnet':'255.255.255.128'}
 
 # Storage LocalDiskConfigurationPolicy
 StorageLocalDiskConfigPolicy { 'Name':'os-nodes', 'Mode':'no-raid', 'ProtectConfig':'no'}
@@ -17,7 +18,7 @@ LsbootPolicy {'Name': 'aio-node', 'Purpose': 'operational', 'RebootOnUpdate':'no
 
 #ServiceProfile Template
 #ServiceProfile {'Name':'aio-node', 'Type':'updating-template', 'BootPolicyName':'aio-node', 'Uuid':'derived', 'HostFwPolicyName':'default', 'ScrubPolicyName':'aio-nodes', 'ExtIPPoolName':'aio-nodes-ip', 'LocalDiskPolicyName': 'os-nodes'}
-ServiceProfile {'Name':'aio-node', 'Type':'updating-template', 'BootPolicyName':'aio-node', 'Uuid':'derived', 'HostFwPolicyName':'default', 'ScrubPolicyName':'aio-nodes', 'LocalDiskPolicyName': 'os-nodes'}
+ServiceProfile {'Name':'aio-node', 'Type':'updating-template', 'BootPolicyName':'aio-node', 'Uuid':'derived', 'HostFwPolicyName':'default', 'ScrubPolicyName':'aio-nodes', 'LocalDiskPolicyName': 'os-compute-nodes'}
 
 ServiceProfile {'Name':'compute-node', 'Type':'updating-template', 'BootPolicyName':'default', 'Uuid':'derived', 'HostFwPolicyName':'default', 'ScrubPolicyName':'compute-nodes', 'ExtIPPoolName':'compute-nodes-ip', 'LocalDiskPolicyName': 'os-compute-nodes'}
 
@@ -36,8 +37,8 @@ ServiceProfile {'Name':'compute-node', 'Type':'updating-template', 'BootPolicyNa
 
 #UplinkPort {'SwitchId':'A', 'SlotId':'1', 'PortId':'19', 'AdminSpeed':'1gbps'}
 
-Vlan { 'Name':'Mgmt', 'SwitchId':'dual', 'Id': '10', 'Sharing':'none', 'DefaultNet':'no'}
-Vlan { 'Name':'Pxe', 'SwitchId':'dual', 'Id': '13', 'Sharing':'none', 'DefaultNet':'no'}
+Vlan { 'Name':'Mgmt', 'SwitchId':'dual', 'Id': '756', 'Sharing':'none', 'DefaultNet':'no'}
+Vlan { 'Name':'Pxe', 'SwitchId':'dual', 'Id': '757', 'Sharing':'none', 'DefaultNet':'no'}
 
 Vnic { 'Name':'eth0', 'IdentPoolName':'aio-nics', 'VlanName':'Mgmt', 'SwitchId':'A', 'LsServer':'compute-node', 'DefaultNet':'yes'}
 Vnic { 'Name':'eth0', 'IdentPoolName':'aio-nics', 'VlanName':'Mgmt', 'SwitchId':'A', 'LsServer':'aio-node', 'DefaultNet':'yes', 'Order':'1'}
@@ -75,7 +76,7 @@ ScrubPolicy {'Name':'aio-nodes', 'BiosSettingsScrub':'no', 'DiskScrub':'yes'}
 #ServiceProfileInstance {'SrcTempl':'swiftproxy-node', 'NamePrefix':'alpha-swiftproxy0', 'NumberOf':'2', "TargetOrg":"org-root/org-Production"}
 
 #Create service-profile Binding.
-LsServerBinding {'Org':'org-root', 'Name':'aio-03-96', 'SrcTemplName':'aio-node', 'PnDn':'sys/chassis-1/blade-3'}
+LsServerBinding {'Org':'org-root', 'Name':'allinone4', 'SrcTemplName':'aio-node', 'PnDn':'sys/chassis-1/blade-4'}
 
 # create server-ports.
 # server-prots config goes here.

@@ -1,19 +1,45 @@
-  <div class="form-group col-md-12">
-        <label><span>*</span>UCSM IP Address / Hostname:</label>
-			<input type="text" class="form-control input-sm" id="id_ucsm_hostname" name="ucsm_hostname" maxlength="15" value="{{settings_form.ucsm_hostname.value|default_if_none:""}}">
-  </div>
-	<div class="clearfix"></div>
-  <div class="form-group col-md-6">
-			<label><span>*</span>Username:</label>
-		<input type="text" class="form-control input-sm" id="id_username" name="username" maxlength="12" value="{{settings_form.username.value|default_if_none:""}}" placeholder="username">
-  </div>
-  <div class="form-group col-md-6" style="margin-left:20px;">
-			<label><span>*</span>Password:</label>
-		<input type="password" class="form-control input-sm" id="id_password" name="password" maxlength="12" placeholder="password">
-  </div>
-	<div class="clearfix"></div>
-	<button id="run-discovery-button" type="button" class="btn btn-default">Run Discovery</button>
+<div class="row">
+	<div class="form-group col-md-12">
+		<h3 style="padding-bottom:0px;margin-bottom:0px;">System Discovery</h3>
+    	<hr  style="padding-top:0px;margin-top:0px;">
+</div>
+</div>
+<div class="row">
+	<div class="form-group col-md-12">
+ 		<div class ="panel panel-default" style ="height:240px;padding:10px;">
+ 			<div class="panel-body">
+				<div class="row">
+			  		<div class="form-group col-md-12">
+			        	<span style="font-size:16px;">Enter UCSM username and password this will automatically discover all the UCS blades and C-series servers in the UCS cluster.</span>
 
+			  		</div>
+			  	</div>
+			  	<div class="row">
+					<div class="form-group col-sm-4">
+						<label><span>*</span>UCSM IP Address / Hostname:</label>
+						<input type="text" class="form-control input-sm" id="id_ucsm_hostname" name="ucsm_hostname" maxlength="15" value="{{settings_form.ucsm_hostname.value|default_if_none:""}}">
+		  			</div>
+
+		  			<div class="form-group col-sm-4">
+						<label><span>*</span>Username:</label>
+						<input type="text" class="form-control input-sm" id="id_username" name="username" maxlength="12" value="{{settings_form.username.value|default_if_none:""}}" placeholder="username">
+					</div>
+
+		  			<div class="form-group col-sm-4 text-left" >
+						<label><span>*</span>Password:</label>
+						<input type="password" class="form-control input-sm" id="id_password" name="password" maxlength="12" placeholder="password">
+		  			</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-12">
+						<button id="run-discovery-button" type="button" class="btn btn-default">Run Discovery</button>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>
+</div>
 <!--<section id="wrapper">
     <section class="col-md-9">
       <section class="col-md-6">
