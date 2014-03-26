@@ -43,17 +43,6 @@ roles:
       - compute
 EOF
 
-cat > ${path_root}/data/class_groups/build.yaml <<EOF
-classes:
-  - apache
-  - apache::mod::proxy
-  - apache::mod::wsgi
-  - apache::mod::proxy_http
-  - coi::profiles::cobbler_server
-  - coi::profiles::cache_server
-  - coi::profiles::puppet::master
-EOF
-
 cat >> ${path_root}/data/role_mappings.yaml <<EOF
 ${host_name}: all_in_one
 EOF
@@ -160,16 +149,15 @@ d-i pkgsel/update-policy select none
 d-i pkgsel/include string openssh-server puppet git acpid vim vlan lvm2 ntp rubygems
 d-i preseed/early_command string wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/pre/system/\$system_name 
 d-i preseed/late_command string \\
-in-target /usr/bin/apt-get update;\\
 sed -e 's/START=no/START=yes/' -i /target/etc/default/puppet ; \\
 sed -e "/logdir/ a pluginsync=true" -i /target/etc/puppet/puppet.conf ; \\
-sed -e "/logdir/ a server=$host_name.$domain_name" -i /target/etc/puppet/puppet.conf ; \\
+sed -e "/logdir/ a server=\$host_name.\$domain_name" -i /target/etc/puppet/puppet.conf ; \\
 in-target ntpdate $ntp_server ; \\
 in-target hwclock --systohc --utc ; \\
 mkdir -p /target/var/www/ubuntu ; \\
-wget -O - http://$http_server/ubuntu/mirror.tar | tar xf - -C /target/var/www/ubuntu/ ; \\
-wget -O /target/var/www/mirror.tar http://\$http_server/mirror.tar ; \\
-tar xf /target/var/www/mirror.tar -C /target/var/www/ubuntu ; \\
+wget -O - http://\$http_server/ubuntu/mirror.tar | tar xf - -C /target/var/www/ubuntu/ ; \\
+#wget -O /target/var/www/mirror.tar http://\$http_server/ubuntu/mirror.tar ; \\
+#tar xf /target/var/www/mirror.tar -C /target/var/www/ubuntu ; \\
 echo 'deb file:/var/www/ubuntu precise main' > /target/etc/apt/sources.list ; \\
 in-target /usr/bin/apt-get update; \\
 in-target cp /var/www/ubuntu/gui/onboot.sh /root/onboot.sh ; \\
@@ -182,6 +170,7 @@ sed -e 's/\\(%sudo.*\\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \\
 sed -e '/^exit 0/i /root/onboot.sh | tee /var/log/build_install.log' -i /target/etc/rc.local ; \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/nopxe/system/\$system_name ; \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/post/system/\$system_name ; \\
+mv /target/etc/init/plymouth.conf /target/etc/init/plymouth.conf.disabled ; \\
 true
 EOF
 
@@ -196,6 +185,8 @@ fi
 
 cobbler import --path=/cdrom --name=precise --arch=x86_64
 
+sed -e 's/static /static-raw /' -i /gui/gui.conf
+
 if [ ! -d /etc/puppet/data ]; then
   cd /root/puppet_openstack_builder/install-scripts
   export scenario=all_in_one
@@ -206,6 +197,19 @@ if [ ! -d /etc/puppet/data ]; then
 $ipaddress $host_name.$domain_name $hostname
 EOF
 
+  cat >> /etc/network/interfaces <<EOF
+
+auto eth1
+iface eth1 inet static
+      address 0.0.0.0
+EOF
+  ifup eth1
+
+  if [ ! `facter virtual` == 'physical' ] ; then
+   sed -e 's/kvm/qemu/' -i ../data/hiera_data/vendor/cisco_coi_common.yaml
+  fi
+
+  sed -e '/coi::profiles::cobbler_server/d' -i ./install.sh
   bash ./install.sh |& tee /var/log/openstack_install.log
 fi
 
@@ -227,3 +231,6 @@ chmod 775 /etc/puppet/data/cobbler/cobbler.yaml
 chown root:www-data /etc/puppet/data/cobbler/cobbler.yaml
 chmod 775 /etc/puppet/data/role_mappings.yaml
 chown root:www-data /etc/puppet/data/role_mappings.yaml
+
+mv /cirros* /root
+sed -e 's/x86_64/i386/' -i /tmp/test_nova.sh

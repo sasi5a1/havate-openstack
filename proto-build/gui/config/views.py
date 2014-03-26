@@ -167,10 +167,13 @@ class NodeDiscoveryView(JSONResponseMixin, AjaxResponseMixin, View):
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         script_path = os.path.join(settings.PROJECT_PATH, 'static-raw', 'scripts', 'NodeInventory.py')
+        print script_path
+        print '*'*50
         try:
             subprocess.call(['python', script_path , '-i' , hostname , '-u' , username , '-p', password,])
         except Exception, e:
             pass
+        print os.path.join('python', script_path , '-i' , hostname , '-u' , username , '-p', password)
         #file_path = os.path.join('.', hostname+'_inventory.yaml')
         #file_path = os.path.join(settings.PROJECT_PATH, '..', hostname+'_invenotry.yaml')
         #file_path = os.path.join(settings.PROJECT_PATH, 'static-raw', 'scripts', '10.1.1.130_invenotry.yaml') #debug file
@@ -178,9 +181,9 @@ class NodeDiscoveryView(JSONResponseMixin, AjaxResponseMixin, View):
         content = ""
         with open(file_path, 'r') as content_file:
             content = content_file.read()
-        #print content
+#         print content
         processed_content = yaml.load(content)
-        #print processed_content
+#         print processed_content
         json_list = []
         for chassis, chassis_dict in processed_content.iteritems():
             for node, node_dict in chassis_dict.iteritems():
@@ -196,7 +199,7 @@ class NodeDiscoveryView(JSONResponseMixin, AjaxResponseMixin, View):
                         adaptor_type = adaptor_dict['model']
                 html_result += chassis + '/' + node + '<br>'
                 if len(node_dict['assignedToDn']) >0:
-                    html_result += '<span style="background-color:#DD7E7E;;padding:2px;">Service Profile Associated: ' + node_dict['assignedToDn'] + '</span><br>'
+                    html_result += 'Service Profile Associated: ' + node_dict['assignedToDn'] + '<br>'
 
 
                 html_result += 'CPU: ' + node_dict['numOfCpus'] + '<br>'
@@ -265,7 +268,7 @@ class ScenarioDiscoveryView(JSONResponseMixin, AjaxResponseMixin, View):
                         adaptor_type = adaptor_dict['model']
                 html_result += chassis + '/' + node + '<br>'
                 if len(node_dict['assignedToDn']) >0:
-                    html_result += '<span style="background-color:#FAFAD2;;;padding:2px;">Service Profile Associated: ' + node_dict['assignedToDn'] + '</span><br>'
+                    html_result += 'Service Profile Associated: ' + node_dict['assignedToDn'] + '<br>'
 
 
                 html_result += 'CPU: ' + node_dict['numOfCpus'] + '<br>'

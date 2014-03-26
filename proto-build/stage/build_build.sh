@@ -169,6 +169,7 @@ sed -e "s/^ //g" -i /target/etc/network/interfaces ; \\
  \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/nopxe/system/\$system_name ; \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/post/system/\$system_name ; \\
+mv /target/etc/init/plymouth.conf /target/etc/init/plymouth.conf.disabled ; \\
 true
 EOF
 

@@ -6,7 +6,7 @@ from config.views import HomePageView, SettingsView, NodeDiscoveryView, Scenario
 urlpatterns = patterns('',
     # url(r'^$', 'app_name.views.home', name='home'),
     # url(r'^openstack_installer/', include('openstack_installer.foo.urls')),
-    url(r'^$', HomePageView.as_view(), name='home'),
+    url(r'^$', SettingsView.as_view(), name='home'),
     url(r'^settings/$', SettingsView.as_view(), name='settings'),
     url(r'^submit_settings/$', SubmitSettingsView.as_view(), name='submit_settings'),
     url(r'^settings_text_view/$', SettingsTextView.as_view(), name='settings_text_view'),

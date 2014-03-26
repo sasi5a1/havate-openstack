@@ -22,7 +22,7 @@ TARGET=${TARGET:-build}
 if [ -f ./$0 ] ; then
 BASEDIR="$PWD"
 else
-BASEDIR="${BASEDIR:-'/root/havate-openstack'}"
+BASEDIR="${BASEDIR:-/root/havate-openstack}"
 fi
 
 # This directory will contain additional files and directories
@@ -37,7 +37,7 @@ SEEDFILE="ubuntu-server.seed"
 # Ubuntu ISO image
 RELEASE="precise"
 CDISO="ubuntu-12.04.4-server-amd64.iso"
-CDIMAGE="$BASEDIR/$CDISO"
+CDIMAGE=$BASEDIR/$CDISO
 
 # OpenStack install branch
 BRANCH="havana"
@@ -150,6 +150,12 @@ fi
 
 if [ ! -f $BASEDIR/proto-build/mini.iso ]; then
     wget -O $BASEDIR/proto-build/mini.iso http://archive.ubuntu.com/ubuntu/dists/precise-updates/main/installer-amd64/current/images/netboot/mini.iso
+fi
+
+# we may as well get a small systems image to run a test script with (assuming
+# an OpenStack targeted deployment
+if [ ! -f $BASEDIR/proto-build/cirros-0.3.2-i386-disk.img ]; then
+  wget -O $BASEDIR/proto-build/cirros-0.3.2-i386-disk.img
 fi
 
 # let us grab some Cisco code
