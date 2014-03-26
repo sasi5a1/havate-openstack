@@ -1,0 +1,43 @@
+
+<!-- -->
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a class="incomplete-tab" href="#settings-discovery" data-toggle="tab"><span class="incomplete-input">*</span>System Discovery</a></li>
+      <li><a class="incomplete-tab" href="#settings-sysinfo" data-toggle="tab"><span class="incomplete-input">*</span>System Info</a></li>
+      <li><a class="incomplete-tab" href="#settings-network" data-toggle="tab"><span class="incomplete-input">*</span>Network Info</a></li>
+      <li id="scenario-tab-name">
+          <a class="incomplete-tab" href="#settings-scenario" data-toggle="tab"><span class="incomplete-input">*</span>Scenario</a>
+      </li>
+      
+      <li><a id="settings-summary-tab" href="#settings-summary" data-toggle="tab">Summary</a></li>
+    </ul>
+    <form method=POST action="{% url 'submit_settings' %}">
+      {% csrf_token %}
+      <input type='hidden' value="scenario" id="summary-table-settings" name="summary-table-settings">
+      <div class="tab-content">
+        
+        <div class="tab-pane active" id="settings-discovery">
+              {% include "settings_discovery_tab.html" %}
+        </div>
+        <div class="tab-pane" id="settings-scenario">
+              {% include "settings_scenario_tab.html" %}
+        </div>
+        
+        <div class="tab-pane" id="settings-network">
+              {% include "settings_network_tab.html" %}
+        </div>
+        <div class="tab-pane" id="settings-sysinfo">
+              {% include "settings_sysinfo_tab.html" %}
+        </div>
+        {% comment %}
+        
+        {% endcomment %}
+        <div class="tab-pane" id="settings-summary">
+              <div class="container" id="summary-content">
+              </div>
+              <div class="container">
+                <button type=submit class='btn btn-primary' id="deploy-button"> Deploy </button>
+              </div>
+        </div>
+      </div>
+    </form>

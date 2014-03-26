@@ -1,0 +1,10 @@
+iplist:
+
+nodetypes:
+  all_in_one:
+  compute:
+  control:
+
+profilemap:
+  all_in_one: precise
+  compute: default

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+
+<div class="wizard-holder" style='margin:10px 0px'></div>
+
+<div class="wizard" id="installation-wizard" data-title="Installation Wizard">
+
+			<!-- Step 1 System Discovery * -->
+			<div class="wizard-card wizard-card-overlay" data-cardname="system_discovery">
+				<h3>System Discovery *</h3>
+
+				{% csrf_token %}
+				<input type='hidden' value="scenario" id="summary-table-settings" name="summary-table-settings">
+				{% include "settings_discovery_tab.html" %}
+
+			</div>
+
+			<div class="wizard-card wizard-card-overlay" data-cardname="system_info">
+				<h3>System Info *</h3>
+
+              {% include "settings_sysinfo_tab.html" %}
+			</div>
+
+			<div class="wizard-card wizard-card-overlay" data-cardname="network_info">
+				<h3>Network Info *</h3>
+
+
+						{% include "settings_network_tab.html" %}
+			</div>
+
+			<div class="wizard-card wizard-card-overlay" data-onload="" data-cardname="scenario">
+				<h3>Scenario *</h3>
+
+
+              {% include "settings_scenario_tab.html" %}
+
+			</div>
+
+			<div class="wizard-card wizard-card-overlay">
+				<h3 class="pull-left">Summary</h3> <button type=submit class='pull-right btn btn-primary' id="deploy-button"> Deploy </button>
+
+			      <div class="container" id="summary-content">
+              </div>
+              <div>
+                <!--<button type=submit class='btn btn-primary' id="deploy-button"> Deploy </button>-->
+
+					<div id="summary_cont">
+
+					</div>
+
+              </div>
+			</div>
+
+			<div class="wizard-success">
+        Submission Succeeded!<br><br>
+				<button class="btn btn-success" onClick="javascript:window.location.href='/settings'">New Deployment</button>
+    </div>
+
+    <div class="wizard-error">
+        Submission had an error<br><br>
+				<button class="btn btn-warning" onClick="javascript:window.location.href='/settings'">Try Again</button>
+    </div>
+
+    <div class="wizard-failure">
+        Submission Failed<br><br>
+				<button class="btn btn-danger" onClick="javascript:window.location.href='/settings'">Try Again</button>
+    </div>
+
+		</div>
+
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/settings.css' %}">
+		<link rel='stylesheet' href='{% static 'css/bootstrap-wizard.css' %}'>
+
+		 <style type="text/css">
+
+.scenario-list-t1 tr {
+border:1px solid #ccc;
+}
+.scenario-list-t1 tr th
+{
+padding:10px;
+margin:10px;
+font-size:14px;
+border: none;
+background-color: #e6e6e6;
+}
+
+.scenario-list-t1 tr td
+{
+font-size:14px;
+font-weight:normal;
+border: none;
+
+}
+
+.scenario-list-t1 tr:nth-child(even)
+{
+background-color: #e6e6e6;
+}
+
+
+
+
+
+ </style>
+{% endblock extra_css %}
+{% block extra_js %}
+<script src="{% static 'js/settings.js' %}"></script>
+<script src="{% static 'js/bootstrap-wizard.js' %}"></script>
+	<script>
+	var wizard = $("#installation-wizard").wizard({'contentHeight':'400px','contentWidth':'col-md-12','buttons':{
+cancelText: "Cancel",
+nextText: '<span class="glyphicon glyphicon-chevron-right"></span>',
+backText: '<span class="glyphicon glyphicon-chevron-left"></span>',
+submitText: "Deploy",
+submittingText: "Deploying...",
+},'submitUrl':"{% url 'submit_settings' %}"
+,'submitMethod':"POST"
+,'submitAjax':false});
+	wizard.show();
+$(".wizard-next").click(function(){
+populate_con();
+});
+
+$(".wizard-nav-link").click(function(){
+populate_con();
+});
+$("#scenario-select").change(function()
+{
+     $('#scenario_alert').html('<span class="glyphicon glyphicon-warning-sign" ></span> Overwrite warning message');
+});
+function populate_con(){
+	if($('#scenario_id_node_number').val())
+	{
+
+		var node_number = $('#scenario_id_node_number').val();
+		var html_con = '';
+		var arr=[];
+		var hostname ='';
+		var hostip ='';
+		var role ='';
+		html_con += '<table class="table table-striped" id="summary_table"><thead><tr><th><label>Node Name</label></th><th><label>Role</label></th><th><label>Scenario Hostname</label></th><th><label>Scenario IP</label></th></tr></thead><tbody>';
+		for ( var i = 0; i < node_number; i++ ) {
+			if($('input[name="role-'+i+'"]:checked').val()){
+				html_con +='<tr>';
+				arr= $('input[name="node_name__'+i+'"]').val().split(' ');
+				html_con +='<td>'+arr[0]+'</td>';
+				role = $('input[name="role-'+i+'"]:checked').val();
+				html_con +='<td>'+role+'</td>';
+				if($('input[name="scenario_hostname__'+i+'"]').val()){
+					hostname= $('input[name="scenario_hostname__'+i+'"]').val();
+					html_con +='<td>'+hostname+'</td>';
+				}
+				else{
+					html_con +='<td></td>';
+				}
+
+				if($('input[name="scenario_ip__'+i+'"]').val()){
+					hostip= $('input[name="scenario_ip__'+i+'"]').val();
+					html_con +='<td>'+hostip+'</td>';
+					}
+				else{
+					html_con +='<td></td>';
+					}
+				html_con +='</tr>';
+			}
+		}
+		html_con +='</tbody></table>';
+
+	}
+
+$('#summary_cont').html(html_con);
+}
+
+	</script>
+{% endblock extra_js %}

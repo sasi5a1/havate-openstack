@@ -1,0 +1,5 @@
+ six
+ django-extensions
+ south
+ django-crispy-forms
+ django-braces

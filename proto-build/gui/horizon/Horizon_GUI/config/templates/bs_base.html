@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %} dir="rtl" {% endif %}> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block title %}Openstack Installer{% endblock %}</title>
+
+    {% block meta-tags %}
+    	<meta name="description" content="">
+    	<meta name="viewport" content="width=device-width">
+    {% endblock meta-tags %}
+    <link href="{% static 'css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+	<link href="{% static 'css/fuelux.css' %}" type="text/css" rel="stylesheet"><link href="{% static 'css/fuelux-responsive.css' %}" type="text/css" rel="stylesheet">
+
+  	{% block extra_css %}{% endblock extra_css %}
+
+</head>
+
+<body class="fuelux" style="margin:0px;background-color:#f5f5f5;" >
+{% block body_content %}
+	<div class="well" style="padding:4px;margin:0px;font-size:32px;font-weight:bold;border:none;"><img src="{% static 'img/onecloud_logo.png' %}" style="max-height:50px;" /> Havate</div>
+    	<div class="well wizard-example" style="padding:0px;border:none;">
+		    <div id="MyWizard" class="wizard">
+ 		       <ul class="steps">
+		            <li data-target="#step1" class="active">Home
+		            </li>
+		            <li data-target="#step2">System Discovery
+		            </li>
+		            <li data-target="#step3">System Info
+		            </li>
+		            <li data-target="#step4">Network Info
+		            <li data-target="#step5">Scenario
+		            </li>
+		            <li data-target="#step6">Summary
+		            </li>
+        		</ul>
+    		</div>
+	<form method="post" action="/submit_settings/">
+    <div class="step-content" style="padding:20px 40px 20px;">
+		<div class="step-pane active" id="step1">
+			<div class="row">
+			  <li data-target="#step1" class="active">Home
+	            </li>
+	            <li data-target="#step2">System Discovery
+	            </li>
+	            <li data-target="#step3">System Info
+	            </li>
+	            <li data-target="#step4">Network Info
+	            <li data-target="#step5">Scenario
+	            </li>
+	            <li data-target="#step6">Summary
+	            </li>      <div class="col-xs-12">
+						<h3 style="padding-bottom:0px;margin-bottom:0px;">Welcome to Havate</h3>
+						<hr style="padding-top:0px;margin-top:0px;">
+						<p>Wizard will let you deploy OpenStack Software and services on Cisco UCS servers.
+						Havate will discover all the UCS servers and assign roles based on scenarios and easily build a OpenStack environment.</p><br>
+						<input class="btn btn-success btnWizardNext" id="btnWizardNext" value="Start Installer" type="button">
+					</div>
+				</div>
+		</div>
+
+		<div class="step-pane" id="step2">
+				{% csrf_token %}
+				<input type='hidden' value="scenario" id="summary-table-settings" name="summary-table-settings">
+	       		{% include "settings_discovery_tab.html" %}
+	   			 <input class="btn btn-default btnWizardPrev" id="btnWizardPrev" value="Back" type="button">
+	    		<input class="btn btn-primary btnWizardNext" id="btnWizardNext" value="Next" type="button">
+	        </div>
+
+		<div class="step-pane" id="step3">
+	        	{% include "settings_sysinfo_tab.html" %}
+	        </div>
+
+		<div class="step-pane" id="step4">
+	        	{% include "settings_network_tab.html" %}
+	         </div>
+
+		<div class="step-pane" id="step5">
+	        	{% include "settings_scenario_tab.html" %}
+	        </div>
+
+		<div class="step-pane" id="step6">
+	        	<h3 class="pull-left">Summary</h3> <input type="submit" class='pull-right btn btn-primary' id="deploy-button" value="Deploy"/>
+					<div class="container" id="summary-content">
+	              	</div>
+
+					<div id="summary_cont">
+
+					</div>
+		</div>
+	</div>
+	</form>
+{% endblock body_content %}
+</div>
+	<script type='text/javascript' src="{% static 'js/jquery.min.js' %}"></script>
+	<script type='text/javascript' src="{% static 'js/loader.min.js' %}"></script>
+	<script type='text/javascript' src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/settings.js' %}"></script>
+
+{% block extra_js %}
+{% endblock extra_js %}
+
+    </body>
+</html>

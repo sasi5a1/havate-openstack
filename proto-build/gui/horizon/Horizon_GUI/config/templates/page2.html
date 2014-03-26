@@ -1,0 +1,51 @@
+	<div class="row">
+		<div class="span6">
+			<div class="row">
+				<div class="span6">
+					<div  style ="height:100%;border: 1px solid #dddddd;border-radius:5px;padding:3px;">
+				 		<div style="background-color:#eee;padding:3px;">Enter UCSM username and password this will automatically discover all the UCS blades and C-series servers in the UCS cluster.
+				 			</div>
+						<div style="padding-top:10px;" >
+							<table id="tablebl" class="table" >
+						        <tbody>
+						          <tr>
+						            <td style="border:none;">UCSM IP Address / Hostname:<span>*</span></td>
+						            <td style="border:none;"><input type="text" class="form-control input-sm" id="id_ucsm_hostname" name="ucsm_hostname" maxlength="15" value="{{settings_form.ucsm_hostname.value|default_if_none:""}}"></td>
+
+						          </tr>
+						          <tr>
+						            <td style="border:none;">Username:<span>*</span></td>
+						            <td style="border:none;"><input type="text" class="form-control input-sm" id="id_username" name="username" maxlength="12" value="{{settings_form.username.value|default_if_none:""}}" placeholder="username"></td>
+
+						          </tr>
+						          <tr>
+						            <td style="border:none;">Password:<span>*</span></td>
+						            <td style="border:none;"><input type="password" class="form-control input-sm" id="id_password" name="password" maxlength="12" placeholder="password"></td>
+
+						          </tr>
+
+						     		<tr>
+						            <td style="border:none;"></td>
+						            <td style="border:none;"><button id="run-discovery-button" type="button" class="btn btn-default pull-right">Run Discovery</button></td>
+
+						          </tr>
+						        </tbody>
+					     	 </table>
+							</div>
+						</div>
+						</div>
+					</div>
+
+					<div class="row">
+								<div class="span6" style="padding-bottom:20px;padding-top:20px;">
+	 							<input class="btn btn-default btnWizardPrev pull-left" id="btnWizardPrev" value="Back" type="button">
+			    				<input class="btn btn-primary btnWizardNext pull-right" id="btnWizardNext" value="Next" type="button">
+							</div>
+					</div>
+			</div>
+			 <div class="span6" >
+				 <div style="height:100%;border: 1px solid #dddddd;border-radius:5px;padding:3px;">
+				  	<img class="img-thumbnail" alt="" src="{% static 'img/ucsmgmt.jpg' %}" style="display: inline-block;height: auto;max-width: 100%;">
+				</div>
+			</div>
+		</div>

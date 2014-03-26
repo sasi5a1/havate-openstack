@@ -1,0 +1,7 @@
+{% load config_extras %}
+{% for instance in settings %}{% for field, value in instance.fields.items %}
+${{ field }} = {{ value }}{% endfor %}
+{% endfor %}
+{% for instance in nodes %}{% for field, value in instance.fields.items %}
+${{ field }}[{{instance.fields.node_number}}] = {{ value|escapenewline }}{% endfor %}
+{% endfor %}
