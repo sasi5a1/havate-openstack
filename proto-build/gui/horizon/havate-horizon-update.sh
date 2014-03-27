@@ -13,18 +13,19 @@ if [ ! -z /usr/share/openstack-dashboard/openstack_dashboard ] ; then
     'config'," -i /usr/share/openstack-dashboard/openstack_dashboard/settings.py 
 mysql -uroot -e "CREATE DATABASE IF NOT EXISTS havate; GRANT USAGE ON *.* TO havate@localhost IDENTIFIED BY 'havate'; GRANT ALL PRIVILEGES ON havate.* TO havate@localhost; FLUSH PRIVILEGES;"
 
-  sed -e "/logging.DEBUG/a \\
-\\
-DATABASES = {\\
-    'default': {\\
-        'ENGINE': 'django.db.backends.mysql',\\
-        'NAME': 'havate',\\
-        'USER': 'havate',\\
-        'PASSWORD': 'havate',\\
-        'HOST': 'localhost',\\
-        'PORT': '',\\
-    }\\
-}\\" -i /usr/share/openstack-dashboard/openstack_dashboard/settings.py
+  sed -e "/ROOT_PATH/i \\
+\
+DATABASES = {\
+    'default': {\
+        'ENGINE': 'django.db.backends.mysql',\
+        'NAME': 'havate',\
+        'USER': 'havate',\
+        'PASSWORD': 'havate',\
+        'HOST': 'localhost',\
+        'PORT': '',\
+    }\
+}\
+\" -i /usr/share/openstack-dashboard/openstack_dashboard/settings.py
 
 
 sed -e "/openstack_auth.urls/a \\
