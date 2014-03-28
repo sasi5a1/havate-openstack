@@ -224,7 +224,8 @@ sed -e 's/permanent //' -i /etc/apache2/conf-available/openstack-dashboard.conf
 # re-build the initrd to make sure the proper gpg key exists.
 /gui/update_initrd.sh |& tee /var/log/update_initrd.log
 
-cp /gui/openstack_installer/static-raw/scripts/iplist.yaml /etc/puppet/manifests/
+/gui/horizon/havate-horizon-update.sh
+cp /gui/horizon/openstack_installer/static-raw/scripts/iplist.yaml /etc/puppet/manifests/
 chmod 775 /etc/puppet/manifests/iplist.yaml
 chown root:www-data /etc/puppet/manifests/iplist.yaml
 chmod 775 /etc/puppet/data/cobbler/cobbler.yaml
