@@ -199,6 +199,7 @@ if [ -d /cdrom ]; then
   cd /cdrom
   tar cf /tmp/mirror.tar *
   mv /tmp/mirror.tar /cdrom/
+  ln -s /gui/gui.conf /etc/apache2/conf.d/gui.conf
 else
   cd /var/www/ubuntu
   tar xf /var/www/mirror.tar
