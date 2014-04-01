@@ -146,20 +146,20 @@ d-i user-setup/encrypt-home boolean false
 d-i grub-installer/only_debian boolean true
 d-i finish-install/reboot_in_progress note
 d-i pkgsel/update-policy select none
-d-i pkgsel/include string openssh-server puppet git acpid vim vlan lvm2 ntp rubygems
-d-i preseed/early_command string wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/pre/system/\$system_name 
+d-i pkgsel/include string openssh-server puppet git acpid vim vlan lvm2 ntp rubygems python-pip python-setuptools
+d-i preseed/early_command string wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/pre/system/\$system_name
 d-i preseed/late_command string \\
 sed -e 's/START=no/START=yes/' -i /target/etc/default/puppet ; \\
-sed -e "/logdir/ a pluginsync=true" -i /target/etc/puppet/puppet.conf ; \\
-sed -e "/logdir/ a server=\$host_name.\$domain_name" -i /target/etc/puppet/puppet.conf ; \\
-in-target ntpdate $ntp_server ; \\
+sed -e "slogdir/ a pluginsync=true" -i /target/etc/puppet/puppet.conf ; \\
+sed -e "/logdir/ a server=$host_name.$domain_name" -i /target/etc/puppet/puppet.conf ; \\
+in-target ntpdate $ntp_server; \\
 in-target hwclock --systohc --utc ; \\
 mkdir -p /target/var/www/ubuntu ; \\
 wget -O - http://\$http_server/ubuntu/mirror.tar | tar xf - -C /target/var/www/ubuntu/ ; \\
-#wget -O /target/var/www/mirror.tar http://\$http_server/ubuntu/mirror.tar ; \\
-#tar xf /target/var/www/mirror.tar -C /target/var/www/ubuntu ; \\
 echo 'deb file:/var/www/ubuntu precise main' > /target/etc/apt/sources.list ; \\
+sed -e 's/\(%sudo.*\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \\
 in-target /usr/bin/apt-get update; \\
+echo -e "server $host_name.$domain_name iburst" > /target/etc/ntp.conf ; \\
 in-target cp /var/www/ubuntu/gui/onboot.sh /root/onboot.sh ; \\
 in-target chmod +x /root/onboot.sh ; \\
 in-target cp -R /var/www/ubuntu/puppet_openstack_builder /root/puppet_openstack_builder ; \\
@@ -168,6 +168,23 @@ in-target cp -R /var/www/ubuntu/gui /gui ; \\
 in-target find /gui -name '*sh' -exec chmod +x \\{} \\; \\
 sed -e 's/\\(%sudo.*\\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \\
 sed -e '/^exit 0/i /root/onboot.sh | tee /var/log/build_install.log' -i /target/etc/rc.local ; \\
+echo -e "8021q\n\\
+vhost_net" >> /target/etc/modules ; \\
+sed -e "s/^ //g" -i /target/etc/modules ; \\
+echo "no bonding configured" ; \\
+echo "net.ipv6.conf.default.autoconf=0" >> /target/etc/sysctl.conf ; \\
+echo "net.ipv6.conf.default.accept_ra=0" >> /target/etc/sysctl.conf ; \\
+echo "net.ipv6.conf.all.autoconf=0" >> /target/etc/sysctl.conf ; \\
+echo "net.ipv6.conf.all.accept_ra=0" >> /target/etc/sysctl.conf ; \\
+echo -e " \n\
+auto eth1\n\\
+iface eth1 inet static\n\\
+  address 0.0.0.0\n\\
+  netmask 255.255.255.255\n\\
+\n\\
+" >> /target/etc/network/interfaces ; \\
+sed -e "s/^ //g" -i /target/etc/network/interfaces ; \\
+ \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/nopxe/system/\$system_name ; \\
 wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/post/system/\$system_name ; \\
 mv /target/etc/init/plymouth.conf /target/etc/init/plymouth.conf.disabled ; \\
@@ -185,6 +202,7 @@ fi
 
 cobbler import --path=/cdrom --name=precise --arch=x86_64
 
+sed -e 's/^\(.*- coe::base\)/#\1/' -i $path_root/data/scenarios/2_role.yaml
 sed -e 's/static /static-raw /' -i /gui/gui.conf
 
 if [ ! -d /etc/puppet/data ]; then
@@ -224,7 +242,7 @@ sed -e 's/permanent //' -i /etc/apache2/conf-available/openstack-dashboard.conf
 # re-build the initrd to make sure the proper gpg key exists.
 /gui/update_initrd.sh |& tee /var/log/update_initrd.log
 
-/gui/horizon/havate-horizon-update.sh
+/gui/horizon/havate-horizon-update.sh |& tee /var/log/havate-horizon-update.log
 cp /gui/horizon/openstack_installer/static-raw/scripts/iplist.yaml /etc/puppet/manifests/
 chmod 775 /etc/puppet/manifests/iplist.yaml
 chown root:www-data /etc/puppet/manifests/iplist.yaml

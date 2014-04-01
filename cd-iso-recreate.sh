@@ -130,7 +130,7 @@ UcXHbA==
 -----END PGP PUBLIC KEY BLOCK-----" | apt-key add -
 
 apt-get update 
-apt-get install reprepro genisoimage wget gnupg-agent stress vim git dpkg-dev -y
+apt-get install reprepro genisoimage wget gnupg-agent stress vim git dpkg-dev python-pip -y
 
 which gpg > /dev/null
 if [ $? -eq 1 ]; then
@@ -162,6 +162,13 @@ fi
 git clone https://github.com/CiscoSystems/puppet_openstack_builder -b ${BRANCH} $BASEDIR/proto-build/puppet_openstack_builder
 cp $BASEDIR/cisco.install.sh $BASEDIR/proto-build/puppet_openstack_builder/install-scripts/
 
+# we will also eventually need a bunch of things only packaged via pip
+if [ ! -d $BASEDIR/proto-build/gui/packages ]; then
+  mkdir -p $BASEDIR/proto-build/gui/packages
+  for n in `cat $BASEDIR/proto-build/gui/requirements.txt`; do
+    pip install --download=$BASEDIR/proto-build/gui/packages $n
+  done
+fi
 # What do we need to do for our TARGET use case
 if [ $TARGET == 'all_in_one' ] ; then
   cp $BASEDIR/proto-build/stage/build_allinone.sh $BASEDIR/proto-build/gui/onboot.sh
