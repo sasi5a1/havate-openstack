@@ -95,6 +95,9 @@ cat > /etc/apt/sources.list.d/cisco-openstack-mirror_havana.list<<EOF
 # cisco-openstack-mirror_havana
 deb http://openstack-repo.cisco.com/openstack/cisco havana-proposed main
 deb-src http://openstack-repo.cisco.com/openstack/cisco havana-proposed main
+
+# repo to download galera & mysql-server-wsrep packages
+deb http://openstack-repo.cisco.com/openstack/cisco_supplemental havana-proposed main
 EOF
 
 echo "-----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -325,6 +328,14 @@ else
 	cp $BASEDIR/indices/* $BASEDIR/FinalCD/conf/	
 	cp $BASEDIR/indices/* $BASEDIR/FinalCD/mirror/conf/	
 fi
+
+# Add section, priority parameters which are missing in galera, mysql-server-wsrep debs to override file
+cat >> $BASEDIR/FinalCD/conf/override<<EOF
+galera Priority Optional
+galera Section  database
+mysql-server-wsrep Priority Optional
+mysql-server-wsrep Section  database
+EOF
 
 #rebuild the archive
 reprepro -V -b $BASEDIR/FinalCD -C main includedeb precise `find $BASEDIR/cdsource -name '*\.deb'`
