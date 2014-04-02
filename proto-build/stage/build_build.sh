@@ -250,7 +250,7 @@ sed -e 's/permanent //' -i /etc/apache2/conf-available/openstack-dashboard.conf
 
 /gui/horizon/havate-horizon-update.sh |& tee /var/log/havate-horizon-update.log
 
-cp /gui/horizon/openstack_installer/static-raw/scripts/iplist.yaml /etc/puppet/manifests/
+cp /gui/horizon/openstack-dashboard/openstack_dashboard/static-raw/scripts/iplist.yaml /etc/puppet/manifests/
 chmod 775 /etc/puppet/manifests/iplist.yaml
 chown root:www-data /etc/puppet/manifests/iplist.yaml
 chmod 775 /etc/puppet/data/cobbler/cobbler.yaml
