@@ -5,7 +5,7 @@ cd /gui/horizon
 
 MYSQL=`which mysql`
 MYSQL=${MYSQL:-/usr/bin/mysql}
-$MYSQL -uroot -e "CREATE DATABASE IF NOT EXISTS havate; GRANT USAGE ON *.* TO havate@localhost IDENTIFIED BY 'havate'; GRANT ALL PRIVILEGES ON havate.* TO havate@localhost; FLUSH PRIVILEGES;"
+$MYSQL -e "CREATE DATABASE IF NOT EXISTS havate; GRANT USAGE ON *.* TO havate@localhost IDENTIFIED BY 'havate'; GRANT ALL PRIVILEGES ON havate.* TO havate@localhost; FLUSH PRIVILEGES;"
 
 if [ ! -z /usr/share/openstack-dashboard/openstack_dashboard ] ; then
   if [ ! `grep crispy_forms /usr/share/openstack-dashboard/openstack_dashboard/settings.py` ] ; then
