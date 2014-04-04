@@ -55,6 +55,8 @@ def construct_conf_file(config, query_str_dict):
     compute_node_count = NodeSettings.objects.filter(compute=True).count()
     swift_node_count = NodeSettings.objects.filter(swift=True).count()
     cinder_node_count = NodeSettings.objects.filter(cinder=True).count()
+    if (mac_add == ''):
+        mac_add ='0';
     mac_add_new = mac_add.replace('.', '')
     int_mac = int(mac_add_new.replace(':', ''), 16) + int(mac_add_size)
     new_mac_ar = []

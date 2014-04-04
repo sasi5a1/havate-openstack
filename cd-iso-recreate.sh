@@ -12,7 +12,7 @@
 #    OpenStack install using the default package_list.txt file
 #
 
-set -x
+#set -x
 # Deployment Target
 # Supported optiosn are build, all_in_one, and eventually compact_ha
 TARGET=${TARGET:-build}
