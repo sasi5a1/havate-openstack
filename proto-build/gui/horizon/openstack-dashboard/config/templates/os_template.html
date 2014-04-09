@@ -1,0 +1,365 @@
+{% extends "os_base.html" %}
+{% load static %}
+{% block body_content %}
+<div id="container">
+	<div class='sidebar'>
+		<h1 class="brand clearfix"><a href="/horizon/home/">OpenStack Dashboard</a></h1>
+		<div class='clearfix'>
+			<ul class="nav nav-tabs" style="padding-left:5px;">
+		        <li><a href="/horizon/project/" tabindex='1'>Project</a></li>
+		        <li ><a href="/horizon/admin/" tabindex='1'>Admin</a></li>
+		 		<li class="active"><a href="/horizon/config/" tabindex="1">Havate</a></li>
+	  		</ul>
+		</div>
+		<h4>Deployment</h4>
+		<ul class="main_nav">
+		    <li><a id="page_1" style="cursor: pointer;display: inline-block;" class="active" onclick="javascript:linkpage(1);" tabindex='1'>Home</a></li>
+			<li><a id="page_2" style="cursor: pointer;display: inline-block;" onclick="javascript:linkpage(2);" tabindex='1'>System Discovery</a></li>
+		    <li><a id="page_3" style="cursor: pointer;display: inline-block;" onclick="javascript:linkpage(3);"  tabindex='1'>System Info</a></li>
+		    <li><a id="page_4" style="cursor: pointer;display: inline-block;" onclick="javascript:linkpage(4);" tabindex='1'>Network Info</a></li>
+		    <li><a id="page_5" style="cursor: pointer;display: inline-block;" onclick="javascript:linkpage(5);" tabindex='1'>Scenario</a></li>
+		    <li><a id="page_6" style="cursor: pointer;display: inline-block;" onclick="javascript:linkpage(6);" tabindex='1'>Summary</a></li>
+	    </ul>
+	</div>
+
+	<div id='main_content'>
+		<div class='topbar'>
+			<div id="user_info" class="pull-right">
+				<a href="/horizon/settings/">Settings</a>
+				<a href="http://docs.openstack.org" target="_new">Help</a>
+				<a href="/horizon/auth/logout/">Sign Out</a>
+			</div>
+			<div class='page-header'>
+				<h2>Havate</h2>
+			</div>
+	     </div>
+	    <form method="post" action="/horizon/config/submit_settings/">
+	    {% csrf_token %}
+<!--################################# Page 1 ################################################-->
+		<div class="table_wrapper" id="page_content_1" style="padding-top:30px;">
+			<div class="span6">
+				<h3>Welcome to Havate</h3><br><br>
+				This wizard allows you to deploy OpenStack software and services on Cisco UCS.
+				Havate will discover all of the UCS servers, assign roles based on scenarios, and easily build an OpenStack environment.
+				<br><br><br><br>
+				<input class="btn btn-success btnWizardNext" id="btnWizardNext" value="Start Installer" type="button" style="margin-bottom:10px;" onclick="javascript:linkpage(2);">
+			</div>
+			<div class="span6" style="border: 1px solid #dddddd;border-radius:5px;padding:6px;">
+				<img class="img-thumbnail" alt="" src="/static/img/ciscoucs.jpg" style="display: inline-block;height: auto;max-width: 100%;">
+			</div>
+		</div>
+
+<!--################################# Page 2 ################################################-->
+
+	<div class="table_wrapper" id="page_content_2" style="padding-top:30px;display:none;">
+		<div class="row">
+			<div class="span6">
+				<div class="row">
+					<div class="span6">
+						<div  style ="height:100%;border: 1px solid #dddddd;border-radius:5px;padding:3px;">
+					 		<div style="background-color:#eee;padding:3px;">Enter UCSM username and password this will automatically discover all the UCS blades and C-series servers in the UCS cluster.
+					 			</div>
+							<div style="padding-top:10px;" >
+								<table id="tablebl" class="table" >
+							        <tbody>
+							          <tr>
+							            <td style="border:none;">UCSM IP Address / Hostname:<span>*</span></td>
+							            <td style="border:none;"><input type="text" class="form-control input-sm" id="id_ucsm_hostname" name="ucsm_hostname" maxlength="15" value='{{settings_form.ucsm_hostname.value|default_if_none:""}}'></td>
+
+							          </tr>
+							          <tr>
+							            <td style="border:none;">Username:<span>*</span></td>
+							            <td style="border:none;"><input type="text" class="form-control input-sm" id="id_username" name="username" maxlength="12" value='{{settings_form.username.value|default_if_none:""}}' placeholder="username"></td>
+
+							          </tr>
+							          <tr>
+							            <td style="border:none;">Password:<span>*</span></td>
+							            <td style="border:none;"><input type="password" class="form-control input-sm" id="id_password" name="password" maxlength="12" placeholder="password"></td>
+
+							          </tr>
+
+							     		<tr>
+							            <td style="border:none;"></td>
+							            <td style="border:none;"><button id="run-discovery-button" type="button" class="btn btn-default pull-right">Run Discovery</button></td>
+
+							          </tr>
+							        </tbody>
+						     	 </table>
+								</div>
+							</div>
+							</div>
+						</div>
+
+						<div class="row">
+									<div class="span6" style="padding-bottom:20px;padding-top:20px;">
+		 							<input class="btn btn-default btnWizardPrev pull-left"  value="Back" type="button" onclick="javascript:linkpage(1);">
+				    				<input class="btn btn-primary btnWizardNext pull-right"  value="Next" type="button" onclick="javascript:linkpage(3);">
+								</div>
+						</div>
+				</div>
+				 <div class="span6" >
+					 <div style="height:100%;border: 1px solid #dddddd;border-radius:5px;padding:3px;">
+					  	<img class="img-thumbnail" alt="" src="{% static 'img/ucsmgmt.jpg' %}" style="display: inline-block;height: auto;max-width: 100%;">
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+<!--################################# Page 3 ################################################-->
+	<div class="table_wrapper" id="page_content_3" style="padding-top:30px;display:none;">
+
+		<div class="row">
+		   <div class="span12">
+		      <div class="row">
+		         <div class="span6">
+		            <div class="row">
+		               <div class="span6">
+		                  <div  style ="height:100%;border: 1px solid #dddddd;border-radius:5px;padding:3px;">
+		                     <div style="background-color:#eee;padding:3px;">
+		                        <span style="font-weight:bold">MacPool</span>- This is the Mac address which it automatically assign to the servers.
+		                     </div>
+		                     <div style="padding-top:10px;">
+		                        <table class="table" >
+		                           <tbody>
+		                              <tr>
+		                                 <td style="border:none;">MAC Pool:<span>*</span></td>
+		                                 <td style="border:none;">
+		                                    <input type="hidden" id="id_mac_pool" name="mac_pool" value='{{settings_form.mac_pool.value|default_if_none:""}}' >
+		                                   <div class="input-group input-group-sm" style="width:250px;">
+												<span class="input-group-addon">00:25:B5:</span>
+												<input type="text" class="form-control short-mac-input fst" maxlength="2" style="height:30px;padding:2px;margin:0px;width:30px;">
+												<span class="input-group-addon">:</span>
+												<input type="text" class="form-control short-mac-input snd" maxlength="2" style="height:30px;padding:2px;margin:0px;width:30px;">
+												<span class="input-group-addon">:</span>
+												<input type="text" class="form-control short-mac-input trd" maxlength="2" style="height:30px;padding:2px;margin:0px;width:30px;">
+											</div>
+
+		                                 </td>
+		                              </tr>
+		                              <tr>
+		                                 <td style="border:none;">Size:<span>*</span></td>
+		                                 <td style="border:none;"><input type="text" class="form-control input-sm" style="height:30px;" id="id_mac_pool_size" name="mac_pool_size" maxlength="3" value='{{settings_form.mac_pool_size.value|default_if_none:""}}'></td>
+		                              </tr>
+		                           </tbody>
+		                        </table>
+		                     </div>
+		                  </div>
+		               </div>
+		            </div>
+		            <div class="row">
+		               <div class="span6" style="padding-bottom:20px;padding-top:20px;">
+		                  <input class="btn btn-default btnWizardPrev pull-left"  value="Back" type="button" onclick="javascript:linkpage(2);">
+		                  <input class="btn btn-primary btnWizardNext pull-right" value="Next" type="button" onclick="javascript:linkpage(4);">
+		               </div>
+		            </div>
+		         </div>
+		         <div class="span6 pull-right">
+		            <div class="row">
+		               <div class="span6">
+		                  <div style ="height:100%;border: 1px solid #dddddd;border-radius:5px;padding:3px;">
+		                     <div style="background-color:#eee;padding:3px;">
+		                        <span style="font-weight:bold">KVM</span>- If you do not have KVM pool configured this will configure KVM pool for your UCS cluster which enabled KVM access to UCS servers.
+		                     </div>
+		                     <div style="padding-top:10px;" >
+		                        <div class="row" style="padding-left:15px;padding-top:10px;" >
+		                           <div class="span6"><br>
+		                              <label>Do you want to Configure KVM IP Pool ?</label>
+		                              <input type="radio" name="kvm-config" id="kvm-config1" value="1" style="margin-left:20px;padding-right:20px;" onclick="javascript:kvm_radio();" /> Yes
+		                              <input type="radio" name="kvm-config" id="kvm-config2" value="2" style="margin-left:20px;padding-right:20px;" onclick="javascript:kvm_radio();" checked /> No
+		                              <br><br>
+		                           </div>
+		                        </div>
+		                        <div class="row">
+		                           <div class="span6">
+		                              <div id="kvm_pool" style="display:none;margin:10px;padding-top:10px;" class="col-md-12">
+		                                 <table  class="table"  >
+		                                    <tbody>
+		                                       <tr>
+		                                          <td style="border:none;">KVM IP Pool:<span>*</span></td>
+		                                          <td style="border:none;">
+		                                             <input type="text" class="form-control input-sm ip-field" id="id_kvm_ip_pool" name="kvm_ip_pool" value='{{settings_form.kvm_ip_pool.value|default_if_none:""}}'>
+		                                          </td>
+		                                       </tr>
+		                                       <tr>
+		                                          <td style="border:none;">Size:<span>*</span></td>
+		                                          <td style="border:none;">
+		                                             <input type="text" class="form-control input-sm" name="kvm_ip_pool_size" maxlength="3" value='{{settings_form.kvm_ip_pool_size.value|default_if_none:""}}'>
+		                                          </td>
+		                                       </tr>
+		                                       <tr>
+		                                          <td style="border:none;">Subnet Mask:<span>*</span></td>
+		                                          <td style="border:none;">
+		                                             <input type="text" class="form-control input-sm ip-field" id="id_subnet_mask" name="subnet_mask" value='{{settings_form.subnet_mask.value|default_if_none:""}}'>
+		                                          </td>
+		                                       </tr>
+		                                       <tr>
+		                                          <td style="border:none;">Default Gateway:<span>*</span></td>
+		                                          <td style="border:none;">
+		                                             <input type="text" class="form-control input-sm ip-field" id="id_default_gateway" name="default_gateway" value='{{settings_form.default_gateway.value|default_if_none:""}}'>
+		                                          </td>
+		                                       </tr>
+		                                       <tr>
+		                                          <td style="border:none;">DNS:<span>*</span></td>
+		                                          <td style="border:none;">
+		                                             <input type="text" class="form-control input-sm input-not-required ip-field" name="dns" value='{{settings_form.dns.value|default_if_none:""}}'>
+		                                          </td>
+		                                       </tr>
+		                                    </tbody>
+		                                 </table>
+		                              </div>
+		                           </div>
+		                        </div>
+		                     </div>
+		                  </div>
+		               </div>
+		            </div>
+		         </div>
+		      </div>
+		   </div>
+		</div>
+
+
+
+	</div>
+
+<!--################################# Page 4 ################################################-->
+<div class="table_wrapper" id="page_content_4" style="padding-top:30px;display:none;">
+
+	   <div class="span12">
+	      <table class="table scenario-list-t1 table table-bordered table-striped datatable" >
+	         <thead>
+	            <tr>
+	               <th>Network	</th>
+	               <th>VLAN</th>
+	               <th>Subnet Information</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+		        <tr>
+				<td>Mgmt</td>
+				<td><input class="form-control input-sm input-block-level vlan-field" id="id_mgmt_vlan" maxlength="30" name="mgmt_vlan" type="text" value='{{settings_form.mgmt_vlan.value|default_if_none:""}}'></td>
+				<td><input class="form-control input-sm input-block-level subnet-field" id="id_mgmt_subnet" maxlength="30" name="mgmt_subnet" type="text" value='{{settings_form.mgmt_subnet.value|default_if_none:""}}'></td>
+				</tr>
+				<tr>
+				<td>Storage	</td>
+				<td><input class="form-control input-sm form-control input-sm input-block-level vlan-field input-not-required" id="id_storage_vlan" maxlength="30" name="storage_vlan" type="text" value='{{settings_form.storage_vlan.value|default_if_none:""}}'></td>
+				<td><input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_storage_subnet" maxlength="30" name="storage_subnet" type="text" value='{{settings_form.storage_subnet.value|default_if_none:""}}'></td>
+				</tr>
+				<tr>
+				<td>Public Provider</td>
+				<td><input class="form-control input-sm input-block-level vlan-field input-not-required" id="id_public_provider_vlan" maxlength="30" name="public_provider_vlan" type="text" value='{{settings_form.public_provider_vlan.value|default_if_none:""}}'></td>
+				<td><input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_public_provider_subnet" maxlength="30" name="public_provider_subnet" type="text" value='{{settings_form.public_provider_subnet.value|default_if_none:""}}'></td>
+				</tr>
+				<tr>
+				<td>Private	</td>
+				<td><input class="form-control input-sm input-block-level vlan-field input-not-required" id="id_private_vlan" maxlength="30" name="private_vlan" type="text" value='{{settings_form.private_vlan.value|default_if_none:""}}'></td>
+				<td><input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_private_subnet" maxlength="30" name="private_subnet" type="text" value='{{settings_form.private_subnet.value|default_if_none:""}}'></td>
+				</tr>
+				<tr>
+				<td>Tenants</td>
+				<td><input class="form-control input-sm input-block-level vlan-field input-not-required" id="id_tenants_vlan" maxlength="30" name="tenants_vlan" type="text"  value='{{settings_form.tenants_vlan.value|default_if_none:""}}'>	</td>
+				<td><input class="form-control input-sm input-block-level subnet-field input-not-required" id="id_tenants_subnet" maxlength="30" name="tenants_subnet" type="text" value='{{settings_form.tenants_subnet.value|default_if_none:""}}'></td>
+				</tr>
+	         </tbody>
+	         <tfoot>
+	         <tr>
+	            <td></td><td></td><td></td>
+	         </tr>
+			</tfoot>
+	      </table>
+	   </div>
+
+	   <div class="span12">
+	      <input class="btn btn-default btnWizardPrev pull-left"  value="Back" type="button" onclick="javascript:linkpage(3);">
+	      <input class="btn btn-primary btnWizardNext pull-right" value="Next" type="button" onclick="javascript:linkpage(5);">
+	   </div>
+
+</div>
+
+<!--################################# Page 5 ################################################-->
+
+<div class="table_wrapper" id="page_content_5" style="padding-top:30px;display:none;">
+	   <div class="span12">
+ 		<div style ="height:100%;border: 1px solid #dddddd;border-radius:5px;padding:3px;">
+	       <div style="background-color:#eee;padding:3px;">
+	            Based on Selected scenario you can select and assign roles to your servers and also assign hostname and IP address. <br>
+	            Note: UCS Service Profile name will be assigned same as host name.<br>
+	         </div>
+	         <div style="padding-top:10px;height:60px;" >
+	            <div class="span8">
+		            <select id="scenario-select" class="form-control" style="width:100%;"  >
+						<option>-----------</option>
+						{% for scenario in scenario_list %}
+							<option data-name="{{scenario}}" val="{{scenario}}">{{scenario}}</option>
+						{% endfor %}
+					</select>
+	            </div>
+	            <div class="span3">
+	               <button class="btn btn-default pull-right" id='clear-scenario-radio-button'> Reset </button>
+	            </div>
+	         </div>
+	      </div>
+	   </div>
+
+
+	   <div class="table-responsive span12"  >
+	      <table id="scenario-list-table" class="scenario-list-t1 table table-bordered table-striped datatable" style="padding-top:15px;" >
+	         <thead>
+	         </thead>
+	         <tbody>
+	         </tbody>
+
+	      </table>
+	   </div>
+
+
+	   <div class="span12">
+	      <input class="btn btn-default btnWizardPrev pull-left"  value="Back" type="button" onclick="javascript:linkpage(4);">
+	      <input class="btn btn-primary btnWizardNext pull-right"  value="Next" type="button" onclick="javascript:linkpage(6);">
+	   </div>
+
+
+
+</div>
+
+<!--################################# Page 6 ################################################-->
+<div class="table_wrapper" id="page_content_6" style="padding-top:30px;display:none;">
+
+	<div class="row">
+	    <div class="span12">
+			<input type="submit" class='pull-right btn btn-primary' id="deploy-button" value="Deploy"/><br><br>
+			<div class="container" id="summary-content">
+			 </div>
+
+			<div id="summary_cont">
+
+
+			</div>
+		</div>
+	</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</form>
+
+
+
+	</div>
+</div>
+{% endblock body_content %}

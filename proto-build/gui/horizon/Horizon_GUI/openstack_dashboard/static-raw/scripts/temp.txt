@@ -1,0 +1,1 @@
+Chassis-1/Blade-5<br>Service Profile Associated: org-root/ls-aio-05<br>CPU: 2<br>CPU Type: Intel(R) Xeon(R) CPU E5-2665 0 @ 2.40GHz<br>Mem: 65536<br>Disks: 2<br>Adaptors: 1<br>Adaptor Type: UCSB-MLOM-40G-01<br>

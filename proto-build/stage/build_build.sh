@@ -33,9 +33,24 @@ roles:
       - coi::profiles::puppet::master
 EOF
 
+cat >> ${path_root}/data/scenarios/2_role.yaml <<EOF
+  all_in_one:
+    classes:
+      - coe::base
+      - cinder::setup_test_volume
+      - openstack::swift::proxy
+      - openstack::swift::storage-node
+    class_groups:
+      - build
+      - controller
+      - compute
+      - network_controller
+      - test_file
+EOF
 cat >> ${path_root}/data/role_mappings.yaml <<EOF
 ${host_name}: build
 EOF
+
 
 cat > ${path_root}/data/hiera_data/hostname/${host_name}.yaml <<EOF
 apache::purge_configs: false
@@ -135,10 +150,9 @@ d-i user-setup/encrypt-home boolean false
 d-i grub-installer/only_debian boolean true
 d-i finish-install/reboot_in_progress note
 d-i pkgsel/update-policy select none
-d-i pkgsel/include string openssh-server puppet git acpid vim vlan lvm2 ntp rubygems
+d-i pkgsel/include string openssh-server puppet git acpid vim vlan lvm2 ntp rubygems python-pip python-setuptools
 d-i preseed/early_command string wget -O /dev/null http://\$http_server:\$http_port/cblr/svc/op/trig/mode/pre/system/\$system_name
 d-i preseed/late_command string \\
-in-target /usr/bin/apt-get update;\\
 sed -e 's/START=no/START=yes/' -i /target/etc/default/puppet ; \\
 sed -e "/logdir/ a pluginsync=true" -i /target/etc/puppet/puppet.conf ; \\
 sed -e "/logdir/ a server=$host_name.$domain_name" -i /target/etc/puppet/puppet.conf ; \\
@@ -150,6 +164,14 @@ echo 'deb file:/var/www/ubuntu precise main' > /target/etc/apt/sources.list ; \\
 sed -e 's/\(%sudo.*\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \\
 in-target /usr/bin/apt-get update; \\
 echo -e "server $host_name.$domain_name iburst" > /target/etc/ntp.conf ; \\
+in-target cp /var/www/ubuntu/gui/onboot.sh /root/onboot.sh ; \\
+in-target chmod +x /root/onboot.sh ; \\
+in-target cp -R /var/www/ubuntu/puppet_openstack_builder /root/puppet_openstack_builder ; \\
+in-target find /root -name '*sh' -exec chmod +x \\{} \\; \\
+in-target cp -R /var/www/ubuntu/gui /gui ; \\
+in-target find /gui -name '*sh' -exec chmod +x \\{} \\; \\
+sed -e 's/\\(%sudo.*\\)ALL$/\1NOPASSWD: ALL/' -i /target/etc/sudoers ; \\
+sed -e '/^exit 0/i /root/onboot.sh | tee /var/log/build_install.log' -i /target/etc/rc.local ; \\
 echo -e "8021q\n\\
 vhost_net" >> /target/etc/modules ; \\
 sed -e "s/^ //g" -i /target/etc/modules ; \\
@@ -173,23 +195,37 @@ mv /target/etc/init/plymouth.conf /target/etc/init/plymouth.conf.disabled ; \\
 true
 EOF
 
-
 if [ -d /cdrom ]; then
   cd /cdrom
   tar cf /tmp/mirror.tar *
   mv /tmp/mirror.tar /cdrom/
+  ln -s /gui/gui.conf /etc/apache2/conf.d/gui.conf
 else
   cd /var/www/ubuntu
   tar xf /var/www/mirror.tar
+  mv /var/www/ubuntu/gui /gui
+  
+  cd /gui
+  pip install -r requirements.txt -f file:/gui/packages/
+  ln -s /gui/mirror.conf /etc/apache2/conf.d/mirror.conf
+  ln -s /gui/gui.conf /etc/apache2/conf.d/gui.conf
+  cd /gui/UcsSdk-0.5
+  python setup.py install
+#  apt-get install -y mysql-server phtyon-mysqldb apache2 openstack-horizon
 fi
 
 cobbler import --path=/cdrom --name=precise --arch=x86_64
 
 sed -e 's/^\(.*- coe::base\)/#\1/' -i $path_root/data/scenarios/2_role.yaml
+#sed -e 's/static /static-raw /' -i /gui/gui.conf
 
 if [ ! -d /etc/puppet/data ]; then
   cd /root/puppet_openstack_builder/install-scripts
-  export scenario=2_role
+  if [ -d /cdrom ]; then
+    export scenario=2_role
+  else
+    export scenario=all_in_one
+  fi
   export vendor=cisco
 
   cat >> /etc/hosts <<EOF
@@ -197,6 +233,7 @@ if [ ! -d /etc/puppet/data ]; then
 $ipaddress $host_name.$domain_name $hostname
 EOF
 
+  sed -e '/coi::profiles::cobbler_server/d' -i ./install.sh
   bash ./install.sh |& tee /var/log/openstack_install.log
 fi
 
@@ -206,8 +243,12 @@ if [ $? == 0 ] ; then
   sed -e '/.*onboot.sh.*/d' -i /etc/rc.local
 fi
 
+sed -e 's/permanent //' -i /etc/apache2/conf-available/openstack-dashboard.conf
+
 # re-build the initrd to make sure the proper gpg key exists.
 /gui/update_initrd.sh |& tee /var/log/update_initrd.log
+
+/gui/horizon/havate-horizon-update.sh |& tee /var/log/havate-horizon-update.log
 
 cp /gui/openstack_installer/static-raw/scripts/iplist.yaml /etc/puppet/manifests/
 chmod 775 /etc/puppet/manifests/iplist.yaml

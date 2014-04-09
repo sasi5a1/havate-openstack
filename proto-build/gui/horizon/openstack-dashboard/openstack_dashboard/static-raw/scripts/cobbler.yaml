@@ -1,0 +1,17 @@
+node-global:
+  kickstart: /etc/cobbler/preseed/cisco-preseed
+  kopts: netcfg/get_nameservers=10.1.1.1 netcfg/confirm_static=true netcfg/get_ipaddress={$eth0_ip-address}
+    netcfg/get_gateway=10.1.1.1 netcfg/disable_autoconfig=true netcfg/dhcp_options="Configure
+    network manually" netcfg/no_default_route=true partman-auto/disk=/dev/sda netcfg/get_netmask=255.255.255.0
+    netcfg/dhcp_failed=true
+  netboot_enabled: '1'
+  power_pass: password
+  power_type: ipmitool
+  power_user: admin
+  profile: precise-x86_64
+preseed:
+  repo: http://openstack-repo.cisco.com/openstack/cisco havana main
+profile:
+  arch: x86_64
+  kopts: log_port=514 priority=critical local=en_US log_host=10.1.1.87 netcfg/choose_interface=auto
+  name: precise

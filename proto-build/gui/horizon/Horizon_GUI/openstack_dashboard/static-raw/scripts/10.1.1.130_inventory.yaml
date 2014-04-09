@@ -1,0 +1,391 @@
+Chassis-1:
+  Blade-1:
+    AdaptorUnits:
+      AdaptorUnit-1:
+        baseMac: 00:26:51:09:20:22
+        model: N20-AI0002
+        partNumber: 74-5391-02
+        serial: QCI133700JO
+        vendor: Cisco Systems Inc
+    MemoryArray:
+      MemoryArray-1:
+        cpuId: '2'
+        currCapacity: '24576'
+        maxCapacity: '393216'
+        populated: '12'
+    ProcessorUnits:
+      AdaptorUnit1:
+        arch: Xeon
+        cores: '4'
+        coresEnabled: '4'
+        model: Intel(R) Xeon(R) CPU           E5520  @ 2.27GHz
+        socketDesignation: CPU1
+        speed: '2.266000'
+        stepping: '5'
+        threads: '8'
+        vendor: Intel(R) Corporation
+      AdaptorUnit2:
+        arch: Xeon
+        cores: '4'
+        coresEnabled: '4'
+        model: Intel(R) Xeon(R) CPU           E5520  @ 2.27GHz
+        socketDesignation: CPU2
+        speed: '2.266000'
+        stepping: '5'
+        threads: '8'
+        vendor: Intel(R) Corporation
+    StorageUnits:
+      StorageLocalDisk-1:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: ST973452SS
+        numberOfBlocks: '143374744'
+        presence: equipped
+        serial: 6TA0DWTP0000B139MG0Y
+        size: '70007'
+        vendor: SEAGATE
+      StorageLocalDisk-2:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: MBF2300RC
+        numberOfBlocks: '585937500'
+        presence: equipped
+        serial: EB10PCA05EC6
+        size: '286102'
+        vendor: TOSHIBA
+    assignedToDn: ''
+    availableMemory: '24576'
+    chassisID: '1'
+    numOfAdaptors: '1'
+    numOfCores: '8'
+    numOfCoresEnabled: '8'
+    numOfCpus: '2'
+    numOfEthHostIfs: '2'
+    numOfFcHostIfs: '0'
+    numOfThreads: '16'
+  Blade-2:
+    AdaptorUnits:
+      AdaptorUnit-1:
+        baseMac: 54:75:D0:6A:78:36
+        model: N20-AC0002
+        partNumber: 73-11789-06
+        serial: QCI1414A29I
+        vendor: Cisco Systems Inc
+    MemoryArray:
+      MemoryArray-1:
+        cpuId: '1'
+        currCapacity: '49152'
+        maxCapacity: '393216'
+        populated: '12'
+    ProcessorUnits:
+      AdaptorUnit1:
+        arch: Xeon
+        cores: '4'
+        coresEnabled: '4'
+        model: Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
+        socketDesignation: CPU1
+        speed: '2.666000'
+        stepping: '5'
+        threads: '8'
+        vendor: Intel(R) Corporation
+      AdaptorUnit2:
+        arch: Xeon
+        cores: '4'
+        coresEnabled: '4'
+        model: Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
+        socketDesignation: CPU2
+        speed: '2.666000'
+        stepping: '5'
+        threads: '8'
+        vendor: Intel(R) Corporation
+    StorageUnits:
+      StorageLocalDisk-1:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: MBF2300RC
+        numberOfBlocks: '585937500'
+        presence: equipped
+        serial: EB10PCA05EHN
+        size: '286102'
+        vendor: TOSHIBA
+      StorageLocalDisk-2:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: ST973452SS
+        numberOfBlocks: '143374744'
+        presence: equipped
+        serial: 6TA0DVSY0000B140LLS0
+        size: '70007'
+        vendor: SEAGATE
+    assignedToDn: ''
+    availableMemory: '49152'
+    chassisID: '1'
+    numOfAdaptors: '1'
+    numOfCores: '8'
+    numOfCoresEnabled: '8'
+    numOfCpus: '2'
+    numOfEthHostIfs: '0'
+    numOfFcHostIfs: '0'
+    numOfThreads: '16'
+  Blade-3:
+    AdaptorUnits:
+      AdaptorUnit-1:
+        baseMac: 44:03:A7:E3:69:92
+        model: UCSB-MLOM-40G-01
+        partNumber: 73-14641-02
+        serial: FCH1650J79N
+        vendor: Cisco Systems Inc
+      AdaptorUnit-2:
+        baseMac: 44:03:A7:BB:3B:8A
+        model: UCS-VIC-M82-8P
+        partNumber: 73-14628-02
+        serial: FCH16497KE1
+        vendor: Cisco Systems Inc
+    MemoryArray:
+      MemoryArray-1:
+        cpuId: '1'
+        currCapacity: '131072'
+        maxCapacity: '786432'
+        populated: '8'
+    ProcessorUnits:
+      AdaptorUnit1:
+        arch: Xeon
+        cores: '8'
+        coresEnabled: '8'
+        model: Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz
+        socketDesignation: CPU1
+        speed: '2.000000'
+        stepping: '7'
+        threads: '16'
+        vendor: Intel(R) Corporation
+      AdaptorUnit2:
+        arch: Xeon
+        cores: '8'
+        coresEnabled: '8'
+        model: Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz
+        socketDesignation: CPU2
+        speed: '2.000000'
+        stepping: '7'
+        threads: '16'
+        vendor: Intel(R) Corporation
+    StorageUnits:
+      StorageLocalDisk-1:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: ST9146852SS
+        numberOfBlocks: '286749488'
+        presence: equipped
+        serial: 6TB1SDKK
+        size: '140014'
+        vendor: SEAGATE
+      StorageLocalDisk-2:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: ST9146852SS
+        numberOfBlocks: '286749488'
+        presence: equipped
+        serial: 6TB10D9F
+        size: '140014'
+        vendor: SEAGATE
+    assignedToDn: ''
+    availableMemory: '131072'
+    chassisID: '1'
+    numOfAdaptors: '2'
+    numOfCores: '16'
+    numOfCoresEnabled: '16'
+    numOfCpus: '2'
+    numOfEthHostIfs: '0'
+    numOfFcHostIfs: '0'
+    numOfThreads: '32'
+  Blade-4:
+    AdaptorUnits:
+      AdaptorUnit-1:
+        baseMac: D8:67:D9:D2:E6:EC
+        model: UCSB-MLOM-40G-01
+        partNumber: 73-14641-02
+        serial: FCH162378Q2
+        vendor: Cisco Systems Inc
+    MemoryArray:
+      MemoryArray-1:
+        cpuId: '2'
+        currCapacity: '65536'
+        maxCapacity: '786432'
+        populated: '8'
+    ProcessorUnits:
+      AdaptorUnit1:
+        arch: Xeon
+        cores: '8'
+        coresEnabled: '8'
+        model: Intel(R) Xeon(R) CPU E5-2665 0 @ 2.40GHz
+        socketDesignation: CPU1
+        speed: '2.400000'
+        stepping: '7'
+        threads: '16'
+        vendor: Intel(R) Corporation
+      AdaptorUnit2:
+        arch: Xeon
+        cores: '8'
+        coresEnabled: '8'
+        model: Intel(R) Xeon(R) CPU E5-2665 0 @ 2.40GHz
+        socketDesignation: CPU2
+        speed: '2.400000'
+        stepping: '7'
+        threads: '16'
+        vendor: Intel(R) Corporation
+    StorageUnits:
+      StorageLocalDisk-1:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: MBF2300RC
+        numberOfBlocks: '585937500'
+        presence: equipped
+        serial: EB10PCA05EM5
+        size: '286102'
+        vendor: TOSHIBA
+      StorageLocalDisk-2:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: MBF2300RC
+        numberOfBlocks: '585937500'
+        presence: equipped
+        serial: EB10PCA05CT3
+        size: '286102'
+        vendor: TOSHIBA
+    assignedToDn: ''
+    availableMemory: '65536'
+    chassisID: '1'
+    numOfAdaptors: '1'
+    numOfCores: '16'
+    numOfCoresEnabled: '16'
+    numOfCpus: '2'
+    numOfEthHostIfs: '0'
+    numOfFcHostIfs: '0'
+    numOfThreads: '32'
+  Blade-5:
+    AdaptorUnits:
+      AdaptorUnit-1:
+        baseMac: A4:4C:11:98:48:0A
+        model: UCSB-MLOM-40G-01
+        partNumber: 73-14641-02
+        serial: FCH161674TA
+        vendor: Cisco Systems Inc
+    MemoryArray:
+      MemoryArray-1:
+        cpuId: '2'
+        currCapacity: '65536'
+        maxCapacity: '786432'
+        populated: '8'
+    ProcessorUnits:
+      AdaptorUnit1:
+        arch: Xeon
+        cores: '8'
+        coresEnabled: '8'
+        model: Intel(R) Xeon(R) CPU E5-2665 0 @ 2.40GHz
+        socketDesignation: CPU1
+        speed: '2.400000'
+        stepping: '7'
+        threads: '16'
+        vendor: Intel(R) Corporation
+      AdaptorUnit2:
+        arch: Xeon
+        cores: '8'
+        coresEnabled: '8'
+        model: Intel(R) Xeon(R) CPU E5-2665 0 @ 2.40GHz
+        socketDesignation: CPU2
+        speed: '2.400000'
+        stepping: '7'
+        threads: '16'
+        vendor: Intel(R) Corporation
+    StorageUnits:
+      StorageLocalDisk-1:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: MBF2300RC
+        numberOfBlocks: '585937500'
+        presence: equipped
+        serial: EB10PCA05E0F
+        size: '286102'
+        vendor: TOSHIBA
+      StorageLocalDisk-2:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: MBF2300RC
+        numberOfBlocks: '585937500'
+        presence: equipped
+        serial: EB10PCA05EE5
+        size: '286102'
+        vendor: TOSHIBA
+    assignedToDn: org-root/ls-aio-05
+    availableMemory: '65536'
+    chassisID: '1'
+    numOfAdaptors: '1'
+    numOfCores: '16'
+    numOfCoresEnabled: '16'
+    numOfCpus: '2'
+    numOfEthHostIfs: '2'
+    numOfFcHostIfs: '0'
+    numOfThreads: '32'
+  Blade-6:
+    AdaptorUnits:
+      AdaptorUnit-1:
+        baseMac: D4:8C:B5:B1:7B:FA
+        model: UCSB-MLOM-40G-01
+        partNumber: 73-14641-02
+        serial: FCH162574YS
+        vendor: Cisco Systems Inc
+    MemoryArray:
+      MemoryArray-1:
+        cpuId: '2'
+        currCapacity: '65536'
+        maxCapacity: '786432'
+        populated: '8'
+    ProcessorUnits:
+      AdaptorUnit1:
+        arch: Xeon
+        cores: '8'
+        coresEnabled: '8'
+        model: Intel(R) Xeon(R) CPU E5-2665 0 @ 2.40GHz
+        socketDesignation: CPU1
+        speed: '2.400000'
+        stepping: '7'
+        threads: '16'
+        vendor: Intel(R) Corporation
+      AdaptorUnit2:
+        arch: Xeon
+        cores: '8'
+        coresEnabled: '8'
+        model: Intel(R) Xeon(R) CPU E5-2665 0 @ 2.40GHz
+        socketDesignation: CPU2
+        speed: '2.400000'
+        stepping: '7'
+        threads: '16'
+        vendor: Intel(R) Corporation
+    StorageUnits:
+      StorageLocalDisk-1:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: MBF2300RC
+        numberOfBlocks: '585937500'
+        presence: equipped
+        serial: EB10PCA05EP1
+        size: '286102'
+        vendor: TOSHIBA
+      StorageLocalDisk-2:
+        blockSize: '512'
+        connectionProtocol: SAS
+        model: MBF2300RC
+        numberOfBlocks: '585937500'
+        presence: equipped
+        serial: EB10PCA05D8T
+        size: '286102'
+        vendor: TOSHIBA
+    assignedToDn: ''
+    availableMemory: '65536'
+    chassisID: '1'
+    numOfAdaptors: '1'
+    numOfCores: '16'
+    numOfCoresEnabled: '16'
+    numOfCpus: '2'
+    numOfEthHostIfs: '0'
+    numOfFcHostIfs: '0'
+    numOfThreads: '32'

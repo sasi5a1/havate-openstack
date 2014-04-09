@@ -1,0 +1,59 @@
+{% load config_extras %}
+<section id="wrapper" class="open-stack-installer">
+  <section class="row">
+    <section class="col-xs-12">
+      <table id="node-list-table">
+        <thead>
+        <tr>
+          <th>
+            <input type='hidden' value={{ nodes|length }} name="node_number" id="id_node_number">
+            Node
+          </th>
+          <th>
+            AIO
+          </th>
+          <th>
+            Compute
+          </th>
+          <th>
+            Network
+          </th>
+          <th>
+            Swift
+          </th>
+          <th>
+            Cinder
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for node in nodes %}
+        <tr>
+          <td>
+            {{ node.node_name|linebreaksbr }}
+            <input type="hidden" class="node-name-input" name="node_name__{{node.node_number}}" value="{{ node.node_name }}">
+            <input type="hidden" class="chassis-number-input" name="chassis_number__{{node.node_number}}" value="{{ node.chassis_number }}">
+            <input type="hidden" class="blade-number-input" name="blade_number__{{node.node_number}}" value="{{ node.blade_number }}">
+          </td>
+          <td>
+            <input class="aio-input" type="radio" {% if node.aio %}checked{% endif %} name="aio" value="{{ node.node_number }}">
+          </td>
+          <td>
+            <input class="compute-input" type="checkbox" {% if node.compute %}checked{% endif %} name="compute__{{ node.node_number }}">
+          </td>
+          <td>
+            <input class="network-input" type="radio" {% if node.network %}checked{% endif %} name="network" value="{{ node.node_number }}">
+          </td>
+          <td>
+            <input class="swift-input" type="checkbox" {% if node.swift %}checked{% endif %} name="swift__{{ node.node_number }}">
+          </td>
+          <td>
+            <input class="cinder-input" type="checkbox" {% if node.cinder %}checked{% endif %} name="cinder__{{ node.node_number }}">
+          </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </section>
+</section>

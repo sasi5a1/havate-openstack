@@ -1,0 +1,23 @@
+<section id="wrapper" class="open-stack-installer">
+    <section class="row">
+      <section class="col-xs-12">
+        <label><span>*</span>UCSM IP Address / Hostname:</label>
+        <input type="text" class="input-block-level" id="id_ucsm_hostname" name="ucsm_hostname" maxlength="15" value="{{settings_form.ucsm_hostname.value|default_if_none:""}}">
+      </section>
+    </section>
+    <section class="row">
+      <section class="col-xs-6">
+        <label><span>*</span>Username:</label>
+        <input type="text" class="input-block-level" id="id_username" name="username" maxlength="12" value="{{settings_form.username.value|default_if_none:""}}">
+      </section>
+      <section class="col-xs-6">
+        <label><span>*</span>Password:</label>
+        <input type="password" class="input-block-level" id="id_password" name="password" maxlength="12">
+      </section>
+    </section>
+    <section class="row">
+      <section style="col-xs-12">
+        <button id="run-discovery-button">Run Discovery</button>
+      </section>
+    </section>
+</section>
