@@ -140,7 +140,6 @@ else
   apt-get install reprepro genisoimage wget gnupg-agent stress vim git dpkg-dev python-pip -y
 fi
 
-
 which gpg > /dev/null
 if [ $? -eq 1 ]; then
         echo "Please install gpg to generate signing keys"
