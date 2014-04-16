@@ -36,8 +36,8 @@ SEEDFILE="ubuntu-server.seed"
 
 # Ubuntu ISO image
 RELEASE=${release:-precise}
-DEVICE=${device:-desktop}
-CDISO="ubuntu-12.04.4-${DEVICE}-amd64.iso"
+TYPE=${TYPE:-desktop}
+CDISO="ubuntu-12.04.4-${TYPE}-amd64.iso"
 CDIMAGE="$BASEDIR/$CDISO"
 
 # OpenStack install branch
@@ -134,7 +134,12 @@ UcXHbA==
 -----END PGP PUBLIC KEY BLOCK-----" | apt-key add -
 
 apt-get update 
-apt-get install reprepro genisoimage wget gnupg-agent stress vim git dpkg-dev squashfs-tools -y
+if [ "$TYPE" == "desktop" ] ; then
+  apt-get install reprepro genisoimage wget gnupg-agent stress vim git dpkg-dev python-pip squashfs-tools -y
+else
+  apt-get install reprepro genisoimage wget gnupg-agent stress vim git dpkg-dev python-pip -y
+fi
+
 
 which gpg > /dev/null
 if [ $? -eq 1 ]; then
@@ -503,7 +508,7 @@ if [ ! -z $EXTRASDIR ]; then
 	echo "OK"
 fi
 
-if [ "$DEVICE" == "desktop" ] ; then
+if [ "$TYPE" == "desktop" ] ; then
 	if [ -f "$CDSOURCEDIR/isolinux/txt.cfg" ]; then
 		cat $CDSOURCEDIR/isolinux/txt.cfg | sed "s/ubuntu.seed/$SEEDFILE/" > $BASEDIR/FinalCD/isolinux/txt.cfg
 		cat $CDSOURCEDIR/isolinux/txt.cfg | sed "s/\(seed.*\)--.*$/\1 debian-installer\/locale=en_US.UTF-8 console-setup\/layoutcode=us debconf\/language=en country=US priority=critical --/" > $BASEDIR/FinalCD/isolinux/txt.cfg
